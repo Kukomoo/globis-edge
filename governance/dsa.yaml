@@ -1,0 +1,35 @@
+# Data Sharing Agreement — Globis Edge 2.0
+# Synthetic governance file. The runtime refuses to start if this file is
+# absent or has expired (expiry_date <= today).
+#
+# Real deployments require a signed DSA with the partnering humanitarian
+# organisation. This file is a placeholder for the hackathon submission.
+
+version: "1.0"
+partner: "SYNTHETIC PARTNER — hackathon demo only"
+authoriser: "Nadu (project lead)"
+issued_date: "2026-05-16"
+expiry_date: "2027-05-16"
+
+permitted_fields:
+  - name
+  - date_of_birth
+  - sex
+  - nationality
+  - place_of_origin
+  - date_of_arrival
+  - group_id
+
+prohibited_fields:
+  - political_affiliation
+  - religion
+  - sexual_orientation
+  - ethnicity
+  - eligibility_score
+  - credibility_score
+  - fraud_risk
+  - status_prediction
+
+scope_notes: >
+  No real refugee data may pass through this agreement. The system
+  ingests only synthetic artifacts watermarked "SYNTHETIC SCENARIO".

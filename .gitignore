@@ -1,0 +1,85 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Globis Edge — .gitignore
+# Belt-and-braces: explicit excludes for everything that could leak secrets,
+# bloat history, or pollute diffs. If you add a new secret-bearing file
+# pattern, list it here BEFORE the file is created.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Secrets ──────────────────────────────────────────────────────────────────
+# .env carries CASEWORKER_PIN, SALT_HEX, DEVICE_ID and (in deployment) any
+# API keys. It must never enter version control.
+.env
+.env.*
+!.env.example
+
+# ── Encrypted databases ──────────────────────────────────────────────────────
+# .db files are SQLCipher-encrypted, but committing them would still leak the
+# schema's row counts, timing, and structural metadata across history.
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# ── Python build / cache ─────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+*.egg-info/
+build/
+dist/
+wheels/
+
+# ── Virtual environments ─────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── OS turds ─────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+# ── Editor / IDE ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Claude Code local settings (per-machine) ─────────────────────────────────
+# .claude/settings.json (project-shared) IS tracked.
+# .claude/settings.local.json (per-user) is NOT.
+.claude/settings.local.json
+
+# ── Generated artefacts ──────────────────────────────────────────────────────
+# Model weights, audio fixtures, eval outputs that get regenerated from code.
+# Do NOT commit GGUF files — they belong on the Pi, not in history.
+*.gguf
+*.onnx
+*.pt
+*.bin
+eval/reports/
+synthetic_cases/**/*.wav
+synthetic_cases/**/*.jpg
+synthetic_cases/**/*.jpeg
+synthetic_cases/**/*.png
+!synthetic_cases/**/manifest.json
+!synthetic_cases/**/*.transcript.txt
+!synthetic_cases/**/caseworker_note.txt
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/

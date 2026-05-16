@@ -1,0 +1,32 @@
+# Data Protection Impact Assessment — Globis Edge 2.0
+# Synthetic governance file. Real deployments require a DPIA signed by the
+# data controller. The runtime refuses to start if this file is absent or
+# fails its integrity hash.
+
+version: "1.0"
+issued_date: "2026-05-16"
+purpose_limitation: >
+  Globis Edge processes synthetic refugee-reception data on-device for the
+  Gemma 4 Good Hackathon submission. It does not transmit data to any
+  external service. The only authorised egress path is a deferred,
+  caseworker-consented commit via the `commit_record` tool.
+
+data_minimisation_statement: >
+  Only the seven IER core fields (name, date_of_birth, sex, nationality,
+  place_of_origin, date_of_arrival, group_id) are retained. Prohibited
+  categories (political_affiliation, religion, sexual_orientation,
+  ethnicity) are rejected by the Constitutional Auditor before they
+  reach the database. Score fields (eligibility_score, credibility_score,
+  fraud_risk, status_prediction) are likewise rejected.
+
+retention_policy: >
+  All records are encrypted with SQLCipher (AES-256-CBC) at rest.
+  A one-tap "delete everything" overwrites the database file once.
+  No record retention beyond the active caseworker session is required
+  for the hackathon submission.
+
+audit_logging: >
+  Field names only — never values. The audit_log table has no value
+  column and a CHECK (value_logged = 0) constraint enforced by SQLCipher.
+
+hash: "c3b57b5a532b47f20030d510f8216ba1900c816a4cf400713494cffdad2cbc64"
