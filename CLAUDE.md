@@ -88,6 +88,15 @@ These appear in the roadmap as v1.1+ or post-submission. They are not part of an
 - Greek language support
 - Any participation in substantive asylum interviews or document authentication
 
+## Sprint Closing Ritual
+
+A sprint is not closed until **all four** of these steps complete in order. Do not start the next sprint until every step is green.
+
+1. **Full verification run.** `pytest tests/ -v` against the active venv. Zero failures, zero warnings. Capture the tail of the output and quote it in the closing message — "passes locally" without evidence is not acceptance.
+2. **Update [FINAL_AUDIT.md](FINAL_AUDIT.md).** Append a dated section for the sprint listing any residual risks surfaced during the build — known limitations, deferred fixes, decisions taken under uncertainty. If nothing surfaced, say so explicitly ("Sprint N — no new residual risks"); a silent audit is indistinguishable from a forgotten one.
+3. **Commit.** Single commit with the message `Sprint [X] Complete: [Brief description of features]`. The body should reference the verification IDs that passed (e.g. `S2.1–S2.8`) so future archaeology has a hook into the verification plan.
+4. **Push.** `git push origin main`. The local commit does not count as closure — the remote must be the source of truth before sprint N+1 begins.
+
 ## When unsure
 
 The order of authority is: PRD → module contracts → verification plan → roadmap → existing hardened files. If a contradiction surfaces, the PRD wins, and the discrepancy is itself a finding to flag back to the user before writing code.
