@@ -39,7 +39,7 @@ python eval/runners/run_latency.py --mock
 python eval/runners/run_latency.py
 ```
 
-No `pyproject.toml`, no `requirements.txt`, no `Makefile` exists yet — those are Sprint 1 deliverables. Do not assume a packaging system is present.
+`pyproject.toml` and `Makefile` exist (Sprint 1 deliverables, now complete). Install with `pip install -e ".[dev]" --break-system-packages`. Run tests with `make test` or `pytest tests/ -v`. No `requirements.txt` is used — `pyproject.toml` is the single dependency declaration.
 
 ## Non-negotiable invariants (enforced by tests in the verification plan)
 
