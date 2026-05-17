@@ -100,3 +100,8 @@ class OCRModelWrapper:
         gc.collect()
         whisper_backend._model_cache = {}
         log.debug("ocr.asr_cache_evicted")
+
+    def unload(self) -> None:
+        """Release OCR backend references so the model can be garbage-collected."""
+        self._backend = None
+        gc.collect()

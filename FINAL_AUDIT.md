@@ -346,3 +346,31 @@ Sprint 2 — no other new residual risks identified.
 2. **Cases adv_13 and adv_14 pass Rule + Prompt mock.** Delimiter-in-name and SQL-in-notes are not Rule-blocked (allowed field names); Prompt Pass mock always returns PASS. A live E2B Prompt Pass should BLOCK credibility/delimiter narratives — add regression tests when the real model is wired.
 
 Sprint 3 — no other new residual risks identified.
+
+---
+
+## Sprint 6 Close — 2026-05-17
+
+**Sprint:** Sprint 6 — Security-Locked API Layer, Quarantine Badge, and Egress Verification  
+**Status:** Closed as of 2026-05-17  
+**Test count:** 133 passed, 0 failed, 0 warnings
+
+### Achievements recorded
+
+- Implemented the **Secure Binding Guard** to block wildcard exposure and keep bind targets constrained to loopback (`127.0.0.1`) or approved private-subnet addresses (`192.168.0.0/16`), preventing accidental public `0.0.0.0` service exposure.
+- Enforced the **Sole Egress E-Pathway** on `/commit`: only records that clear constitutional auditing and satisfy explicit dignity confirmation are eligible for outbox insertion.
+- Preserved quarantine telemetry boundaries so badge and summary endpoints expose metadata and blocked field names only, never raw sensitive values.
+
+---
+
+## Sprint 7 Close — 2026-05-17
+
+**Sprint:** Sprint 7 — Multimodal Pipeline Orchestration, Prompt Pass Activation, and E2E Latency Profiling  
+**Status:** Closed as of 2026-05-17  
+**Test count:** 136 passed, 0 failed, 0 warnings
+
+### Achievements recorded
+
+- Implemented the **Multimodal Reception Coordinator** to orchestrate ASR, sanitisation, translation triage, OCR grounding checks, and constitutional auditing in one deterministic reception-turn pipeline.
+- Verified **cache unloading and memory isolation scheduling** between ASR and OCR phases, including explicit unload/garbage-collection transitions and integration assertions that no concurrent active cache state is retained across the turn boundary.
+- Added Sprint 7 integration coverage for safe-path processing, low-resource dialect triage routing, and mocked end-to-end latency envelope checks aligned to the 15-second SLA target.
