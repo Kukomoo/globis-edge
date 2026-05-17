@@ -59,9 +59,8 @@ Desktop.ini
 *.swo
 *~
 
-# ── Claude Code local settings (per-machine) ─────────────────────────────────
-# .claude/settings.json (project-shared) IS tracked.
-# .claude/settings.local.json (per-user) is NOT.
+# ── Gemma4 Cloud local settings (per-machine) ───────────────────────────────
+# Gemma4 Cloud local-only settings are never tracked.
 .claude/settings.local.json
 
 # ── Generated artefacts ──────────────────────────────────────────────────────
@@ -84,3 +83,4 @@ synthetic_cases/**/*.png
 *.log
 logs/
 .claude/
+Gemma4 ai model/

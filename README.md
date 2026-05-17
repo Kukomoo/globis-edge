@@ -11,6 +11,8 @@ I personally led the full project workflow end to end:
 - I used **Gemma 4 Cloud running locally via Ollama** as my main model environment for research support, implementation planning, build iteration, and testing oversight.
 - I authored the Kaggle write-up and directed each sprint closeout, verification pass, and audit update.
 
+Claude and Cursor were used only briefly at the beginning as lightweight scaffolding frameworks to help structure the initial skeleton and stress-test database/security feasibility.
+
 ## What the system does
 
 Globis Edge coordinates a secure, offline intake pipeline:
