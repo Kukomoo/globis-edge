@@ -110,14 +110,20 @@ Downstream JSON Schema validation on model **output** remains a separate gate (O
 
 ---
 
-## Sprint 3 — Constitutional Auditor (next)
+## Sprint 3 — Constitutional Auditor (locked)
 
-Preserve all invariants above while implementing:
+| Rule | Detail |
+|------|--------|
+| Order | Rule Pass → Prompt Pass; Prompt skipped if Rule blocks |
+| Fail-safe | `InferenceError` → `violated=True`, `reason="inference_failure"` |
+| Logging | `RuleAuditor.log_blocked_attempt()` → `AuditLogger.log()` + structlog |
+| Entry point | `ConstitutionalAuditor.audit()` / `constitution.audit()` only |
+| Prompt hash | `sha256(system_prompt + json.dumps(record, sort_keys=True))` |
+| Tests | S3.1–S3.8; `eval/runners/run_auditor.py` for 25-payload leak check |
 
-- `auditor/constitution.py` — single entry `audit()`; Rule → Prompt
-- `auditor/prompt.py` — wired to Gemma E2B; fail-safe `BLOCK`
-- `RuleAuditor.log_blocked_attempt()` → `AuditLogger.log()` (not raw SQL)
-- Tests: `tests/unit/auditor/`, `tests/adversarial/test_auditor_25.py` (S3.1–S3.8)
+## Sprint 4 — OCR & dossier (next)
+
+Preserve all invariants above while implementing dossier reconstruction and Levenshtein grounding.
 
 ---
 

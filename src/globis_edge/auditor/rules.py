@@ -30,6 +30,8 @@ from typing import Any
 
 import structlog
 
+from globis_edge.store.audit_log import AuditLogger
+
 # ---------------------------------------------------------------------------
 # Field-set constants
 # ---------------------------------------------------------------------------
@@ -400,24 +402,17 @@ class RuleAuditor:
         audit_result: AuditResult,
         session_id: str,
         prompt_hash: str,
+        audit_logger: AuditLogger | None = None,
     ) -> None:
-        """Emit a structlog audit entry for a blocked record attempt.
-
-        Explicitly logs only field *names* via
-        ``audit_result.blocked_field_names``. The submitted field values
-        are never present in ``audit_result`` and therefore cannot be
-        logged. The ``value_logged=False`` key in every log emission
-        makes this contract machine-readable for downstream log auditors.
+        """Emit structlog and optionally persist a field-names-only audit row.
 
         Args:
             audit_result: The result returned by :meth:`check`. Must have
-                ``violated=True``; calling this on a clean result is a
-                no-op (it logs a warning instead).
-            session_id: The active session identifier, used to correlate
-                the log entry with the caseworker session.
-            prompt_hash: SHA-256 hex digest of the prompt template and
-                inputs that produced the candidate record. Allows forensic
-                reconstruction without retaining the inputs.
+                ``violated=True``; calling this on a clean result is a no-op.
+            session_id: Active caseworker session identifier.
+            prompt_hash: SHA-256 fingerprint of the prompt template + inputs.
+            audit_logger: When provided, appends one row to ``audit_log`` via
+                :meth:`AuditLogger.log` (names only — never values).
         """
         if not audit_result.violated:
             self._log.warning(
@@ -429,19 +424,25 @@ class RuleAuditor:
 
         self._log.warning(
             "rule_auditor_block",
-            # ---- identity of the event ----
             action="rule_auditor_block",
             violated_article=audit_result.violated_article,
             reason=audit_result.reason,
-            # ---- field names only — never values ----
             blocked_field_names=audit_result.blocked_field_names,
-            value_logged=False,  # explicit contract: values are NEVER logged
-            # ---- caseworker UI signal ----
+            value_logged=False,
             requires_caseworker_review_chip=audit_result.requires_caseworker_review_chip,
-            # ---- correlation keys ----
             session_id=session_id,
             prompt_hash=prompt_hash,
         )
+
+        if audit_logger is not None:
+            audit_logger.log(
+                actor="auditor",
+                action="rule_auditor_block",
+                field_names=list(audit_result.blocked_field_names),
+                reason=audit_result.reason,
+                prompt_hash=prompt_hash,
+                session_id=session_id,
+            )
 
 
 # ---------------------------------------------------------------------------

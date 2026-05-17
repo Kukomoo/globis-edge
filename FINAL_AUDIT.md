@@ -280,3 +280,37 @@ Sprint 1 — no other new residual risks identified.
 3. **`translation.py` not yet built.** Orchestration (`AudioTranscriber` → `ASRSanitiser`) will live in Sprint 3+ capabilities; module contract in `docs/blueprint/module_contracts.md` is the target API.
 
 Sprint 2 — no other new residual risks identified.
+
+---
+
+## Sprint 3 Close — 2026-05-17
+
+**Sprint:** Sprint 3 — Constitutional Auditor  
+**Verification IDs passed:** S3.1, S3.2, S3.3, S3.4, S3.5, S3.6, S3.7, S3.8  
+**Test count:** 114 passed, 0 failed, 0 warnings  
+
+```
+============================== 114 passed in 3.38s ==============================
+```
+
+`eval/runners/run_auditor.py`: PASS — 0 leaks across 25 adversarial auditor prompts.
+
+### What was built in Sprint 3
+
+- `src/globis_edge/auditor/constitution.py` — `ConstitutionalAuditor` / `audit()` orchestrates Rule → Prompt; fail-safe on `InferenceError`.
+- `src/globis_edge/auditor/prompt.py` — `PromptAuditor`, `PromptAuditResult`, mockable `ScoutModel` protocol.
+- `src/globis_edge/auditor/__init__.py` — public exports.
+- `src/globis_edge/auditor/rules.py` — `log_blocked_attempt()` now persists via `AuditLogger.log()` (field names only).
+- `CONSTITUTION.md` — seven articles with Article 31 + ExCom No. 8 citations.
+- `prompts/auditor.md` — Prompt Pass system prompt with PASS/BLOCK JSON contract.
+- `tests/unit/auditor/` — rule, prompt, and constitution integration tests.
+- `tests/adversarial/auditor_25.json` + `test_auditor_25.py` — 25 payloads, zero value leaks.
+- `eval/runners/run_auditor.py` — standalone S3.8 leak checker.
+
+### Residual risks surfaced during Sprint 3
+
+1. **Prompt Pass uses mock `ScoutModel` in CI.** Production wiring to Gemma 4 E2B (`llama-cpp-python` or LiteRT) is deferred until the models layer lands in Sprint 5; unit tests mock all LLM calls. Risk: low for hackathon demo if notebook uses the same mock path or documents measured E2B latency separately.
+
+2. **Cases adv_13 and adv_14 pass Rule + Prompt mock.** Delimiter-in-name and SQL-in-notes are not Rule-blocked (allowed field names); Prompt Pass mock always returns PASS. A live E2B Prompt Pass should BLOCK credibility/delimiter narratives — add regression tests when the real model is wired.
+
+Sprint 3 — no other new residual risks identified.

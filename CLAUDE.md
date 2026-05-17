@@ -23,7 +23,8 @@ The `archive/` directory holds superseded PRD versions and the original audit. T
 These four files are "hardened" — each closes a specific Logic Lock audit finding. The fixes are load-bearing and must survive any refactor. The audit reasoning is documented in each file's module docstring.
 
 - [src/globis_edge/store/outbox.py](src/globis_edge/store/outbox.py) — `OutboxManager`. Collision detection uses the **compound key `(household_id, logical_seq, device_id)`**, not `logical_seq` alone. Run its self-test with `python src/globis_edge/store/outbox.py`.
-- [src/globis_edge/auditor/rules.py](src/globis_edge/auditor/rules.py) — `RuleAuditor`. The Rule Pass of the Constitutional Auditor. `AuditResult.blocked_field_names` is **names only, never values**; `AuditResult.value_logged` is the explicit machine-readable contract field and is **always `False`**.
+- [src/globis_edge/auditor/rules.py](src/globis_edge/auditor/rules.py) — `RuleAuditor`. The Rule Pass of the Constitutional Auditor. `AuditResult.blocked_field_names` is **names only, never values**; `AuditResult.value_logged` is the explicit machine-readable contract field and is **always `False`**. `log_blocked_attempt()` writes to `AuditLogger`.
+- [src/globis_edge/auditor/constitution.py](src/globis_edge/auditor/constitution.py) — `ConstitutionalAuditor.audit()` — Rule Pass → Prompt Pass; quarantine + audit log on block. **Only entry point** for full audit.
 - [src/globis_edge/api/quarantine_badge.py](src/globis_edge/api/quarantine_badge.py) — FastAPI router for `/quarantine/count`, `/quarantine/summary`, `/quarantine/{uuid}/review-complete`. Requires `app.state.outbox_manager` to be attached at startup (`server.py`, Sprint 7).
 - [eval/runners/run_latency.py](eval/runners/run_latency.py) — p95 benchmark for the multimodal pipeline turn. SLA is 15 s. Exits non-zero on miss. Mock mode uses calibrated `sleep()` so it runs without GPU or model weights.
 
