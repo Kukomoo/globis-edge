@@ -1,6 +1,6 @@
-# CLAUDE.md
+# GEMMA4_CLOUD_INSTRUCTIONS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file documents my Gemma4 Cloud workflow instructions for working in this repository.
 
 ## What this repository is
 

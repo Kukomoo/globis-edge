@@ -196,7 +196,7 @@ It computes p95 latency and renders a histogram. This converts the claim from as
 | `src/globis_edge/models/audio.py` | `AudioTranscriber`; model cache clear + `gc.collect()` | 6 |
 | `src/globis_edge/asr/whisper_wrapper.py` | faster-whisper lazy load, 12 s / 30 s budgets | 6 |
 | `INVARIANTS.md` | Cross-sprint locks + Sprint 2 ASR perimeter | 6 |
-| `.cursorrules` | Cursor workspace rules aligned to PRD and invariants | — |
+| `GEMMA4_CLOUD_INSTRUCTIONS` | Gemma4 Cloud workflow rules aligned to PRD and invariants | — |
 
 ---
 
@@ -242,9 +242,9 @@ None of these residual risks affect the correctness of the three surgical fixes 
 
 1. **Sandbox Python version.** The CI/sandbox environment runs Python 3.10; the `pyproject.toml` specifies `>=3.11` (matching the Pi 5 target). The install was done with `--ignore-requires-python`. All 37 tests pass on 3.10, but the production target remains 3.11. No 3.11-exclusive syntax (e.g., `match`, `Self`, `TypeVar` with `=`) was used — confirmed by grepping the src tree. Risk: low; mitigated by absence of version-specific constructs.
 
-2. **pysqlcipher3 vs sqlcipher3 naming.** The CLAUDE.md invariant says "only `pysqlcipher3` is allowed"; the pyproject.toml dependency is `sqlcipher3>=0.6` (the PyPI package name for the same library). The import in code is `import sqlcipher3.dbapi2 as sqlcipher`. This is consistent — `sqlcipher3` is the PyPI distribution name; `pysqlcipher3` was a historical alias. No action required, but noted for future maintainers.
+2. **pysqlcipher3 vs sqlcipher3 naming.** The Gemma4 Cloud instructions invariant says "only `pysqlcipher3` is allowed"; the pyproject.toml dependency is `sqlcipher3>=0.6` (the PyPI package name for the same library). The import in code is `import sqlcipher3.dbapi2 as sqlcipher`. This is consistent — `sqlcipher3` is the PyPI distribution name; `pysqlcipher3` was a historical alias. No action required, but noted for future maintainers.
 
-3. **CLAUDE.md stale reference.** The CLAUDE.md line "No pyproject.toml, no requirements.txt, no Makefile exists yet" was accurate before Sprint 1 and has been corrected in-place as part of this closing ritual. Any agent that cached the prior version will need to re-read CLAUDE.md.
+3. **Gemma4 Cloud instructions stale reference.** The Gemma4 Cloud instructions line "No pyproject.toml, no requirements.txt, no Makefile exists yet" was accurate before Sprint 1 and has been corrected in-place as part of this closing ritual. Any cached instructions should be refreshed before the next sprint run.
 
 Sprint 1 — no other new residual risks identified.
 
@@ -301,7 +301,7 @@ Sprint 4 introduced no new residual risks beyond the already documented Pi 5 mem
 - `tests/unit/capabilities/test_sanitiser.py`, `tests/unit/models/test_audio.py`, `tests/adversarial/test_asr_injection.py` (10 injection payloads).
 - `eval/runners/run_latency.py` — sanitiser stage delegates to `ASRSanitiser`.
 - `INVARIANTS.md` — cross-sprint locks and Sprint 2 ASR perimeter (Sprint 3 readiness).
-- `.cursorrules` — Cursor workspace rules for dependency flow and hardened files.
+- `GEMMA4_CLOUD_INSTRUCTIONS` — Gemma4 Cloud workflow rules for dependency flow and hardened files.
 
 ### Residual risks surfaced during Sprint 2
 

@@ -15,6 +15,14 @@ This is my submission to the Gemma 4 Good Hackathon. It is also the first versio
 
 ---
 
+## Research and Build Method
+
+I conducted the initial project research myself, including field-workflow framing, governance constraints, and PRIMES-aligned data structure mapping. I then wrote the PRD, structured the sprint plan, and supervised implementation and verification across each sprint closeout.
+
+For model-assisted research, build iteration, and test support, I primarily used **Gemma 4 Cloud running locally on Ollama**. I also personally authored the Kaggle write-up and maintained final editorial control over architecture, safety decisions, and release hardening outcomes.
+
+---
+
 ## What Globis Edge is
 
 Globis Edge 2.0 is an offline, on-device caseworker companion that runs on a **Raspberry Pi 5 (8 GB)** and a mid-tier Android phone. It uses **Gemma 4 E2B and E4B** under Apache 2.0 to give frontline workers four capabilities they do not currently have in any integrated form:

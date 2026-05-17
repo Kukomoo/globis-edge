@@ -1,7 +1,7 @@
 # Globis Edge 2.0 — System Invariants
 
 **Purpose:** Machine- and human-readable locks that must hold across all sprints.  
-**Authority:** `PRD.md` wins on conflict; this file is the operational checklist for implementers and Cursor.  
+**Authority:** `PRD.md` wins on conflict; this file is the operational checklist for implementers and Gemma4 Cloud runs.  
 **Last updated:** 2026-05-17 (Sprint 2 close)
 
 ---
