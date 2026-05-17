@@ -260,6 +260,38 @@ Sprint 1 — no other new residual risks identified.
 ============================== 67 passed in 1.96s ==============================
 ```
 
+---
+
+## Sprint 4 Close — 2026-05-17
+
+**Sprint:** Sprint 4 — OCR & Dossier Reconstruction  
+**Status:** Closed as of 2026-05-17
+
+### Achievements recorded
+
+- Implemented the **OCR Mutual Exclusion Pattern** in the OCR wrapper: the system aggressively clears the Whisper transcriber's model cache before OCR work begins and forces `gc.collect()` so Whisper and OCR weights do not remain resident together on the Raspberry Pi 5 8 GB memory ceiling.
+- Implemented the **pure-Python Levenshtein Distance Grounding Engine** for dossier verification. Grounding checks now enforce a strict mathematical upper bound of `D <= 5` when verifying physical document metadata against existing registration records.
+- Added deterministic failure handling for ungrounded document evidence: when the grounding distance exceeds the allowed bound, the system raises `DossierMismatchError` and routes the failure through quarantine/audit-safe handling rather than allowing the record to proceed.
+
+### Residual risk note
+
+Sprint 4 introduced no new residual risks beyond the already documented Pi 5 memory-budget constraint. The OCR mutual-exclusion pattern is the active mitigation for that constraint in the current implementation.
+
+---
+
+## Sprint 5 Close — 2026-05-17
+
+**Sprint:** Sprint 5 — Translation Service & Dialect Triage  
+**Status:** Closed as of 2026-05-17  
+**Test count:** 129 passed, 0 failed, 0 warnings
+
+### Achievements recorded
+
+- Implemented the **Dialect Triage Safeguard** for low-resource Darfuri languages. Any offline translation request involving `Masalit`, `Fur`, or `Zaghawa` is deterministically bypassed before model execution and routed to a professional human interpreter.
+- Locked the translation path to a **no-hallucination fallback posture** in highly vulnerable contexts: triaged requests preserve the original text, set an explicit human-review requirement, and do not initialise heavier Gemma translation weights.
+- Added a deterministic, lazy, mockable offline translation wrapper for supported standard languages so the edge pipeline remains testable without weakening the triage boundary.
+```
+
 ### What was built in Sprint 2
 
 - Reconciled ad-hoc `asr/sanitiser.py` into roadmap layout: `capabilities/sanitiser.py` + `models/audio.py`; removed duplicate sanitiser module.

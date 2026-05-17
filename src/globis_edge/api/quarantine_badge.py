@@ -94,6 +94,7 @@ class QuarantineRecord(BaseModel):
     household_id: str
     failure_reason: str
     blocked_field_attempted: str | None = None
+    flagged_field_names: list[str] = Field(default_factory=list)
     quarantine_at_iso: str
     attempts: int = Field(ge=0)
     reviewed_at_iso: str | None = None
@@ -188,13 +189,7 @@ def get_quarantine_count(
         # quarantine_summary returns rows ordered ASC by quarantine_at_iso.
         oldest_iso = summary_rows[0].get("quarantine_at_iso")
 
-    # Total count requires a separate query that includes reviewed rows.
-    # We delegate to a lightweight SQL via the internal connection to keep
-    # OutboxManager's public surface minimal.
-    total_row = outbox._fetchone(  # noqa: SLF001 — intentional internal access
-        "SELECT COUNT(*) AS cnt FROM quarantine_outbox"
-    )
-    total_count = int(total_row["cnt"]) if total_row else 0
+    total_count = outbox.quarantine_total()
 
     return QuarantineCount(
         total_count=total_count,
@@ -222,7 +217,15 @@ def get_quarantine_summary(
         :class:`QuarantineRecord` instances, ordered oldest-first.
     """
     rows = outbox.quarantine_summary()
-    records = [QuarantineRecord(**row) for row in rows]
+    records = [
+        QuarantineRecord(
+            **row,
+            flagged_field_names=_expand_flagged_field_names(
+                row.get("blocked_field_attempted")
+            ),
+        )
+        for row in rows
+    ]
     return QuarantineSummary(records=records)
 
 
@@ -260,3 +263,14 @@ def mark_review_complete(
         datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
     )
     return {"status": "ok", "reviewed_at_iso": reviewed_at_iso}
+
+
+def _expand_flagged_field_names(blocked_field_attempted: str | None) -> list[str]:
+    """Expand stored blocked-field metadata into a UI-friendly list."""
+    if not blocked_field_attempted:
+        return []
+    return [
+        field_name.strip()
+        for field_name in blocked_field_attempted.split(",")
+        if field_name.strip()
+    ]
