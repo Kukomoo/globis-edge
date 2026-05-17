@@ -1,0 +1,17 @@
+{
+  "watermark": "SYNTHETIC SCENARIO",
+  "case_id": "YUSUF-001",
+  "persona": "Tobias blocked-field scenario",
+  "artifacts": [
+    {
+      "artifact_id": "yusuf-audio-001",
+      "type": "voice_note_transcript",
+      "text": "The speaker mentioned a political_affiliation field. This should be blocked by the rule auditor before model processing."
+    },
+    {
+      "artifact_id": "yusuf-note-001",
+      "type": "caseworker_note",
+      "text": "Synthetic test for prohibited field handling. Do not log the value."
+    }
+  ]
+}

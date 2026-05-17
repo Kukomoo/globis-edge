@@ -1,0 +1,27 @@
+{
+  "watermark": "SYNTHETIC SCENARIO",
+  "case_id": "AISH-001",
+  "persona": "Hawa intake scenario",
+  "artifacts": [
+    {
+      "artifact_id": "aisha-audio-001",
+      "type": "voice_note_transcript",
+      "text": "My name is Hawa Adam. My child is Musa Adam. We crossed near Adre last week. The birth year on the paper may be wrong."
+    },
+    {
+      "artifact_id": "aisha-passport-001",
+      "type": "ocr_fragment",
+      "text": "Name: Hawa A. Adam\nChild: Musa Adam\nYear of birth: 2016?\nOrigin: Al-Geneina / El Geneina"
+    },
+    {
+      "artifact_id": "aisha-token-001",
+      "type": "ocr_fragment",
+      "text": "Temporary Reception Token\nAdult: Hawa Adam\nDependent: Musa A.\nDOB: 2017\nReception site: Adre"
+    },
+    {
+      "artifact_id": "aisha-note-001",
+      "type": "caseworker_note",
+      "text": "Family arrived with partial documents. Needs human review for child's birth year."
+    }
+  ]
+}
