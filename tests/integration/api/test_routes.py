@@ -38,6 +38,7 @@ def clean_reception_record() -> dict[str, str]:
         "date_of_arrival": "2026-05-17",
         "group_id": "ADR-CHK-001",
         "notes": "Sudanese passport presented at the eastern border checkpoint.",
+        "scenario_label": "SYNTHETIC SCENARIO: Adre intake simulation",
     }
 
 
@@ -164,3 +165,51 @@ def test_quarantine_badge_and_summary_hide_sensitive_values(db: SQLCipherDB) -> 
     assert record.flagged_field_names == ["notes"]
     assert "4111-1111-1111-1111" not in summary_response.model_dump_json()
     assert "Potential payment-card data detected in field(s): notes." in record.failure_reason
+
+
+def test_commit_blocks_when_synthetic_watermark_missing(db: SQLCipherDB) -> None:
+    app = make_app(db)
+    non_synthetic = clean_reception_record()
+    non_synthetic.pop("scenario_label")
+
+    response = commit_record(
+        CommitRequest(
+            household_id="HH-ADR-004",
+            session_id="SESSION-ADR-004",
+            draft_record=non_synthetic,
+            dignity_confirmed=True,
+        ),
+        outbox=app.state.outbox_manager,
+        auditor=app.state.constitutional_auditor,
+        audit_logger=app.state.audit_logger,
+    )
+
+    assert isinstance(response, JSONResponse)
+    assert response.status_code == 403
+    body = decode_response(response)
+    assert body["status"] == "forbidden"
+    assert body["blocked_field_names"] == ["synthetic_scenario"]
+
+
+def test_system_status_and_network_endpoints(db: SQLCipherDB) -> None:
+    app = make_app(db)
+
+    status_payload = app.router.routes  # ensure router mounted
+    assert status_payload is not None
+
+    system_status = app.dependency_overrides  # app object is live
+    assert isinstance(system_status, dict)
+
+    from globis_edge.api.routes import get_network_status, get_system_status
+
+    class _Req:
+        def __init__(self, app_obj):
+            self.app = app_obj
+
+    req = _Req(app)
+    status_response = get_system_status(req)  # type: ignore[arg-type]
+    network_response = get_network_status(req)  # type: ignore[arg-type]
+
+    assert status_response.api_up is True
+    assert status_response.bind_host == "127.0.0.1"
+    assert network_response.ap_ip.startswith("192.168.")

@@ -1,0 +1,9 @@
+[Unit]
+Description=Rotate Globis Edge hotspot WPA2 PSK
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/globis-edge
+ExecStart=/opt/globis-edge/deployment/scripts/rotate_hotspot_psk.py
+User=root
+Group=root

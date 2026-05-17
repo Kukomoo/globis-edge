@@ -156,6 +156,7 @@ def _run_bootstrap_subprocess(
         "GOVERNANCE_DIR": str(governance_dir),
         "CASEWORKER_PIN": "1234",
         "SALT_HEX": "0123456789abcdef0123456789abcdef",
+        "ENFORCE_LOCAL_ROUTE": "false",
     }
     return subprocess.run(
         [sys.executable, "-m", "globis_edge.config"],
@@ -207,3 +208,29 @@ def test_S1_7_bootstrap_subprocess_exits_1_on_expired_dsa(tmp_path: Path) -> Non
         f"expected exit 1; got {result.returncode}\nstderr: {result.stderr}"
     )
     assert "expired" in result.stderr.lower()
+
+
+def test_bootstrap_rejects_non_local_default_route(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    governance_dir = tmp_path / "gov"
+    governance_dir.mkdir()
+    _write_governance(governance_dir, expiry=date.today() + timedelta(days=90))
+
+    monkeypatch.setenv("DEVICE_ID", "device-test")
+    monkeypatch.setenv("DB_PATH", str(tmp_path / "db.sqlite"))
+    monkeypatch.setenv("GOVERNANCE_DIR", str(governance_dir))
+    monkeypatch.setenv("CASEWORKER_PIN", "1234")
+    monkeypatch.setenv("SALT_HEX", "0123456789abcdef0123456789abcdef")
+    monkeypatch.setenv("ENFORCE_LOCAL_ROUTE", "true")
+
+    class _Result:
+        stdout = "default via 10.0.0.1 dev eth0"
+
+    monkeypatch.setattr(
+        "globis_edge.config.subprocess.run",
+        lambda *args, **kwargs: _Result(),
+    )
+
+    with pytest.raises(GovernanceError, match="outside 192.168.0.0/16"):
+        bootstrap()

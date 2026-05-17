@@ -5,7 +5,7 @@ from __future__ import annotations
 import ipaddress
 import re
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable
 
 from fastapi import APIRouter, Depends, FastAPI, Request, status
 from fastapi.responses import JSONResponse
@@ -22,6 +22,7 @@ _LOCAL_SUBNET = ipaddress.ip_network("192.168.0.0/16")
 _LOOPBACK_HOST = "127.0.0.1"
 _WILDCARD_HOST = ".".join(["0", "0", "0", "0"])
 _CARD_CANDIDATE_PATTERN = re.compile(r"(?:\d[ -]?){13,19}")
+_SYNTHETIC_WATERMARK = "SYNTHETIC SCENARIO"
 
 router = APIRouter(tags=["commit"])
 
@@ -51,6 +52,26 @@ class CommitResponse(BaseModel):
     triage_reason: str | None = None
 
 
+class SystemStatusResponse(BaseModel):
+    """Read-only status payload for the local dashboard."""
+
+    api_up: bool
+    db_ready: bool
+    governance_ok: bool
+    bind_host: str
+    app_version: str
+
+
+class NetworkStatusResponse(BaseModel):
+    """Read-only network telemetry for caseworker connectivity."""
+
+    ssid: str
+    ap_ip: str
+    psk_last_rotated_at: str | None
+    clients_connected_count: int
+    security_mode: str
+
+
 @dataclass(frozen=True)
 class EgressVerificationResult:
     """Result of local egress verification before outbox write."""
@@ -66,6 +87,7 @@ def create_app(
     device_id: str,
     host: str = _LOOPBACK_HOST,
     prompt_auditor: PromptAuditor | None = None,
+    network_status_provider: Callable[[], NetworkStatusResponse] | None = None,
 ) -> FastAPI:
     """Create a FastAPI app with validated local-only binding metadata."""
     validated_host = validate_bind_host(host)
@@ -78,6 +100,7 @@ def create_app(
         device_id=device_id,
         prompt_auditor=prompt_auditor,
     )
+    app.state.network_status_provider = network_status_provider or default_network_status
     app.include_router(router)
     app.include_router(quarantine_router)
     return app
@@ -133,6 +156,28 @@ def commit_record(
     audit_logger: AuditLogger = Depends(get_audit_logger),
 ) -> CommitResponse | JSONResponse:
     """The sole egress path into the persistent outbox queue."""
+    if not has_synthetic_watermark(payload.draft_record):
+        quarantine_block(
+            outbox=outbox,
+            audit_logger=audit_logger,
+            household_id=payload.household_id,
+            session_id=payload.session_id,
+            record=payload.draft_record,
+            failure_reason="synthetic_watermark_missing",
+            blocked_field_names=["synthetic_scenario"],
+        )
+        return JSONResponse(
+            status_code=status.HTTP_403_FORBIDDEN,
+            content=CommitResponse(
+                status="forbidden",
+                auditor_status="clean",
+                blocked_field_names=["synthetic_scenario"],
+                triage_reason=(
+                    "Synthetic scenario watermark is required before commit."
+                ),
+            ).model_dump(),
+        )
+
     audit_result = auditor.audit(
         payload.draft_record,
         payload.session_id,
@@ -301,6 +346,58 @@ def iter_scalar_fields(
         return
 
     yield prefix or "value", value
+
+
+def has_synthetic_watermark(record: dict[str, Any]) -> bool:
+    """Return True only when payload contains the synthetic-data watermark."""
+    needle = _SYNTHETIC_WATERMARK.lower()
+    for _, scalar_value in iter_scalar_fields(record):
+        if isinstance(scalar_value, str) and needle in scalar_value.lower():
+            return True
+    return False
+
+
+@router.get(
+    "/system/status",
+    response_model=SystemStatusResponse,
+    summary="Read-only local API and runtime status",
+)
+def get_system_status(request: Request) -> SystemStatusResponse:
+    """Expose local status for the Pi dashboard without sensitive values."""
+    db_ready = bool(getattr(request.app.state, "outbox_manager", None))
+    return SystemStatusResponse(
+        api_up=True,
+        db_ready=db_ready,
+        governance_ok=True,
+        bind_host=str(getattr(request.app.state, "bind_host", _LOOPBACK_HOST)),
+        app_version="0.1.0",
+    )
+
+
+def default_network_status() -> NetworkStatusResponse:
+    """Return conservative default hotspot telemetry."""
+    return NetworkStatusResponse(
+        ssid="globis-edge-local",
+        ap_ip="192.168.50.1",
+        psk_last_rotated_at=None,
+        clients_connected_count=0,
+        security_mode="WPA2-PSK",
+    )
+
+
+@router.get(
+    "/system/network",
+    response_model=NetworkStatusResponse,
+    summary="Read-only Wi-Fi AP telemetry for caseworker connection support",
+)
+def get_network_status(request: Request) -> NetworkStatusResponse:
+    """Expose non-sensitive AP metadata only."""
+    provider = getattr(request.app.state, "network_status_provider", None)
+    if callable(provider):
+        result = provider()
+        if isinstance(result, NetworkStatusResponse):
+            return result
+    return default_network_status()
 
 
 def contains_payment_card_number(text: str) -> bool:

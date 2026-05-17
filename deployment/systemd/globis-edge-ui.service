@@ -1,0 +1,17 @@
+[Unit]
+Description=Globis Edge Native GUI
+After=graphical.target globis-edge-api.service globis-edge-hotspot.service
+Wants=globis-edge-api.service globis-edge-hotspot.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/globis-edge
+Environment=DISPLAY=:0
+ExecStart=/opt/globis-edge/.venv/bin/python -m globis_edge.runtime.start_ui
+Restart=on-failure
+RestartSec=3
+User=globis
+Group=globis
+
+[Install]
+WantedBy=graphical.target

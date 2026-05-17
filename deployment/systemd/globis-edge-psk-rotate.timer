@@ -1,0 +1,10 @@
+[Unit]
+Description=Rotate Globis Edge hotspot WPA2 PSK daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+Unit=globis-edge-psk-rotate.service
+
+[Install]
+WantedBy=timers.target

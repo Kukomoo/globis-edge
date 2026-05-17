@@ -19,7 +19,9 @@ Steps
 from __future__ import annotations
 
 import hashlib
+import ipaddress
 import os
+import subprocess
 from datetime import date
 from pathlib import Path
 from typing import Optional
@@ -30,6 +32,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 _PBKDF2_ITERATIONS = 310_000
 _PBKDF2_HASH = "sha512"
+_LOCAL_SUBNET = ipaddress.ip_network("192.168.0.0/16")
 
 
 class GovernanceError(RuntimeError):
@@ -70,6 +73,7 @@ class Config(BaseSettings):
     GOVERNANCE_DIR: str = Field(min_length=1)
     CASEWORKER_PIN: str = Field(min_length=4)
     SALT_HEX: str = Field(min_length=16)
+    ENFORCE_LOCAL_ROUTE: bool = True
 
     DB_KEY: Optional[str] = None
 
@@ -163,6 +167,57 @@ def _derive_db_key(cfg: Config) -> str:
     return derived.hex()
 
 
+def _is_local_default_route(gateway: str) -> bool:
+    """Return True when the default-route gateway is loopback or local subnet."""
+    try:
+        parsed = ipaddress.ip_address(gateway)
+    except ValueError:
+        return False
+    if parsed.is_loopback:
+        return True
+    return parsed in _LOCAL_SUBNET
+
+
+def _validate_runtime_route(cfg: Config) -> None:
+    """Fail closed if default route is outside 192.168.0.0/16.
+
+    The runtime must not start when internet egress appears available.
+    The check reads the system default route gateway using ``ip route``.
+    """
+    if not cfg.ENFORCE_LOCAL_ROUTE:
+        return
+
+    try:
+        result = subprocess.run(
+            ["ip", "route", "show", "default"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise GovernanceError(
+            "Unable to inspect default route; refusing to start"
+        ) from exc
+
+    line = result.stdout.strip()
+    if not line:
+        raise GovernanceError(
+            "No default route detected; refusing to start outside verified local subnet"
+        )
+
+    parts = line.split()
+    if len(parts) < 3 or parts[0] != "default" or parts[1] != "via":
+        raise GovernanceError(
+            "Default route format unreadable; refusing to start"
+        )
+    gateway = parts[2]
+    if not _is_local_default_route(gateway):
+        raise GovernanceError(
+            f"Default route gateway {gateway} is outside 192.168.0.0/16"
+        )
+
+
 def bootstrap() -> Config:
     """Validate environment and governance, derive the DB key, return Config.
 
@@ -172,6 +227,7 @@ def bootstrap() -> Config:
     """
     cfg = Config()  # raises ValidationError on missing env vars
     _validate_governance(Path(cfg.GOVERNANCE_DIR))
+    _validate_runtime_route(cfg)
     cfg.DB_KEY = _derive_db_key(cfg)
     return cfg
 

@@ -1,0 +1,15 @@
+[Unit]
+Description=Globis Edge Hotspot Readiness
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/globis-edge
+ExecStart=/opt/globis-edge/deployment/scripts/ensure_hotspot.sh
+RemainAfterExit=yes
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

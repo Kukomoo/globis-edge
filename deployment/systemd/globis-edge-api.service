@@ -1,0 +1,17 @@
+[Unit]
+Description=Globis Edge Local API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/globis-edge
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/globis-edge/.venv/bin/python -m globis_edge.runtime.start_api
+Restart=on-failure
+RestartSec=3
+User=globis
+Group=globis
+
+[Install]
+WantedBy=multi-user.target
