@@ -192,21 +192,15 @@ def _sanitiser_stage(raw_text: str) -> tuple[str, float]:
     """
     Stage 2 — ASR → LLM prompt injection boundary.
 
-    Applies two controls from the Globis Edge security spec:
-    1. Truncate to 2,048 characters.
-    2. Strip characters outside the allowed Unicode ranges:
-       [A-Za-z0-9 -~ (basic Latin + printable ASCII)]
-       [U+0600–U+06FF (Arabic script)]
-       [U+00C0–U+017E (Latin Extended-A/B)]
-
-    Returns (sanitised_text, elapsed_s).
+    Delegates to :class:`ASRSanitiser` (truncate → charset filter → S2.6 markers).
     """
+    from globis_edge.capabilities.sanitiser import ASRSanitiser
+
     t0 = time.perf_counter()
-    truncated = raw_text[:2048]
-    # Allowed: printable ASCII (0x20–0x7E), Arabic (0x0600–0x06FF),
-    # Latin Extended (0x00C0–0x017E).
-    pattern = re.compile(r"[^\x20-\x7E؀-ۿÀ-ž]")
-    sanitised = pattern.sub("", truncated)
+    try:
+        sanitised = ASRSanitiser.sanitise(raw_text)
+    except ValueError:
+        sanitised = ""
     elapsed = time.perf_counter() - t0
     return sanitised, elapsed
 
