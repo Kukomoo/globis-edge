@@ -374,3 +374,27 @@ Sprint 3 — no other new residual risks identified.
 - Implemented the **Multimodal Reception Coordinator** to orchestrate ASR, sanitisation, translation triage, OCR grounding checks, and constitutional auditing in one deterministic reception-turn pipeline.
 - Verified **cache unloading and memory isolation scheduling** between ASR and OCR phases, including explicit unload/garbage-collection transitions and integration assertions that no concurrent active cache state is retained across the turn boundary.
 - Added Sprint 7 integration coverage for safe-path processing, low-resource dialect triage routing, and mocked end-to-end latency envelope checks aligned to the 15-second SLA target.
+
+---
+
+## Sprint 8 Close — 2026-05-17
+
+**Sprint:** Sprint 8 — Adversarial Stress Testing, Latency SLA Profiling, and Release Hardening  
+**Status:** Closed as of 2026-05-17
+
+### Performance and stress verification
+
+- **Latency profiler:** `eval/runners/run_latency.py --mock --iterations 5`
+- **Measured result:** `mean=13.420s`, `median=13.420s`, `p95=13.421s`, `max=13.423s`
+- **SLA verdict:** PASS (`p95=13.421s <= 15.000s`)
+
+- **Adversarial replay:** `tests/integration/test_adversarial_stress.py` replays all 25 payloads from `tests/adversarial/auditor_25.json` through the coordinator pipeline and confirms they are blocked and routed through constitutional/quarantine safeguards.
+- **Leak-proof audit verification:** injected adversarial values are absent from persisted audit rows; `value_logged` remains locked to `0` for all inspected events.
+- **Memory isolation verification:** stress turns assert cleared ASR/OCR cache-state flags across transitions so Whisper and OCR active windows do not overlap in coordinator execution.
+
+### Invariant scan hardening
+
+- Added automated source-tree invariant scan for:
+  - forbidden `sqlite3` imports in `src/`
+  - forbidden literal server bind target `0.0.0.0` in `src/`
+- Scan is enforced in the Sprint 8 integration suite and fails immediately on detection.
