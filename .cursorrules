@@ -8,8 +8,9 @@ Enforce these non-negotiable invariants on every code-generation task.
 
 ## Authority order
 
-PRD.md → docs/blueprint/module_contracts.md → docs/blueprint/verification_plan.md
-→ docs/blueprint/implementation_roadmap.md → hardened files (outbox, rules, quarantine_badge, run_latency).
+PRD.md → INVARIANTS.md → docs/blueprint/module_contracts.md
+→ docs/blueprint/verification_plan.md → docs/blueprint/implementation_roadmap.md
+→ hardened files (outbox, rules, quarantine_badge, run_latency).
 
 If documents conflict, PRD wins; flag the discrepancy before writing code.
 

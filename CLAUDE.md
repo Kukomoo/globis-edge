@@ -6,14 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Globis Edge 2.0 is a **pre-implementation** submission for the Gemma 4 Good Hackathon: an offline, on-device caseworker companion for refugee reception that runs on a Raspberry Pi 5 (8 GB) + mid-tier Android, using Gemma 4 E2B and E4B. The PRD is locked (v10.0); only four "hardened" files exist so far, each fixing a specific finding from the Logic Lock audit. The remaining build is described in `docs/blueprint/`.
 
-The work order is: read the PRD → read the three blueprint documents → execute sprints 1–8 in order.
+The work order is: read the PRD → read INVARIANTS.md → read the three blueprint documents → execute sprints 1–8 in order.
 
 ## Authoritative documents (read in this order)
 
 1. [PRD.md](PRD.md) — locked spec. The single source of truth for *what* to build, latency budgets, governance contracts, and what's explicitly out of scope.
-2. [docs/blueprint/implementation_roadmap.md](docs/blueprint/implementation_roadmap.md) — eight sprints with files to create and Definition of Done. Sprints are sequential; each DoD must pass before the next begins.
-3. [docs/blueprint/module_contracts.md](docs/blueprint/module_contracts.md) — the I/O contract for every module boundary. If you must change a contract, update this file *first*, then adjust all consumers, then change code.
-4. [docs/blueprint/verification_plan.md](docs/blueprint/verification_plan.md) — for every roadmap step, the exact test that proves it works. Tests marked `[ADV]` (adversarial) and `[PERF]` (timing) are not optional.
+2. [INVARIANTS.md](INVARIANTS.md) — operational locks (dependency flow, ASR perimeter, audit pipeline). Check before every sprint.
+3. [docs/blueprint/implementation_roadmap.md](docs/blueprint/implementation_roadmap.md) — eight sprints with files to create and Definition of Done. Sprints are sequential; each DoD must pass before the next begins.
+4. [docs/blueprint/module_contracts.md](docs/blueprint/module_contracts.md) — the I/O contract for every module boundary. If you must change a contract, update this file *first*, then adjust all consumers, then change code.
+5. [docs/blueprint/verification_plan.md](docs/blueprint/verification_plan.md) — for every roadmap step, the exact test that proves it works. Tests marked `[ADV]` (adversarial) and `[PERF]` (timing) are not optional.
 
 The `archive/` directory holds superseded PRD versions and the original audit. Treat as historical reference only — `PRD.md` supersedes everything there.
 
@@ -48,7 +49,7 @@ These hold across the entire codebase. They are reasons existing code is shaped 
 - **No `import sqlite3` anywhere in `src/`.** Only `pysqlcipher3` is allowed. (Plain stdlib `sqlite3` is fine inside `if __name__ == "__main__"` self-tests and test fixtures.) The verification grep is `grep -r "import sqlite3" src/` → zero results.
 - **Field *names* are logged; field *values* never are.** `AuditLogger.log()` has no `value` parameter by design. `blocked_field_attempted` and `blocked_field_names` carry names only. Adversarial test S3.8 greps the audit log for any of 25 injected payload values and expects zero matches.
 - **Dual-pass auditor order is fixed: Rule Pass first, Prompt Pass second. Never reversed, never skipped.** If Rule Pass blocks, Prompt Pass must not run. On Prompt Pass inference failure, default to `BLOCK` (fail-safe).
-- **ASR output passes through `ASRSanitiser` before any model prompt.** Two controls in this order: truncate to 2,048 chars, then strip to `[A-Za-z0-9\x20-\x7E؀-ۿÀ-ž]`. The sanitiser is pure Python — no ML imports.
+- **ASR output passes through `ASRSanitiser` before any model prompt.** Order: truncate to 2,048 chars → charset filter `[A-Za-z0-9\x20-\x7E؀-ۿÀ-ž]` → strip `<|...|>` and `DROP TABLE` → whitespace normalise; empty → `ValueError`. See `INVARIANTS.md` §Sprint 2. `AudioTranscriber` unloads whisper weights after each call.
 - **Evidence quotes round-trip to OCR text** (Levenshtein ≤ 5). Ungrounded extractions raise `GroundingError` and never reach the Outbox.
 - **The server binds to the LAN interface, never `0.0.0.0`.** Verification grep: `grep -r "0\.0\.0\.0" src/` → zero results.
 - **The Outbox is written by exactly one route**: `POST /commit`, and only when `auditor_status == "clean"` and `dignity_confirmed == true`.
@@ -99,4 +100,4 @@ A sprint is not closed until **all four** of these steps complete in order. Do n
 
 ## When unsure
 
-The order of authority is: PRD → module contracts → verification plan → roadmap → existing hardened files. If a contradiction surfaces, the PRD wins, and the discrepancy is itself a finding to flag back to the user before writing code.
+The order of authority is: PRD → INVARIANTS.md → module contracts → verification plan → roadmap → existing hardened files. If a contradiction surfaces, the PRD wins, and the discrepancy is itself a finding to flag back to the user before writing code.

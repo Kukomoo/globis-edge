@@ -130,15 +130,23 @@ The `AuditResult` is JSON-serialisable and forwarded directly to the Scout UI. T
 
 ## Finding 6: ASR Prompt Injection Boundary
 
-**Verdict:** Sound. Implemented prior to this audit sprint.
+**Verdict:** Sound. Implemented in Sprint 2 with roadmap-aligned module layout.
 
-Three controls in the ASR → LLM pipeline:
+Controls in the ASR → LLM pipeline (order is mandatory — see `INVARIANTS.md`):
 
-1. **Truncation:** ASR output truncated to 2,048 characters before prompt injection.
-2. **Character-class filter:** Only `[A-Za-z0-9 -~؀-ۿÀ-ž]` passes — covering Latin, Arabic script (Masalit/Fur/Zaghawa use Arabic-based writing), and extended Latin for documentation artifacts.
-3. **Delimiter isolation:** System prompt and user content are separated by a hard delimiter that cannot appear in transcribed text. The JSON Schema validation gate (Fix 2) serves double duty as the output enforcement boundary: if Gemma output doesn't parse against schema, it never reaches the Outbox.
+1. **Truncation:** ASR output truncated to 2,048 characters first.
+2. **Character-class filter:** Only `[A-Za-z0-9\x20-\x7E؀-ۿÀ-ž]` passes — Latin, Arabic script, and Latin Extended for documentation artifacts.
+3. **Injection markers:** Gemma delimiter tokens (`<|...|>`) and `DROP TABLE` fragments stripped after the charset filter (S2.6 adversarial suite).
+4. **Whitespace normalisation:** Empty post-filter output raises `ValueError` — nothing empty reaches the model prompt.
 
-**Implementation:** `src/globis_edge/capabilities/translation.py` (sanitiser) and `src/globis_edge/store/outbox.py` (gate).
+The JSON Schema validation gate on model **output** remains downstream: if Gemma output doesn't parse against schema, it never reaches the Outbox.
+
+**Implementation:**
+
+- `src/globis_edge/capabilities/sanitiser.py` — `ASRSanitiser.sanitise(raw: str) -> str`
+- `src/globis_edge/models/audio.py` — `AudioTranscriber` (raw string; unload + `gc.collect()` after each call)
+- `src/globis_edge/asr/whisper_wrapper.py` — faster-whisper backend, lazy load, 30 s hard timeout
+- `eval/runners/run_latency.py` — benchmark pipeline calls `ASRSanitiser`
 
 ---
 
@@ -184,6 +192,11 @@ It computes p95 latency and renders a histogram. This converts the claim from as
 | `notebook.ipynb` Section 19 | Performance benchmarking cell with histogram | 8 |
 | `CONSTITUTION.md` | Article 31 + ExCom No. 8 citations | 2 |
 | `TECHNICAL_SPECIFICATION.md` | SQLCipher everywhere, Outbox compound key, quarantine badge noted | 1, 3, 4 |
+| `src/globis_edge/capabilities/sanitiser.py` | `ASRSanitiser`; truncate → filter → marker strip | 6 |
+| `src/globis_edge/models/audio.py` | `AudioTranscriber`; model cache clear + `gc.collect()` | 6 |
+| `src/globis_edge/asr/whisper_wrapper.py` | faster-whisper lazy load, 12 s / 30 s budgets | 6 |
+| `INVARIANTS.md` | Cross-sprint locks + Sprint 2 ASR perimeter | 6 |
+| `.cursorrules` | Cursor workspace rules aligned to PRD and invariants | — |
 
 ---
 
@@ -234,3 +247,36 @@ None of these residual risks affect the correctness of the three surgical fixes 
 3. **CLAUDE.md stale reference.** The CLAUDE.md line "No pyproject.toml, no requirements.txt, no Makefile exists yet" was accurate before Sprint 1 and has been corrected in-place as part of this closing ritual. Any agent that cached the prior version will need to re-read CLAUDE.md.
 
 Sprint 1 — no other new residual risks identified.
+
+---
+
+## Sprint 2 Close — 2026-05-17
+
+**Sprint:** Sprint 2 — ASR Pipeline & Sanitisation  
+**Verification IDs passed:** S2.1, S2.2, S2.3, S2.4, S2.5, S2.6, S2.7, S2.8, S2.9, S2.10, S2.11  
+**Test count:** 67 passed, 0 failed, 0 warnings  
+
+```
+============================== 67 passed in 1.96s ==============================
+```
+
+### What was built in Sprint 2
+
+- Reconciled ad-hoc `asr/sanitiser.py` into roadmap layout: `capabilities/sanitiser.py` + `models/audio.py`; removed duplicate sanitiser module.
+- `src/globis_edge/capabilities/sanitiser.py` — `ASRSanitiser` (pure Python; truncate → charset filter → delimiter/SQL strip → whitespace normalise).
+- `src/globis_edge/models/audio.py` — `AudioTranscriber` wrapping `asr/whisper_wrapper.py`; clears `_model_cache` and calls `gc.collect()` after every `transcribe()`.
+- `src/globis_edge/asr/whisper_wrapper.py` — faster-whisper lazy load, VAD, 30 s hard timeout, structlog with `text_logged=False`.
+- `tests/unit/capabilities/test_sanitiser.py`, `tests/unit/models/test_audio.py`, `tests/adversarial/test_asr_injection.py` (10 injection payloads).
+- `eval/runners/run_latency.py` — sanitiser stage delegates to `ASRSanitiser`.
+- `INVARIANTS.md` — cross-sprint locks and Sprint 2 ASR perimeter (Sprint 3 readiness).
+- `.cursorrules` — Cursor workspace rules for dependency flow and hardened files.
+
+### Residual risks surfaced during Sprint 2
+
+1. **Pi 5 RSS not measured on hardware in CI.** Unload mechanism is tested (S2.8); real faster-whisper `tiny` resident memory must be confirmed on Pi 5 before loading Surya (Sprint 4). PRD allocates 1.5 GB for the audio slot; `tiny`/int8 is expected to sit well under that when loaded.
+
+2. **Roadmap names HF `whisper-small`; implementation uses faster-whisper `tiny`.** Chosen for 8 GB RAM headroom per PRD §RAM budget. Upgrade path to `base` is config-only via `AudioTranscriber(model_size=...)`.
+
+3. **`translation.py` not yet built.** Orchestration (`AudioTranscriber` → `ASRSanitiser`) will live in Sprint 3+ capabilities; module contract in `docs/blueprint/module_contracts.md` is the target API.
+
+Sprint 2 — no other new residual risks identified.
