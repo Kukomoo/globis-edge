@@ -4,7 +4,7 @@ import { getGlossaryTermTranslation } from "../../data/glossary";
 interface GlossaryTooltipProps {
   termId: string;
   children: React.ReactNode;
-  language?: "en" | "ar" | "fr";
+  language?: "en" | "ar" | "fr" | "am";
   className?: string;
 }
 

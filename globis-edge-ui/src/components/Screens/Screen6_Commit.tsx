@@ -33,10 +33,10 @@ export function Screen6_Commit() {
   if (submitted) {
     const isQ = decision === "quarantine";
     return (
-      <div className="space-y-8">
-        <div className={`rounded-2xl border p-10 text-center ${isQ ? "border-amber-200 bg-amber-50" : "border-green-200 bg-green-50"}`}>
-          <div className="text-5xl mb-4" aria-hidden="true">{isQ ? "🗄️" : "✅"}</div>
-          <h1 className={`text-2xl font-bold mb-2 ${isQ ? "text-amber-900" : "text-green-900"}`}>
+      <div className="space-y-5 sm:space-y-8">
+        <div className={`rounded-2xl border p-6 sm:p-10 text-center ${isQ ? "border-amber-200 bg-amber-50" : "border-green-200 bg-green-50"}`}>
+          <div className="text-4xl sm:text-5xl mb-3 sm:mb-4" aria-hidden="true">{isQ ? "🗄️" : "✅"}</div>
+          <h1 className={`text-xl sm:text-2xl font-bold mb-2 ${isQ ? "text-amber-900" : "text-green-900"}`}>
             {isQ ? "Record Held for Review" : "Record Saved"}
           </h1>
           <p className={`text-sm mb-2 ${isQ ? "text-amber-700" : "text-green-700"}`}>
@@ -65,7 +65,7 @@ export function Screen6_Commit() {
           </div>
           <button
             onClick={() => dispatch({ type: "RESET_SESSION" })}
-            className="px-8 py-3 bg-[#424242] text-white rounded-xl font-semibold hover:bg-[#555555] transition-colors"
+            className="px-5 sm:px-8 py-3 bg-[#424242] text-white rounded-xl font-semibold hover:bg-[#555555] transition-colors"
           >
             Start New Intake
           </button>
@@ -76,11 +76,11 @@ export function Screen6_Commit() {
 
   // ── Main commit UI ────────────────────────────────────────────────
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 sm:space-y-8">
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#1a2028]">Save the Record</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">Save the Record</h1>
         <p className="text-sm text-[#6b7f8c] mt-1">
           Your decision is needed before anything is stored
         </p>
@@ -90,7 +90,7 @@ export function Screen6_Commit() {
       {d && (
         <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white p-6">
           <p className="text-xs font-semibold text-[#6b7f8c] uppercase tracking-wide mb-3">Record Summary</p>
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5">
             <div>
               <p className="text-xs text-[#6b7f8c] mb-0.5">Name</p>
               <p className="font-semibold text-[#1a2028] text-sm truncate">{d.full_name || "—"}</p>
@@ -114,7 +114,7 @@ export function Screen6_Commit() {
               <p className="text-xs text-[#6b7f8c] mb-2">Quarantined fields (not exported)</p>
               <div className="flex flex-wrap gap-1.5">
                 {blockedFields.map((f) => (
-                  <span key={f} className="px-2 py-0.5 bg-red-100 text-red-800 rounded-lg text-xs font-mono">
+                  <span key={f} className="px-2 py-0.5 bg-red-100 text-red-800 rounded-xl text-xs font-mono">
                     🔒 {f}
                   </span>
                 ))}

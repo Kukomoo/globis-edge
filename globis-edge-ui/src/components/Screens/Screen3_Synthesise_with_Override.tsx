@@ -52,11 +52,11 @@ export function Screen3_Synthesise_with_Override() {
   const isBlocked = d?.auditor_status === "blocked";
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 sm:space-y-8">
 
       {/* Page title */}
       <div>
-        <h1 className="text-2xl font-bold text-[#1a2028]">Case Summary</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">Case Summary</h1>
         <p className="text-sm text-[#6b7f8c] mt-1">
           Information gathered from all documents and testimony · Safety check complete
         </p>
@@ -87,7 +87,7 @@ export function Screen3_Synthesise_with_Override() {
         <div className="rounded-xl border border-red-200 bg-red-50 p-5">
           <p className="font-semibold text-red-800 text-sm mb-1">Synthesis failed</p>
           <p className="text-sm text-red-700 mb-3">{error}</p>
-          <button onClick={handleSynthesise} className="px-4 py-1.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700">
+          <button onClick={handleSynthesise} className="px-4 py-1.5 bg-red-600 text-white text-sm rounded-xl hover:bg-red-700">
             Retry
           </button>
         </div>
@@ -108,7 +108,7 @@ export function Screen3_Synthesise_with_Override() {
                   { role: "Gemma Analyst", model: "Gemma 4 E4B · 4B params",  ms: d.latency_ms.analyst_ms, color: "text-indigo-700", bg: "bg-[#eef2ff]" },
                   { role: "Total",         model: "Wall clock",                ms: d.latency_ms.total_ms,   color: "text-[#1a2028]",  bg: "bg-[#f7f9fa]" },
                 ].map(({ role, model, ms, color, bg }) => (
-                  <div key={role} className={`px-5 py-4 ${bg}`}>
+                  <div key={role} className={`px-3 py-3 sm:px-5 sm:py-4 ${bg}`}>
                     <p className="text-xs text-[#6b7f8c] font-semibold mb-1">{role}</p>
                     <p className={`text-xl font-bold font-mono ${color}`}>
                       {ms > 0 ? (ms / 1000).toFixed(2) + "s" : "—"}
@@ -126,7 +126,7 @@ export function Screen3_Synthesise_with_Override() {
               <p className="text-sm font-semibold text-[#1a2028]">Core Information</p>
               <p className="text-xs text-[#6b7f8c] mt-0.5">Extracted and reconciled across all uploaded artifacts</p>
             </div>
-            <div className="p-6 grid grid-cols-2 gap-x-8 gap-y-5">
+            <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-5">
               {[
                 { label: "Full Name",         value: d.full_name,         mod: d.full_name_modality,         src: d.full_name_source },
                 { label: "Date of Birth",     value: d.dob,               mod: d.dob_modality,               src: d.dob_source },
@@ -187,7 +187,7 @@ export function Screen3_Synthesise_with_Override() {
               <button
                 type="button"
                 onClick={() => setShowAuditor(!showAuditorDetails)}
-                className="text-xs text-blue-600 hover:text-blue-700 font-medium px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-colors flex-shrink-0 ml-4"
+                className="text-xs text-blue-600 hover:text-blue-700 font-medium px-3 py-1.5 rounded-xl hover:bg-blue-50 transition-colors flex-shrink-0 ml-4"
               >
                 {showAuditorDetails ? "Hide" : "Show details"}
               </button>

@@ -25,3 +25,10 @@ export const commitRecord = async (data: any) =>
 
 export const checkHealth = async () =>
   api.get("/health");
+
+export const translateGlossaryTerm = async (data: {
+  term_id: string;
+  term_en: string;
+  definition_en: string;
+  target_language: string;
+}) => api.post("/translate-glossary", data);

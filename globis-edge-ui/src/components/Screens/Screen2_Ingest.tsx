@@ -118,14 +118,14 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
   return (
     <div className="space-y-3">
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">{error}</div>
+        <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700">{error}</div>
       )}
       <div className="grid grid-cols-2 gap-3">
         {/* Live camera */}
         <button
           type="button"
           onClick={startCamera}
-          className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
+          className="flex flex-col items-center justify-center gap-2 p-5 sm:p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
                      rounded-xl hover:border-blue-400 hover:bg-blue-50/30 transition-colors group"
         >
           <span className="text-3xl">📷</span>
@@ -133,7 +133,7 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
           <span className="text-xs text-[#9bafba]">Live capture from device</span>
         </button>
         {/* File upload fallback */}
-        <label className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
+        <label className="flex flex-col items-center justify-center gap-2 p-5 sm:p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
                           rounded-xl hover:border-blue-400 hover:bg-blue-50/30 transition-colors group cursor-pointer">
           <span className="text-3xl">🖼️</span>
           <span className="text-sm font-medium text-[#6b7f8c] group-hover:text-blue-700">Upload File</span>
@@ -234,7 +234,7 @@ function AudioRecorder({ onRecord }: { onRecord: (file: File) => void }) {
   return (
     <div className="space-y-3">
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">{error}</div>
+        <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700">{error}</div>
       )}
       {recording ? (
         <div className="flex flex-col items-center gap-4 py-8">
@@ -264,7 +264,7 @@ function AudioRecorder({ onRecord }: { onRecord: (file: File) => void }) {
           <button
             type="button"
             onClick={startRecording}
-            className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
+            className="flex flex-col items-center justify-center gap-2 p-5 sm:p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
                        rounded-xl hover:border-purple-400 hover:bg-purple-50/30 transition-colors group"
           >
             <span className="text-3xl">🎤</span>
@@ -272,7 +272,7 @@ function AudioRecorder({ onRecord }: { onRecord: (file: File) => void }) {
             <span className="text-xs text-[#9bafba]">Uses device microphone</span>
           </button>
           {/* File upload fallback */}
-          <label className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
+          <label className="flex flex-col items-center justify-center gap-2 p-5 sm:p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
                             rounded-xl hover:border-purple-400 hover:bg-purple-50/30 transition-colors group cursor-pointer">
             <span className="text-3xl">📁</span>
             <span className="text-sm font-medium text-[#6b7f8c] group-hover:text-purple-700">Upload File</span>
@@ -365,11 +365,13 @@ export function Screen2_Ingest() {
       <div>
 
         {/* Header */}
-        <div className="mb-7">
-          <h1 className="text-2xl font-bold text-[#1a2028] mb-1">Add Documents &amp; Notes</h1>
+        <div className="mb-5 sm:mb-7">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028] mb-1">Add Documents &amp; Notes</h1>
           <p className="text-sm text-[#6b7f8c]">
-            Upload or capture documents, record audio testimony, and add your notes for{" "}
-            <strong className="text-[#3d4d58]">{state.site || "this session"}</strong>
+            Upload or capture documents, record audio testimony, and add caseworker notes.
+            {state.site && (
+              <> Site: <strong className="text-[#3d4d58]">{state.site}</strong></>
+            )}
           </p>
         </div>
 
@@ -380,7 +382,7 @@ export function Screen2_Ingest() {
             ? "Scenario B — Yusuf Hassan / Eisenhüttenstadt"
             : "Scenario A — Hawa Adam / Adré";
           return (
-            <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
+            <div className="mb-4 sm:mb-6 rounded-xl border border-amber-200 bg-amber-50 p-3 sm:p-4">
               <div className="flex items-start gap-3">
                 <span className="text-amber-500 text-lg flex-shrink-0">⚡</span>
                 <div>
@@ -394,7 +396,7 @@ export function Screen2_Ingest() {
 
         {/* Artifact cards (demo mode) */}
         {state.demo_loaded && state.artifacts.length > 0 && (
-          <div className="space-y-3 mb-7">
+          <div className="space-y-3 mb-5 sm:mb-7">
             {state.artifacts.map((artifact: any, idx: number) => (
               <div key={idx} className="bg-white rounded-xl border border-[rgba(147,177,194,0.35)] p-4" style={{ boxShadow: "var(--card-shadow)" }}>
                 <div className="flex items-start gap-3">
@@ -414,7 +416,7 @@ export function Screen2_Ingest() {
                     </div>
                     <p className="text-xs text-[#9bafba] font-mono mb-2 truncate">{artifact.filename}</p>
                     {artifact.preview && (
-                      <div className="p-3 bg-[#f7f9fa] rounded-lg border border-[rgba(147,177,194,0.35)]">
+                      <div className="p-3 bg-[#f7f9fa] rounded-xl border border-[rgba(147,177,194,0.35)]">
                         <p className="text-xs text-[#6b7f8c] font-semibold uppercase tracking-wide mb-1">
                           {artifact.modality === "image" ? "OCR Extract"
                            : artifact.modality === "audio" ? "Transcript · Gemma Scout (E2B)"
@@ -444,7 +446,7 @@ export function Screen2_Ingest() {
                   type="button"
                   onClick={() => setActiveTab(tab.id)}
                   className={`
-                    flex-1 flex items-center justify-center gap-1.5 px-3 py-3.5 text-sm font-medium
+                    flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-3 sm:py-3.5 text-xs sm:text-sm font-medium
                     transition-colors border-b-2
                     ${activeTab === tab.id
                       ? "border-blue-600 text-blue-700 bg-blue-50/40"
@@ -458,7 +460,7 @@ export function Screen2_Ingest() {
               ))}
             </div>
 
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               {activeTab === "photo" && (
                 <div className="space-y-3">
                   <p className="text-xs text-[#6b7f8c] mb-4">
@@ -503,7 +505,7 @@ export function Screen2_Ingest() {
                     type="button"
                     onClick={handleSaveNotes}
                     disabled={!textNotes.trim()}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium
+                    className="px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium
                                hover:bg-blue-700 disabled:bg-[#D5DEE3] disabled:text-[#9bafba] transition-colors"
                   >
                     Save as Artifact
@@ -512,7 +514,7 @@ export function Screen2_Ingest() {
               )}
 
               {error && (
-                <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+                <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
                   {error}
                 </div>
               )}
@@ -535,7 +537,7 @@ export function Screen2_Ingest() {
             </p>
             <div className="space-y-2">
               {state.artifacts.map((artifact: any, idx: number) => (
-                <div key={idx} className="flex items-center gap-3 py-2 px-3 bg-[#f7f9fa] rounded-lg border border-[rgba(147,177,194,0.35)]">
+                <div key={idx} className="flex items-center gap-3 py-2 px-3 bg-[#f7f9fa] rounded-xl border border-[rgba(147,177,194,0.35)]">
                   <span className="text-lg flex-shrink-0">
                     {artifact.modality === "image" ? "📷" : artifact.modality === "audio" ? "🎤" : "📝"}
                   </span>

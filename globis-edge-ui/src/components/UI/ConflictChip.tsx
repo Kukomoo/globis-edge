@@ -15,7 +15,7 @@ export function ConflictChip({ conflict }: { conflict: any }) {
           {conflict.value_a} vs {conflict.value_b}
         </p>
       </div>
-      <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-lg font-medium">
+      <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-xl font-medium">
         Cross-modal mismatch
       </span>
     </div>

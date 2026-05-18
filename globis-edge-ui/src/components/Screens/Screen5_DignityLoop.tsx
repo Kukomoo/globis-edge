@@ -46,11 +46,11 @@ export function Screen5_DignityLoop() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 sm:space-y-8">
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#1a2028]">Confirm with Person</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">Confirm with Person</h1>
         <p className="text-sm text-[#6b7f8c] mt-1">
           Read or play the summary in the person's language, then confirm they've heard and agreed.
         </p>
@@ -93,7 +93,7 @@ export function Screen5_DignityLoop() {
 
       {/* Summary text card */}
       <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
-        <div className="px-5 py-4 border-b border-[rgba(147,177,194,0.35)] flex items-center justify-between">
+        <div className="px-4 py-3 sm:px-5 sm:py-4 border-b border-[rgba(147,177,194,0.35)] flex items-center justify-between">
           <div>
             <p className="text-sm font-semibold text-[#1a2028]">Summary — {langLabels[language] ?? language}</p>
             <p className="text-xs text-[#6b7f8c] mt-0.5">Read this aloud to the beneficiary</p>
@@ -105,7 +105,7 @@ export function Screen5_DignityLoop() {
           )}
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {loading && !displayText && (
             <div className="flex items-center gap-2 text-sm text-blue-700 py-4">
               <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin flex-shrink-0" />
@@ -127,7 +127,7 @@ export function Screen5_DignityLoop() {
           {/* Audio */}
           <div className="mt-4">
             {ttsResult?.audio_url ? (
-              <audio src={ttsResult.audio_url} controls className="w-full h-10 rounded-lg" />
+              <audio src={ttsResult.audio_url} controls className="w-full h-10 rounded-xl" />
             ) : (
               <div className="flex items-start gap-3 p-3.5 bg-amber-50 border border-amber-200 rounded-xl">
                 <span className="text-amber-500 flex-shrink-0">🔊</span>
@@ -150,11 +150,11 @@ export function Screen5_DignityLoop() {
 
       {/* Confirmation checklist */}
       <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
-        <div className="px-5 py-4 border-b border-[rgba(147,177,194,0.35)]">
+        <div className="px-4 py-3 sm:px-5 sm:py-4 border-b border-[rgba(147,177,194,0.35)]">
           <p className="text-sm font-semibold text-[#1a2028]">Your Confirmation</p>
           <p className="text-xs text-[#6b7f8c] mt-0.5">Tick all three before you continue</p>
         </div>
-        <div className="p-6 space-y-3">
+        <div className="p-4 sm:p-6 space-y-3">
           {[
             { key: "heard"   as const, label: "Person heard (or read) the summary" },
             { key: "correct" as const, label: "Person confirmed the information is correct" },

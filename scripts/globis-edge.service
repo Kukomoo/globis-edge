@@ -1,0 +1,42 @@
+[Unit]
+Description=Globis Edge 2.0 — Intake API Server
+Documentation=https://github.com/naduko/globis-edge
+# Start after the network interface is up and hostapd has bound wlan0
+After=network.target hostapd.service
+Wants=hostapd.service
+
+[Service]
+Type=simple
+User=kukomo
+WorkingDirectory=/home/kukomo/globis-edge/src
+
+# ── Environment ────────────────────────────────────────────────────────────
+# Edit /home/kukomo/globis-edge/.env for DEVICE_ID, CASEWORKER_PIN etc.
+# The GEMMA_E2B_PATH auto-bridges to real inference if the GGUF is present.
+EnvironmentFile=-/home/kukomo/globis-edge/.env
+Environment=GEMMA_E2B_PATH=/home/kukomo/models/gemma4/gemma-4-e2b-q4_k_m.gguf
+
+# ── Start command ──────────────────────────────────────────────────────────
+# Binds to the hotspot AP address so all LAN clients can reach it.
+# --workers 1 is intentional: llama-cpp-python is not fork-safe.
+ExecStart=/home/kukomo/globis-edge/src/venv/bin/uvicorn \
+    globis_edge.api.main:app \
+    --host 192.168.50.1 \
+    --port 8080 \
+    --workers 1 \
+    --log-level info
+
+# ── Restart policy ────────────────────────────────────────────────────────
+Restart=on-failure
+RestartSec=5s
+
+# ── Hardening ────────────────────────────────────────────────────────────
+# Prevent the service from opening a default internet route.
+# All traffic must stay within 192.168.50.0/24.
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/home/kukomo/globis-edge /tmp
+
+[Install]
+WantedBy=multi-user.target

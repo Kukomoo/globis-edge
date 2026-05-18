@@ -29,7 +29,7 @@ function LangToggle({
       type="button"
       onClick={onToggle}
       className={`
-        inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium
+        inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium
         border transition-all duration-100 select-none
         ${selected
           ? lang.minority
@@ -113,8 +113,8 @@ export function Screen1_NewIntake() {
       <div>
 
         {/* Page header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2" style={{ color: "#1a2028" }}>New Intake</h1>
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: "#1a2028" }}>New Intake</h1>
           <p className="text-sm" style={{ color: "#6b7f8c" }}>
             Register a new arrival at your reception site
           </p>
@@ -147,7 +147,7 @@ export function Screen1_NewIntake() {
         <div className="bg-white rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(147,177,194,0.30)", boxShadow: "var(--card-shadow-md)" }}>
 
           <form onSubmit={handleSubmit}>
-            <div className="p-7 space-y-7">
+            <div className="p-4 sm:p-7 space-y-5 sm:space-y-7">
 
               {/* Reception site */}
               <div>
@@ -259,7 +259,7 @@ export function Screen1_NewIntake() {
             </div>
 
             {/* Footer with CTA */}
-            <div className="px-7 py-5" style={{ background: "#f7f9fa", borderTop: "1px solid rgba(147,177,194,0.25)" }}>
+            <div className="px-4 sm:px-7 py-4 sm:py-5" style={{ background: "#f7f9fa", borderTop: "1px solid rgba(147,177,194,0.25)" }}>
               <button
                 type="submit"
                 disabled={loading}
