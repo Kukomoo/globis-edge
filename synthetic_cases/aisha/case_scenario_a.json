@@ -1,0 +1,148 @@
+{
+  "scenario_name": "Scenario A: Hawa and the Reconstructed Dossier",
+  "scenario_id": "scenario-a-aisha-001",
+  "watermark": "SYNTHETIC SCENARIO",
+  "setting": "Adré, Chad. Sudanese family arrives with scattered documents.",
+  "description": "A Sudanese family (Hawa and her dependent Musa) arrive at first contact with six fragmentary artifacts. All four hero capabilities run end-to-end. Dignity Loop plays in French. Refugee corrects one field. Total wall time on Pi 5: ~75 s.",
+  "artifacts": {
+    "audio_transcript": {
+      "artifact_id": "scenario-a-audio-001",
+      "source_type": "asr_transcript",
+      "watermark": "SYNTHETIC SCENARIO",
+      "language": "Arabic (Sudanese dialect)",
+      "text": "My name is Hawa Adam. I have one child with me, his name is Musa Adam. We left our village near Al-Geneina because of the fighting. We crossed near Adré last week with the group. The birth year on my papers may be wrong—there are two different dates."
+    },
+    "torn_passport_ocr": {
+      "artifact_id": "scenario-a-doc-001",
+      "source_type": "ocr_fragment",
+      "watermark": "SYNTHETIC SCENARIO",
+      "doc_type": "Damaged Passport",
+      "damage_notes": "Top-left corner torn, some text faded",
+      "text": "REPUBLIC OF SUDAN\nPASSPORT\nName: Hawa A. Adam\nFather's Name: Adam Ahmed\nDate of Birth: 1988\nPlace of Birth: Al-Geneina, Darfur\nNationality: Sudanese\nGender: Female\nChild: Musa Adam\nYear of birth: 2016?\n[damaged section]\nIssued: 2015\nValidity: EXPIRED"
+    },
+    "unhcr_registration_token_ocr": {
+      "artifact_id": "scenario-a-doc-002",
+      "source_type": "ocr_fragment",
+      "watermark": "SYNTHETIC SCENARIO",
+      "doc_type": "UNHCR Temporary Registration Token",
+      "text": "UNHCR TEMPORARY REGISTRATION TOKEN\nDate of Registration: 2026-05-10\nRegistration Site: Adré, Chad\nPrincipal Applicant: Hawa Adam\nDate of Birth: 1988\nNationality: Sudanese\nDependent: Musa A.\nDependent DOB: 2017\nCase Status: Under Review\nToken ID: TRT-2026-0510-00147"
+    },
+    "whatsapp_screenshot": {
+      "artifact_id": "scenario-a-msg-001",
+      "source_type": "text_message_fragment",
+      "watermark": "SYNTHETIC SCENARIO",
+      "platform": "WhatsApp (screenshot, redacted)",
+      "text": "12:34 PM: Hawa: 'We are safe now in Adre. My son is with me. Please help us find the camp.'\n12:35 PM: Relative: 'God willing you are well. Do you have documents?'\n12:36 PM: Hawa: 'Yes, passport and token.'"
+    },
+    "school_certificate_ocr": {
+      "artifact_id": "scenario-a-doc-003",
+      "source_type": "ocr_fragment",
+      "watermark": "SYNTHETIC SCENARIO",
+      "doc_type": "School Certificate",
+      "text": "Al-Geneina Primary School\nCertificate of Attendance\nStudent Name: Musa Adam\nYear: 2023-2024 Academic Year\nGrade: Standard 2\nAttendance: 94%\nTeacher's Remarks: Diligent student, good progress.\nDate: 2024-06-15"
+    },
+    "caseworker_intake_note": {
+      "artifact_id": "scenario-a-note-001",
+      "source_type": "typed_caseworker_note",
+      "watermark": "SYNTHETIC SCENARIO",
+      "date": "2026-05-17",
+      "time": "14:30",
+      "caseworker": "Hawa (UNHCR PA)",
+      "text": "Family arrived via informal group. Mother presents documents but notes discrepancy in child's birth year across two artifacts (passport says 2016?, token says 2017). Mother is alert, responsive, Arabic-speaking (Sudanese dialect—good understanding of my Arabic). Child present and appears healthy. No immediate medical concerns noted. Recommend human review of birth year before record finalization. Mother agreed to Dignity Loop confirmation process."
+    }
+  },
+  "expected_outcome": {
+    "case_summary": "Synthetic intake record for Hawa Adam (adult) and Musa Adam (dependent). Documents and testimony agree on names and origin but conflict on the dependent's birth year. Cross-modal conflict detected: passport says 2016?, UNHCR token says 2017. School certificate (dated 2024) shows student age consistent with either. Human review required before commit.",
+    "people": [
+      {
+        "name": "Hawa Adam",
+        "role": "adult",
+        "nationality": "Sudanese",
+        "date_of_birth": "1988",
+        "evidence": [
+          "scenario-a-audio-001: My name is Hawa Adam",
+          "scenario-a-doc-001: Name: Hawa A. Adam, Date of Birth: 1988",
+          "scenario-a-doc-002: Principal Applicant: Hawa Adam, Date of Birth: 1988"
+        ]
+      },
+      {
+        "name": "Musa Adam",
+        "role": "dependent",
+        "date_of_birth_conflict": ["2016?", "2017"],
+        "evidence": [
+          "scenario-a-audio-001: I have one child with me, his name is Musa Adam",
+          "scenario-a-doc-001: Child: Musa Adam, Year of birth: 2016?",
+          "scenario-a-doc-002: Dependent: Musa A., Dependent DOB: 2017",
+          "scenario-a-doc-003: Student Name: Musa Adam, Year: 2023-2024"
+        ]
+      }
+    ],
+    "locations": [
+      {
+        "name": "Al-Geneina / El Geneina",
+        "role": "origin",
+        "evidence": [
+          "scenario-a-audio-001: our village near Al-Geneina",
+          "scenario-a-doc-001: Place of Birth: Al-Geneina, Darfur"
+        ]
+      },
+      {
+        "name": "Adré",
+        "role": "crossing_point_and_reception",
+        "evidence": [
+          "scenario-a-audio-001: We crossed near Adré last week",
+          "scenario-a-doc-002: Registration Site: Adré, Chad"
+        ]
+      }
+    ],
+    "conflicts": [
+      {
+        "field": "dependent_date_of_birth",
+        "observed_values": ["2016?", "2017"],
+        "severity": "medium",
+        "evidence": [
+          "scenario-a-doc-001: Year of birth: 2016?",
+          "scenario-a-doc-002: Dependent DOB: 2017"
+        ],
+        "recommended_action": "human_review_with_caseworker_and_family"
+      }
+    ],
+    "plain_language_explanation": "We have prepared a draft record from the information you gave and the documents you showed. The names are clear and consistent. However, we noticed that the child's year of birth appears different on two of your papers: one says 2016 (with a question mark), and another says 2017. A caseworker should review this with you and help clarify which year is correct before the record is saved.",
+    "auditor_status": "human_review_required",
+    "commit_allowed": false,
+    "requires_human_review": true
+  },
+  "intake_payload_for_api": {
+    "household_id": "hh-aisha-adam-001",
+    "session_id": "session-scenario-a-20260517-001",
+    "dignity_confirmed": false,
+    "entity_type": "household",
+    "op_type": "INSERT",
+    "draft_record": {
+      "watermark": "SYNTHETIC SCENARIO",
+      "case_id": "case-aisha-001",
+      "intake_date": "2026-05-17T14:30:00Z",
+      "principal_name": "Hawa Adam",
+      "principal_nationality": "Sudanese",
+      "principal_dob": "1988",
+      "principal_origin": "Al-Geneina, Darfur",
+      "dependents": [
+        {
+          "name": "Musa Adam",
+          "relationship": "child",
+          "dob_note": "conflicting_values_2016_2017_requires_review"
+        }
+      ],
+      "arrival_location": "Adré, Chad",
+      "arrival_date_approximate": "2026-05-10",
+      "documents_provided": [
+        "expired_sudanese_passport",
+        "unhcr_temporary_registration_token",
+        "school_certificate"
+      ],
+      "notes": "Cross-modal conflict on dependent birth year. Mother alert and responsive. Child present, appears healthy. Caseworker recommends human review before finalization.",
+      "conflict_summary": "Dependent birth year: passport 2016? vs. UNHCR token 2017",
+      "requires_human_review": true
+    }
+  }
+}

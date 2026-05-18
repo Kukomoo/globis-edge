@@ -1,0 +1,92 @@
+{
+  "scenario_name": "Scenario B: Tobias and the Blocked Field",
+  "scenario_id": "scenario-b-yusuf-001",
+  "watermark": "SYNTHETIC SCENARIO",
+  "setting": "Eisenhüttenstadt, Germany. Chadian-Arabic speaker, alone, applies for asylum.",
+  "description": "A testimony mentions political persecution and ethnicity-based targeting. Constitutional Auditor Rule Pass detects and blocks the ethnicity field. Value is never logged. Caseworker sees protection-concern chip. Quarantine badge increments to 1. Auditor blocks commit pending human review.",
+  "artifacts": {
+    "audio_testimony": {
+      "artifact_id": "scenario-b-audio-001",
+      "source_type": "asr_transcript",
+      "watermark": "SYNTHETIC SCENARIO",
+      "language": "Chadian Arabic (Modern Standard Arabic with Chad dialect)",
+      "text": "My name is Yusuf Ahmed Hassan. I left my village in Chad because my government was targeting people from my ethnic group for military conscription. I refused to join the militia. The local police made it clear I had no choice. They visited my family's home twice. I escaped with the help of a neighbor. I have been traveling for three weeks and arrived here yesterday."
+    },
+    "identity_document_ocr": {
+      "artifact_id": "scenario-b-doc-001",
+      "source_type": "ocr_fragment",
+      "watermark": "SYNTHETIC SCENARIO",
+      "doc_type": "National ID (Chad)",
+      "text": "REPUBLIC OF CHAD\nNATIONAL IDENTIFICATION CARD\nName: Yusuf Ahmed Hassan\nDate of Birth: 1992-03-15\nPlace of Birth: Goz Beida, Dar Sila Region\nNationality: Chadian\nSex: Male\nIssue Date: 2019-01-20\nExpiry Date: 2029-01-20"
+    },
+    "caseworker_intake_note": {
+      "artifact_id": "scenario-b-note-001",
+      "source_type": "typed_caseworker_note",
+      "watermark": "SYNTHETIC SCENARIO",
+      "date": "2026-05-17",
+      "time": "09:15",
+      "caseworker": "Tobias (BAMF Sachbearbeiter)",
+      "text": "Applicant arrived yesterday with single identity document. Testimony mentions persecution related to ethnic background and military service refusal. Applicant appears coherent, describes route of travel clearly. No immediate health concerns. Application requires legal review by protection team. Forward to case assessment unit for credibility review and determination. Note: Mention of specific ethnic targeting and militia conscription may invoke Article 31 protections."
+    }
+  },
+  "constitutional_auditor_behavior": {
+    "rule_pass_result": {
+      "status": "blocked",
+      "blocked_pattern": "ethnicity.*persecution|ethnic.*targeting",
+      "blocked_field_name": "ethnicity_based_persecution_concern",
+      "reason": "Field matches PROHIBITED_FIELDS pattern (ethnicity-related protected attribute)",
+      "value_logged": false,
+      "log_entry": {
+        "action": "rule_auditor_block",
+        "blocked_field_names": ["ethnicity_based_persecution_concern"],
+        "value_logged": false,
+        "requires_caseworker_review_chip": true,
+        "session_id": "session-scenario-b-20260517-001"
+      }
+    },
+    "prompt_pass_setup": "Post-sanitised record (with ethnicity field removed) would be checked against Article 31 (1951 Refugee Convention—non-penalisation) and ExCom No. 8 (interpreter rights). Remaining testimony still supports need for human review of military service refusal and state persecution claims.",
+    "quarantine_action": "Record quarantined. Caseworker sees protection-concern chip: 'A sensitive field category was blocked from this record. Review before commit.' Quarantine badge (red 1) appears in UI."
+  },
+  "expected_outcome": {
+    "auditor_status": "blocked",
+    "blocked_field_names": ["ethnicity_based_persecution_concern"],
+    "reason": "Prohibited field detected: ethnicity-related persecution concern. Value was NOT logged. Caseworker must review and decide: remove testimony entirely, rephrase with focus on military service refusal and state persecution (without ethnic descriptor), or escalate to protection team.",
+    "quarantine_id": "quarantine-scenario-b-20260517-001",
+    "next_steps": [
+      "Caseworker reviews quarantine badge",
+      "Caseworker sees summary: 'One sensitive field category was blocked: ethnicity-based persecution concern.' (No value shown.)",
+      "Caseworker decides: sanitise and resubmit, or escalate to protection review team",
+      "If resubmitted without ethnic descriptor, record re-audited and may pass prompt pass",
+      "If escalated, case moves to formal protection assessment (out of scope for Globis Edge)"
+    ],
+    "dignity_loop_status": "not_reached",
+    "commit_allowed": false,
+    "requires_human_review": true
+  },
+  "intake_payload_for_api": {
+    "household_id": "hh-yusuf-hassan-001",
+    "session_id": "session-scenario-b-20260517-001",
+    "dignity_confirmed": false,
+    "entity_type": "person",
+    "op_type": "INSERT",
+    "draft_record": {
+      "watermark": "SYNTHETIC SCENARIO",
+      "case_id": "case-yusuf-001",
+      "intake_date": "2026-05-17T09:15:00Z",
+      "name": "Yusuf Ahmed Hassan",
+      "nationality": "Chadian",
+      "date_of_birth": "1992-03-15",
+      "place_of_birth": "Goz Beida, Dar Sila Region",
+      "arrival_country": "Germany",
+      "arrival_date": "2026-05-16",
+      "asylum_claim": true,
+      "testimony_summary": "Applicant reports persecution by state actors related to ethnic background and military service refusal. Two visits from local police. Escaped with neighbor assistance. Three-week travel period.",
+      "potential_protection_triggers": [
+        "military_service_refusal",
+        "ethnicity_based_persecution"
+      ],
+      "notes": "Testimony contains ethnicity-specific persecution claim. System Rule Pass will block this field. Caseworker must decide: sanitise and resubmit focusing on military conscription refusal, or forward to formal protection assessment.",
+      "audit_note": "This record is expected to be blocked by Constitutional Auditor Rule Pass. Ethnicity-related persecution is a protected attribute that must not be collected in emergency intake. Caseworker can rephrase testimony without ethnic descriptor and resubmit, or escalate to protection team."
+    }
+  }
+}
