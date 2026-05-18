@@ -142,5 +142,7 @@ export function AuditorPanel({
           session ID, and caseworker identity. All blocked fields and reasoning are
           documented in the audit log (not in the exported record).
         </p>
+  </div>
+  </div>
   );
 }

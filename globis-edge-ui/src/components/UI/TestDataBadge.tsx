@@ -43,5 +43,6 @@ export function TestDataBadge({
           <div className="absolute bottom-full right-3 w-2 h-2 bg-gray-900 transform rotate-45"></div>
         </div>
       )}
+  </div>
   );
 }

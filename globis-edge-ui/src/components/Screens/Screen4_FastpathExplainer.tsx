@@ -187,5 +187,6 @@ export function Screen4_FastpathExplainer() {
         Blocked fields are never exported or retained beyond this session.
       </div>
     </div>
+  </div>
   );
 }

@@ -148,5 +148,7 @@ export function GlossaryPanel({
             book icon in the header to open this panel anytime.
           </p>
         </div>
+  </div>
+  </div>
   );
 }
