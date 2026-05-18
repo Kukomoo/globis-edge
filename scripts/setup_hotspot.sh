@@ -121,16 +121,22 @@ if [[ -f /etc/dnsmasq.conf ]]; then
 fi
 
 cat > /etc/dnsmasq.conf <<EOF
-# Globis Edge 2.0 — DHCP for hotspot clients
+# Globis Edge 2.0 — DHCP + captive portal DNS for hotspot clients
 interface=${INTERFACE}
 dhcp-range=${DHCP_START},${DHCP_END},255.255.255.0,12h
 dhcp-option=3,${AP_IP}        # default gateway = Pi 5 itself
 dhcp-option=6,${AP_IP}        # DNS = Pi 5 itself (no internet needed)
 
-# Local hostname resolution so devices can use http://globis.local:8080
+# Friendly hostname — http://globis.local works on Mac/iPhone
 address=/globis.local/${AP_IP}
 
-# Block all DNS forwarding upstream — no internet leakage from clients
+# Captive portal: resolve ALL domains to the Pi so phones auto-open the app.
+# When a device joins the network it probes a known URL (Apple: captive.apple.com,
+# Android: connectivitycheck.gstatic.com, Windows: msftconnecttest.com).
+# We return the Pi's IP for every domain → the OS sees a redirect → pops browser.
+address=/#/${AP_IP}
+
+# Block upstream DNS forwarding — no internet leakage
 no-resolv
 server=
 EOF

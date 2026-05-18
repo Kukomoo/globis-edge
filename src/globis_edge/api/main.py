@@ -280,6 +280,56 @@ def rule_audit(case: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Captive portal detection endpoints
+#
+# When a device joins the hotspot, the OS probes a known connectivity-check
+# URL. dnsmasq resolves ALL domains to 192.168.50.1, so those probes land
+# here. We return the OS-specific "captive portal detected" signal, which
+# triggers the device to automatically pop open a browser pointed at our
+# redirect URL → the user sees the intake wizard without typing anything.
+#
+# Probe URLs by OS:
+#   iOS/macOS : GET /hotspot-detect.html  (expects <HTML><HEAD><TITLE>Success</TITLE>)
+#   Android   : GET /generate_204         (expects HTTP 204)
+#   Windows   : GET /ncsi.txt             (expects "Microsoft NCSI")
+#   Linux     : GET /connectivity-check   (expects 204)
+# ---------------------------------------------------------------------------
+
+_APP_URL = "http://192.168.50.1:8080/app"
+
+@app.get("/hotspot-detect.html", include_in_schema=False, response_model=None)
+@app.get("/library/test/success.html", include_in_schema=False, response_model=None)
+def captive_ios():
+    """iOS/macOS captive portal probe — triggers 'sign in to network' popup."""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url=_APP_URL, status_code=302)
+
+
+@app.get("/generate_204", include_in_schema=False, response_model=None)
+@app.get("/gen_204", include_in_schema=False, response_model=None)
+def captive_android():
+    """Android captive portal probe — 302 redirect triggers browser popup."""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url=_APP_URL, status_code=302)
+
+
+@app.get("/ncsi.txt", include_in_schema=False, response_model=None)
+@app.get("/connecttest.txt", include_in_schema=False, response_model=None)
+def captive_windows():
+    """Windows NCSI probe — redirect to app."""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url=_APP_URL, status_code=302)
+
+
+@app.get("/connectivity-check", include_in_schema=False, response_model=None)
+@app.get("/connectivity-check.html", include_in_schema=False, response_model=None)
+def captive_linux():
+    """Linux connectivity probe — redirect to app."""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url=_APP_URL, status_code=302)
+
+
+# ---------------------------------------------------------------------------
 # Demo pipeline helpers (HTML dashboard at GET /)
 # ---------------------------------------------------------------------------
 
@@ -1071,7 +1121,14 @@ def serve_spa_root():
     return FileResponse(str(_UI_DIST / "index.html"))
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/", include_in_schema=False, response_model=None)
+def root_redirect():
+    """Redirect bare root to the React app — works for any browser that types the IP."""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url=_APP_URL, status_code=302)
+
+
+@app.get("/dashboard", response_class=HTMLResponse)
 def ui() -> HTMLResponse:
     aisha = run_aisha_pipeline()
     yusuf = run_yusuf_pipeline()
