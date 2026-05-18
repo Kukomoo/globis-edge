@@ -569,6 +569,5 @@ export function Screen2_Ingest() {
 
       </div>
     </div>
-  </div>
   );
 }

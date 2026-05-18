@@ -50,8 +50,8 @@ export function Screen5_DignityLoop() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Dignity Loop</h1>
-        <p className="text-sm text-slate-500 mt-1">
+        <h1 className="text-2xl font-bold text-[#1a1714]">Dignity Loop</h1>
+        <p className="text-sm text-[#6b6357] mt-1">
           Read or play the summary to the beneficiary in their language, then confirm understanding.
         </p>
       </div>
@@ -59,14 +59,14 @@ export function Screen5_DignityLoop() {
       {/* Language + refresh */}
       <div className="flex items-center gap-3">
         <div className="flex-1">
-          <label htmlFor="beneficiary-language" className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
+          <label htmlFor="beneficiary-language" className="block text-xs font-semibold text-[#6b6357] uppercase tracking-wide mb-1.5">
             Beneficiary Language
           </label>
           <select
             id="beneficiary-language"
             value={language}
             onChange={(e) => dispatch({ type: "SET_LANGUAGE", payload: e.target.value })}
-            className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-700
+            className="w-full px-3 py-2.5 border border-[#e8e4dd] rounded-xl text-sm text-[#3d3830]
                        bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="en">🇬🇧 English</option>
@@ -80,8 +80,8 @@ export function Screen5_DignityLoop() {
             type="button"
             onClick={handleGenerateTTS}
             disabled={loading}
-            className="px-4 py-2.5 border border-slate-200 text-slate-600 text-sm font-medium rounded-xl
-                       hover:bg-slate-50 disabled:opacity-50 transition-colors flex items-center gap-2"
+            className="px-4 py-2.5 border border-[#e8e4dd] text-[#3d3830] text-sm font-medium rounded-xl
+                       hover:bg-[#f5f3ef] disabled:opacity-50 transition-colors flex items-center gap-2"
           >
             {loading
               ? <><span className="w-3.5 h-3.5 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" />Generating…</>
@@ -92,11 +92,11 @@ export function Screen5_DignityLoop() {
       </div>
 
       {/* Summary text card */}
-      <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-        <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+      <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#e8e4dd] flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-slate-800">Summary — {langLabels[language] ?? language}</p>
-            <p className="text-xs text-slate-500 mt-0.5">Read this aloud to the beneficiary</p>
+            <p className="text-sm font-semibold text-[#1a1714]">Summary — {langLabels[language] ?? language}</p>
+            <p className="text-xs text-[#6b6357] mt-0.5">Read this aloud to the beneficiary</p>
           </div>
           {state.demo_loaded && !ttsResult && (
             <span className="text-xs bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-medium flex-shrink-0">
@@ -115,7 +115,7 @@ export function Screen5_DignityLoop() {
 
           {displayText && (
             <div className={`
-              p-5 bg-slate-50 rounded-xl border border-slate-100 text-base leading-relaxed text-slate-900
+              p-5 bg-[#faf9f7] rounded-xl border border-[#e8e4dd] text-base leading-relaxed text-[#1a1714]
               ${isRTL ? "text-right" : "text-left"}
             `}
               dir={isRTL ? "rtl" : "ltr"}
@@ -143,16 +143,16 @@ export function Screen5_DignityLoop() {
           </div>
 
           {ttsResult?.tts_engine && (
-            <p className="mt-2 text-xs text-slate-500 font-mono">Engine: {ttsResult.tts_engine}</p>
+            <p className="mt-2 text-xs text-[#6b6357] font-mono">Engine: {ttsResult.tts_engine}</p>
           )}
         </div>
       </div>
 
       {/* Confirmation checklist */}
-      <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-        <div className="px-5 py-4 border-b border-slate-100">
-          <p className="text-sm font-semibold text-slate-800">Caseworker Confirmation</p>
-          <p className="text-xs text-slate-500 mt-0.5">Tick all three before proceeding</p>
+      <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#e8e4dd]">
+          <p className="text-sm font-semibold text-[#1a1714]">Caseworker Confirmation</p>
+          <p className="text-xs text-[#6b6357] mt-0.5">Tick all three before proceeding</p>
         </div>
         <div className="p-6 space-y-3">
           {[
@@ -166,7 +166,7 @@ export function Screen5_DignityLoop() {
                 flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-colors
                 ${confirmed[key]
                   ? "bg-green-50 border-green-200"
-                  : "bg-white border-slate-200 hover:bg-slate-50"
+                  : "bg-white border-[#e8e4dd] hover:bg-[#faf9f7]"
                 }
               `}
             >
@@ -186,7 +186,7 @@ export function Screen5_DignityLoop() {
                 onChange={(e) => setConfirmed({ ...confirmed, [key]: e.target.checked })}
                 className="sr-only"
               />
-              <span className={`text-sm ${confirmed[key] ? "text-green-900 font-medium" : "text-slate-700"}`}>
+              <span className={`text-sm ${confirmed[key] ? "text-green-900 font-medium" : "text-[#1a1714]"}`}>
                 {label}
               </span>
             </label>
@@ -202,12 +202,12 @@ export function Screen5_DignityLoop() {
       </div>
 
       {/* Navigation */}
-      <div className="border-t border-slate-100 mt-2" />
+      <div className="border-t border-[#e8e4dd] mt-2" />
       <div className="flex gap-3 pt-6">
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 4 })}
-          className="flex-1 px-4 py-3 border border-slate-200 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 transition-colors"
+          className="flex-1 px-4 py-3 border border-[#e8e4dd] rounded-xl font-medium text-sm text-[#3d3830] hover:bg-[#f5f3ef] transition-colors"
         >
           ← Back to Explainer
         </button>

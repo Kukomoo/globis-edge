@@ -51,15 +51,15 @@ export function Topbar_Enhanced() {
 
   return (
     <>
-      <header className="h-14 bg-white border-b border-slate-200 flex items-center px-5 gap-4 flex-shrink-0">
+      <header className="h-14 flex items-center px-5 gap-4 flex-shrink-0" style={{ background: "var(--card-bg)", borderBottom: "1px solid var(--card-border)" }}>
 
         {/* Left: current screen breadcrumb */}
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-xs font-mono text-slate-500 flex-shrink-0">
+          <span className="text-xs font-mono text-[#9c9389] flex-shrink-0">
             {String(state.current_screen ?? 1).padStart(2, "0")}/06
           </span>
           <span className="text-slate-200 flex-shrink-0">·</span>
-          <span className="text-sm font-semibold text-slate-700 truncate">{currentLabel}</span>
+          <span className="text-sm font-semibold text-[#1a1714] truncate">{currentLabel}</span>
         </div>
 
         {/* Divider */}
@@ -67,7 +67,7 @@ export function Topbar_Enhanced() {
 
         {/* Demo scenario buttons */}
         <div className="flex items-center gap-1.5 flex-shrink-0">
-          <span className="text-xs text-slate-500 font-medium mr-0.5">Demo</span>
+          <span className="text-xs text-[#6b6357] font-medium mr-0.5">Demo</span>
           {(["A", "B"] as const).map((s) => (
             <button
               key={s}
@@ -97,7 +97,7 @@ export function Topbar_Enhanced() {
         <div className="flex items-center gap-2.5 ml-auto">
 
           {/* Status pill */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-xs text-slate-500 font-medium flex-shrink-0">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f5f3ef] text-xs text-[#6b6357] font-medium flex-shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
             Offline · Demo
           </div>
@@ -107,7 +107,7 @@ export function Topbar_Enhanced() {
             aria-label="UI language"
             value={glossaryLanguage}
             onChange={(e) => dispatch({ type: "SET_LANGUAGE", payload: e.target.value })}
-            className="px-2 py-1.5 text-xs border border-slate-200 rounded-lg bg-white text-slate-600
+            className="px-2 py-1.5 text-xs border border-[#e8e4dd] rounded-lg bg-white text-[#3d3830]
                        hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500
                        cursor-pointer flex-shrink-0"
           >
@@ -122,8 +122,8 @@ export function Topbar_Enhanced() {
             type="button"
             aria-label="Open glossary"
             onClick={() => setShowGlossary(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600
-                       border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-slate-300
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[#3d3830]
+                       border border-[#e8e4dd] rounded-lg hover:bg-slate-50 hover:border-slate-300
                        transition-colors flex-shrink-0"
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" className="flex-shrink-0">

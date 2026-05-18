@@ -108,8 +108,8 @@ export function Screen1_NewIntake() {
 
         {/* Page header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">New Intake</h1>
-          <p className="text-slate-500 text-sm">
+          <h1 className="text-3xl font-bold text-[#1a1714] mb-2">New Intake</h1>
+          <p className="text-[#6b6357] text-sm">
             Register a new beneficiary arrival at your reception site
           </p>
         </div>
@@ -128,14 +128,14 @@ export function Screen1_NewIntake() {
         )}
 
         {/* Form card */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" style={{ boxShadow: "var(--card-shadow)" }}>
 
           <form onSubmit={handleSubmit}>
             <div className="p-7 space-y-7">
 
               {/* Reception site */}
               <div>
-                <label htmlFor="site" className="block text-sm font-semibold text-slate-700 mb-2">
+                <label htmlFor="site" className="block text-sm font-semibold text-[#1a1714] mb-2">
                   Reception Site
                   <span className="text-red-400 ml-1">*</span>
                 </label>
@@ -147,7 +147,7 @@ export function Screen1_NewIntake() {
                   onChange={(e) => setFormData({ ...formData, site: e.target.value })}
                   placeholder="e.g., Adré reception point — Tent 4"
                   className={`
-                    w-full px-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-900
+                    w-full px-4 py-3 border border-[#e8e4dd] rounded-xl text-sm text-slate-900
                     placeholder-slate-400 transition-shadow
                     ${state.demo_loaded
                       ? "bg-slate-50 text-slate-500 cursor-not-allowed"
@@ -156,17 +156,17 @@ export function Screen1_NewIntake() {
                   `}
                   required={!state.demo_loaded}
                 />
-                <p className="text-xs text-slate-500 mt-1.5">
+                <p className="text-xs text-[#6b6357] mt-1.5">
                   Recorded in the audit trail for this session.
                 </p>
               </div>
 
               {/* Caseworker languages */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                <label className="block text-sm font-semibold text-[#1a1714] mb-1">
                   Caseworker Languages
                 </label>
-                <p className="text-xs text-slate-500 mb-3">Languages the caseworker speaks</p>
+                <p className="text-xs text-[#6b6357] mb-3">Languages the caseworker speaks</p>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((lang) => (
                     <LangToggle
@@ -181,11 +181,11 @@ export function Screen1_NewIntake() {
 
               {/* Beneficiary languages */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                <label className="block text-sm font-semibold text-[#1a1714] mb-1">
                   Beneficiary Languages
                   <span className="text-red-400 ml-1">*</span>
                 </label>
-                <p className="text-xs text-slate-500 mb-3">Languages the arriving person speaks</p>
+                <p className="text-xs text-[#6b6357] mb-3">Languages the arriving person speaks</p>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((lang) => (
                     <LangToggle
@@ -244,7 +244,7 @@ export function Screen1_NewIntake() {
             </div>
 
             {/* Footer with CTA */}
-            <div className="px-7 py-5 bg-slate-50 border-t border-slate-100">
+            <div className="px-7 py-5 bg-[#faf9f7] border-t border-[#e8e4dd]">
               <button
                 type="submit"
                 disabled={loading}
@@ -259,14 +259,14 @@ export function Screen1_NewIntake() {
         </div>
 
         {/* Caseworker context note */}
-        <div className="mt-5 px-5 py-4 rounded-xl border border-slate-200 bg-white/60 backdrop-blur-sm">
+        <div className="mt-5 px-5 py-4 rounded-xl border border-[#e8e4dd] bg-white/80 backdrop-blur-sm">
           <div className="flex items-start gap-3">
-            <span aria-hidden="true" className="text-slate-500 text-base flex-shrink-0">💡</span>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              <strong className="text-slate-600">You are a frontline protection worker.</strong>{" "}
+            <span aria-hidden="true" className="text-[#6b6357] text-base flex-shrink-0">💡</span>
+            <p className="text-xs text-[#6b6357] leading-relaxed">
+              <strong className="text-[#3d3830]">You are a frontline protection worker.</strong>{" "}
               This system helps you quickly ingest documents, audio, and notes — then surfaces
               any discrepancies so you can make an informed decision.{" "}
-              <strong className="text-slate-600">You always decide; the system never denies.</strong>
+              <strong className="text-[#3d3830]">You always decide; the system never denies.</strong>
             </p>
           </div>
         </div>

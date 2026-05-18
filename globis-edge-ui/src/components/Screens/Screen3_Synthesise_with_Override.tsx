@@ -56,8 +56,8 @@ export function Screen3_Synthesise_with_Override() {
 
       {/* Page title */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Synthesised Dossier</h1>
-        <p className="text-sm text-slate-500 mt-1">
+        <h1 className="text-2xl font-bold text-[#1a1714]">Synthesised Dossier</h1>
+        <p className="text-sm text-[#6b6357] mt-1">
           Unified view across all modalities · Constitutional Audit complete
         </p>
       </div>
@@ -97,23 +97,23 @@ export function Screen3_Synthesise_with_Override() {
         <>
           {/* Latency telemetry */}
           {d.latency_ms && (
-            <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-              <div className="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Processing Telemetry</span>
-                <span className="text-xs font-mono text-slate-500">Raspberry Pi 5 · CPU only</span>
+            <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
+              <div className="px-5 py-3 border-b border-[#e8e4dd] flex items-center justify-between">
+                <span className="text-xs font-semibold text-[#6b6357] uppercase tracking-wider">Processing Telemetry</span>
+                <span className="text-xs font-mono text-[#6b6357]">Raspberry Pi 5 · CPU only</span>
               </div>
-              <div className="grid grid-cols-3 divide-x divide-slate-100">
+              <div className="grid grid-cols-3 divide-x divide-[#e8e4dd]">
                 {[
-                  { label: "Scout",   sub: "E2B · 2B params",  ms: d.latency_ms.scout_ms,   color: "text-blue-700",   bg: "bg-blue-50/60" },
-                  { label: "Analyst", sub: "E4B · 4B params",  ms: d.latency_ms.analyst_ms, color: "text-indigo-700", bg: "bg-indigo-50/60" },
-                  { label: "Total",   sub: "Wall clock",        ms: d.latency_ms.total_ms,   color: "text-slate-800",  bg: "bg-slate-50" },
+                  { label: "Scout",   sub: "E2B · 2B params",  ms: d.latency_ms.scout_ms,   color: "text-blue-700",   bg: "bg-[#eff6ff]" },
+                  { label: "Analyst", sub: "E4B · 4B params",  ms: d.latency_ms.analyst_ms, color: "text-indigo-700", bg: "bg-[#eef2ff]" },
+                  { label: "Total",   sub: "Wall clock",        ms: d.latency_ms.total_ms,   color: "text-[#1a1714]",  bg: "bg-[#faf9f7]" },
                 ].map(({ label, sub, ms, color, bg }) => (
                   <div key={label} className={`px-5 py-4 ${bg}`}>
-                    <p className="text-xs text-slate-500 font-medium mb-1">{label}</p>
+                    <p className="text-xs text-[#6b6357] font-medium mb-1">{label}</p>
                     <p className={`text-xl font-bold font-mono ${color}`}>
                       {(ms / 1000).toFixed(2)}s
                     </p>
-                    <p className="text-xs text-slate-500 mt-0.5">{sub}</p>
+                    <p className="text-xs text-[#6b6357] mt-0.5">{sub}</p>
                   </div>
                 ))}
               </div>
@@ -121,10 +121,10 @@ export function Screen3_Synthesise_with_Override() {
           )}
 
           {/* Core fields */}
-          <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-            <div className="px-5 py-4 border-b border-slate-100">
-              <p className="text-sm font-semibold text-slate-800">Core Information</p>
-              <p className="text-xs text-slate-500 mt-0.5">Extracted and reconciled across all uploaded artifacts</p>
+          <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
+            <div className="px-5 py-4 border-b border-[#e8e4dd]">
+              <p className="text-sm font-semibold text-[#1a1714]">Core Information</p>
+              <p className="text-xs text-[#6b6357] mt-0.5">Extracted and reconciled across all uploaded artifacts</p>
             </div>
             <div className="p-6 grid grid-cols-2 gap-x-8 gap-y-5">
               {[
@@ -134,7 +134,7 @@ export function Screen3_Synthesise_with_Override() {
                 { label: "Country of Origin", value: d.country_of_origin, mod: d.country_of_origin_modality, src: d.country_of_origin_source },
               ].map(({ label, value, mod, src }) => (
                 <div key={label}>
-                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">{label}</p>
+                  <p className="text-xs font-semibold text-[#6b6357] uppercase tracking-wide mb-1" style={{ fontFamily: "var(--font-mono)" }}>{label}</p>
                   <div className="flex items-center gap-2">
                     <p className={label === "Full Name" ? "text-lg font-bold text-slate-900" : "text-base font-semibold text-slate-900"}>{value || "—"}</p>
                     {mod && <ProvenancePin modality={mod} source={src} />}
@@ -178,11 +178,11 @@ export function Screen3_Synthesise_with_Override() {
           )}
 
           {/* Constitutional Auditor */}
-          <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-            <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+          <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
+            <div className="px-5 py-4 border-b border-[#e8e4dd] flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-slate-800">Constitutional Auditor</p>
-                <p className="text-xs text-slate-500 mt-0.5">Dual-pass safety check · Rule Pass + Prompt Pass</p>
+                <p className="text-sm font-semibold text-[#1a1714]">Constitutional Auditor</p>
+                <p className="text-xs text-[#6b6357] mt-0.5">Dual-pass safety check · Rule Pass + Prompt Pass</p>
               </div>
               <button
                 type="button"
@@ -283,7 +283,7 @@ export function Screen3_Synthesise_with_Override() {
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 2 })}
-          className="flex-1 px-4 py-3 border border-slate-200 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 transition-colors"
+          className="flex-1 px-4 py-3 border border-[#e8e4dd] rounded-xl font-medium text-sm text-[#3d3830] hover:bg-[#f5f3ef] transition-colors"
         >
           ← Back to Ingest
         </button>
@@ -297,6 +297,5 @@ export function Screen3_Synthesise_with_Override() {
         </button>
       </div>
     </div>
-  </div>
   );
 }

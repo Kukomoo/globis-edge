@@ -5,8 +5,7 @@ import { SyntheticWatermark } from "../UI/SyntheticWatermark";
 
 export function MainLayout_Enhanced({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
-      {/* Skip navigation — visible on focus for keyboard users */}
+    <div className="flex h-screen w-screen overflow-hidden" style={{ background: "var(--surface-0)" }}>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2
@@ -21,10 +20,11 @@ export function MainLayout_Enhanced({ children }: { children: ReactNode }) {
         <Topbar_Enhanced />
         <main
           id="main-content"
-          className="flex-1 overflow-y-auto overflow-x-hidden bg-slate-50 scroll-smooth"
+          className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth"
+          style={{ background: "var(--surface-0)" }}
           tabIndex={-1}
         >
-          <div className="max-w-4xl mx-auto px-8 py-10 min-h-full">
+          <div className="max-w-3xl mx-auto px-8 py-10 min-h-full">
             {children}
           </div>
         </main>
