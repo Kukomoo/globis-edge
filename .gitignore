@@ -55,6 +55,8 @@ Desktop.ini
 # ── Editor / IDE ─────────────────────────────────────────────────────────────
 .vscode/
 .idea/
+.codex/
+.continue/
 *.swp
 *.swo
 *~
