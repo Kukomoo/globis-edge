@@ -109,7 +109,9 @@ export function Sidebar() {
             style={{ background: "rgba(147,177,194,0.15)", border: "1px solid rgba(147,177,194,0.25)" }}
           >
             <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#93B1C2" }} />
-            <span className="text-xs font-medium" style={{ color: "#93B1C2" }}>Demo active</span>
+            <span className="text-xs font-medium" style={{ color: "#93B1C2" }}>
+              {state.demo_scenario === "B" ? "Demo B · Yusuf" : "Demo A · Hawa"}
+            </span>
           </div>
         )}
         <div className="px-1">

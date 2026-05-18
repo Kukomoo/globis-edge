@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useSession } from "../../store/SessionContext";
 import { uploadArtifact } from "../../services/api";
+import { DEMO_SCENARIO_A, DEMO_SCENARIO_B } from "../../data/demoScenario";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 type Tab = "photo" | "audio" | "text";
@@ -373,19 +374,23 @@ export function Screen2_Ingest() {
         </div>
 
         {/* Demo pre-load banner */}
-        {state.demo_loaded && (
-          <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
-            <div className="flex items-start gap-3">
-              <span className="text-amber-500 text-lg flex-shrink-0">⚡</span>
-              <div>
-                <p className="font-semibold text-amber-900 text-sm mb-0.5">Demo Pre-loaded — Hawa Adam / Adré</p>
-                <p className="text-xs text-amber-700">
-                  Passport (OCR) · Arabic audio (Gemma Scout · E2B — 820ms) · Caseworker notes. All synthetic.
-                </p>
+        {state.demo_loaded && (() => {
+          const scenario = state.demo_scenario === "B" ? DEMO_SCENARIO_B : DEMO_SCENARIO_A;
+          const scenarioLabel = state.demo_scenario === "B"
+            ? "Scenario B — Yusuf Hassan / Eisenhüttenstadt"
+            : "Scenario A — Hawa Adam / Adré";
+          return (
+            <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-amber-500 text-lg flex-shrink-0">⚡</span>
+                <div>
+                  <p className="font-semibold text-amber-900 text-sm mb-0.5">Demo Pre-loaded — {scenarioLabel}</p>
+                  <p className="text-xs text-amber-700">{scenario.description} · All synthetic data</p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* Artifact cards (demo mode) */}
         {state.demo_loaded && state.artifacts.length > 0 && (

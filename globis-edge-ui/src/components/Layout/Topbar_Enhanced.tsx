@@ -24,10 +24,12 @@ export function Topbar_Enhanced() {
         type: "LOAD_DEMO",
         payload: {
           id: sessionId,
+          scenario,
           site: scenarioData.session.site,
           caseworker_languages: [...scenarioData.session.caseworker_languages],
           beneficiary_languages: [...scenarioData.session.beneficiary_languages],
           artifacts: scenarioData.artifacts.map((a) => ({ ...a })),
+          ui_language: scenario === "A" ? "ar" : "ar",
         },
       });
     } catch {
@@ -35,10 +37,12 @@ export function Topbar_Enhanced() {
         type: "LOAD_DEMO",
         payload: {
           id: "demo-" + Math.random().toString(36).slice(2, 10),
+          scenario,
           site: scenarioData.session.site,
           caseworker_languages: [...scenarioData.session.caseworker_languages],
           beneficiary_languages: [...scenarioData.session.beneficiary_languages],
           artifacts: scenarioData.artifacts.map((a) => ({ ...a })),
+          ui_language: scenario === "A" ? "ar" : "ar",
         },
       });
     } finally {
@@ -70,41 +74,44 @@ export function Topbar_Enhanced() {
         {/* Demo scenario buttons */}
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <span className="text-xs font-medium mr-0.5" style={{ color: "#6b7f8c" }}>Demo</span>
-          {(["A", "B"] as const).map((s) => (
-            <button
-              key={s}
-              type="button"
-              onClick={() => handleLoadDemo(s)}
-              disabled={demoLoading}
-              title={s === "A"
-                ? "Scenario A — Hawa Adam: cross-modal conflict"
-                : "Scenario B — Yusuf Hassan: auditor block"}
-              className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all disabled:opacity-50"
-              style={
-                state.demo_loaded && activeScenario === s
+          {(["A", "B"] as const).map((s) => {
+            const isActive = state.demo_loaded && state.demo_scenario === s;
+            return (
+              <button
+                key={s}
+                type="button"
+                onClick={() => handleLoadDemo(s)}
+                disabled={demoLoading}
+                title={s === "A"
+                  ? "Scenario A — Hawa Adam: cross-modal conflict"
+                  : "Scenario B — Yusuf Hassan: auditor block"}
+                className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all disabled:opacity-50"
+                style={isActive
                   ? { background: "#93B1C2", color: "#ffffff" }
-                  : { background: "#424242", color: "#ffffff" }
-              }
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLButtonElement;
-                if (!(state.demo_loaded && activeScenario === s)) {
-                  el.style.background = "#555555";
-                }
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLButtonElement;
-                if (!(state.demo_loaded && activeScenario === s)) {
-                  el.style.background = "#424242";
-                } else {
-                  el.style.background = "#93B1C2";
-                }
-              }}
-            >
-              {demoLoading && activeScenario === s ? "…" : `⚡ ${s}`}
-            </button>
-          ))}
+                  : { background: "#424242", color: "#ffffff" }}
+                onMouseEnter={e => {
+                  if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = "#555555";
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = isActive ? "#93B1C2" : "#424242";
+                }}
+              >
+                {demoLoading && activeScenario === s ? "…" : `⚡ ${s}`}
+              </button>
+            );
+          })}
           {state.demo_loaded && (
-            <span className="text-xs font-medium ml-0.5" style={{ color: "#93B1C2" }}>✓</span>
+            <button
+              type="button"
+              title="Clear demo — start fresh"
+              onClick={() => dispatch({ type: "RESET_SESSION" })}
+              className="px-2 py-1 rounded-lg text-xs font-medium transition-all ml-0.5"
+              style={{ background: "rgba(147,177,194,0.15)", color: "#9bafba", border: "1px solid rgba(147,177,194,0.30)" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = "#6b7f8c"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "#9bafba"; }}
+            >
+              ✕ Clear
+            </button>
           )}
         </div>
 

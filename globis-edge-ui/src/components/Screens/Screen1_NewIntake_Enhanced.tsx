@@ -124,10 +124,20 @@ export function Screen1_NewIntake() {
         {state.demo_loaded && (
           <div className="mb-6 flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl">
             <span className="text-amber-500 text-lg flex-shrink-0">⚡</span>
-            <div>
-              <p className="text-sm font-semibold text-amber-900">Demo scenario loaded</p>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-amber-900">
+                {state.demo_scenario === "B"
+                  ? "Demo B — Yusuf Hassan (Eisenhüttenstadt) loaded"
+                  : "Demo A — Hawa Adam (Adré) loaded"}
+              </p>
               <p className="text-sm text-amber-700 mt-0.5">
-                Session is pre-filled. Click <strong>Continue to Ingest</strong> to see the artifacts.
+                {state.demo_scenario === "B"
+                  ? "Auditor block · Quarantine chip demo"
+                  : "Dossier reconstruction · Cross-modal conflict demo"}
+                {" "}<span className="text-amber-500">· All synthetic data</span>
+              </p>
+              <p className="text-xs text-amber-600 mt-1.5">
+                Click <strong>Continue →</strong> to jump to Documents, or choose a different scenario from the top bar.
               </p>
             </div>
           </div>

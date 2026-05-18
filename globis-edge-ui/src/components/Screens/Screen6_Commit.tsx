@@ -64,8 +64,8 @@ export function Screen6_Commit() {
             </span>
           </div>
           <button
-            onClick={() => { dispatch({ type: "SET_SCREEN", payload: 1 }); window.location.reload(); }}
-            className="px-8 py-3 bg-[#1a1714] text-white rounded-xl font-semibold hover:bg-[#0d0b09] transition-colors"
+            onClick={() => dispatch({ type: "RESET_SESSION" })}
+            className="px-8 py-3 bg-[#424242] text-white rounded-xl font-semibold hover:bg-[#555555] transition-colors"
           >
             Start New Intake
           </button>
