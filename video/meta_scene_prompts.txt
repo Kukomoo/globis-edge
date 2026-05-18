@@ -1,0 +1,14 @@
+Scene 01
+Lock this style as the base reference. Generate exactly 1 new landscape still image for Scene 1 only. Wide outdoor intake scene. Hawa stands behind a simple wooden desk piled with scattered papers, intake forms, ID cards, and a teal folder. The refugee mother and two children wait off to the right. Warm stippled sand foreground, canvas tents and rocky ridges in the distance, pale sun in a muted turquoise speckled sky. Keep the exact same Hawa, same teal headscarf, same family visual language, same grounded device with a single teal indicator light, same grainy mid century editorial poster style, same warm ochre and rust palette, same delicate ink outlines, same quiet observational mood. No text, no logos, no subtitles, no futuristic UI, no photorealism.
+
+Scene 02
+Using the locked base style and the same exact Hawa, family, desk, teal folder, and local device, generate exactly 1 new landscape still image for Scene 2 only. Closer slightly top down view of the desk. Two main records and several ID cards dominate the frame. Hawa's hands frame the documents. The family appears small near the horizon line. Same desert intake setting, same warm grainy mid century editorial poster style, same muted turquoise sky, same teal accents. No text, no logos, no subtitles, no futuristic UI, no photorealism.
+
+Scene 03
+Using the locked base style and the same exact Hawa, family, desk, teal folder, and local device, generate exactly 1 new landscape still image for Scene 3 only. Medium shot at desk height. Hawa sits behind the desk facing the mother. One child stands beside the mother and the other slightly behind. Desk and papers form a bright band between them. Tents and ridges in the background. Same warm grainy editorial poster style and quiet observational mood. No text, no logos, no subtitles, no futuristic UI, no photorealism.
+
+Scene 04
+Using the locked base style and the same exact Hawa, family, desk, teal folder, and local device, generate exactly 1 new landscape still image for Scene 4 only. Portrait like framing of Hawa from the waist up behind the desk. Her teal headscarf stands out against warm sand and a muted turquoise sky. Foreground crowded with parchment colored papers. The mother and children appear as soft shapes in the right background. Same grainy mid century editorial poster look. No text, no logos, no subtitles, no futuristic UI, no photorealism.
+
+Scene 05
+Using the locked base style and the same exact Hawa, family, desk, teal folder, and local device, generate exactly 1 new landscape still image for Scene 5 only. Slightly wider desk view that clearly reveals the small grounded local device near the teal folder. Hawa remains behind the desk, family to the right, pale sun above the horizon. Same warm ochre and rust palette, muted turquoise sky, and heavy stippled editorial poster texture. No text, no logos, no subtitles, no futuristic UI, no photorealism.

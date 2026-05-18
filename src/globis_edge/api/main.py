@@ -330,6 +330,32 @@ def captive_linux():
 
 
 # ---------------------------------------------------------------------------
+# Captive portal catch-all — must be registered LAST so it only fires for
+# paths that no real API route matched.  When dnsmasq resolves every domain
+# to the Pi, OS probes land here with arbitrary paths (e.g. GET / on
+# captive.apple.com, or /success.txt on msftconnecttest.com).  We redirect
+# them all to /app so the OS captive-portal popup points at the intake wizard.
+#
+# Security: only GET requests, only paths that didn't match any API route,
+# redirect target is always the local /app — no external URLs.
+# ---------------------------------------------------------------------------
+
+@app.get("/{unknown_path:path}", include_in_schema=False, response_model=None)
+def captive_catch_all(unknown_path: str, request: Request):
+    """Catch-all for captive portal probes — redirect unknown paths to /app."""
+    from fastapi.responses import RedirectResponse
+    # Don't redirect requests that already look like they're heading for the app
+    # or the API — those 404s should surface as real errors.
+    skip_prefixes = ("app", "api", "health", "dashboard", "synthesise",
+                     "translate", "commit", "audit", "schema", "dignity",
+                     "assets", "docs", "openapi")
+    if any(unknown_path.startswith(p) for p in skip_prefixes):
+        from fastapi.responses import JSONResponse
+        return JSONResponse({"detail": "Not Found"}, status_code=404)
+    return RedirectResponse(url=_APP_URL, status_code=302)
+
+
+# ---------------------------------------------------------------------------
 # Demo pipeline helpers (HTML dashboard at GET /)
 # ---------------------------------------------------------------------------
 

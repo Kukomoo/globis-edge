@@ -49,18 +49,20 @@ export function Screen6_Commit() {
               Session {state.id.slice(0, 8)} · {new Date().toISOString().replace("T", " ").slice(0, 19)} UTC
             </p>
           )}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-8 text-xs font-mono">
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-8 text-xs">
             <span className="px-3 py-1 rounded-full bg-white border border-[rgba(147,177,194,0.35)] text-[#3d4d58]">
-              status: {isQ ? "quarantine" : "committed"}
+              {isQ ? "Held for review" : "Saved"}
             </span>
-            <span className="px-3 py-1 rounded-full bg-white border border-[rgba(147,177,194,0.35)] text-[#3d4d58]">
-              blocked_fields: {blockedFields.length}
-            </span>
+            {blockedFields.length > 0 && (
+              <span className="px-3 py-1 rounded-full bg-white border border-[rgba(147,177,194,0.35)] text-[#3d4d58]">
+                {blockedFields.length} field{blockedFields.length > 1 ? "s" : ""} set aside
+              </span>
+            )}
             <span className="px-3 py-1 rounded-full bg-green-100 border border-green-200 text-green-700">
-              value_logged: false
+              Sensitive data not recorded
             </span>
             <span className="px-3 py-1 rounded-full bg-[#f7f9fa] border border-[rgba(147,177,194,0.35)] text-[#6b7f8c]">
-              prototype · human oversight required
+              Human decision required
             </span>
           </div>
           <button

@@ -418,8 +418,8 @@ export function Screen2_Ingest() {
                     {artifact.preview && (
                       <div className="p-3 bg-[#f7f9fa] rounded-xl border border-[rgba(147,177,194,0.35)]">
                         <p className="text-xs text-[#6b7f8c] font-semibold uppercase tracking-wide mb-1">
-                          {artifact.modality === "image" ? "OCR Extract"
-                           : artifact.modality === "audio" ? "Transcript · Gemma Scout (E2B)"
+                          {artifact.modality === "image" ? "Text read from document"
+                           : artifact.modality === "audio" ? "What was said"
                            : "Caseworker Notes"}
                         </p>
                         <p className="text-sm text-[#3d4d58] leading-relaxed italic">

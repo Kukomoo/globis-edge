@@ -1,0 +1,27 @@
+{
+  "name": "globis-edge-video",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "remotion preview src/Root.tsx",
+    "dev": "remotion preview src/Root.tsx",
+    "build": "remotion build src/Root.tsx globis-edge-30-scenes --output-dir=dist",
+    "render": "remotion render src/Root.tsx globis-edge-30-scenes --codec h264 --crf 18 --audio-codec aac --audio-bitrate 128k --output globis-edge-30-scenes.mp4",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "remotion",
+    "video",
+    "globis-edge",
+    "humanitarian"
+  ],
+  "author": "Globis Edge Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "remotion": "^4.0.462"
+  }
+}

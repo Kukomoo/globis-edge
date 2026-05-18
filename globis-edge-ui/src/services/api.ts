@@ -1,7 +1,14 @@
 import axios from "axios";
 
+// When served from the Pi hotspot the page origin is http://192.168.50.1:8080,
+// so we derive the API base from window.location.origin.  In Vite dev mode the
+// page is on localhost:5173 and the API is on localhost:8080, so we fall back
+// to localhost:8080 only in that case.
+const _isDev = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const _BASE = _isDev ? "http://localhost:8080" : window.location.origin;
+
 const api = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: _BASE,
   timeout: 30000,
 });
 

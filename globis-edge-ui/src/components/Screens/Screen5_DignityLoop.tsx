@@ -1,7 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "../../store/SessionContext";
 import { generateTTS } from "../../services/api";
 import { DEMO_SCENARIO } from "../../data/demoScenario";
+import { t } from "../../data/translations";
+
+// Map UI language codes to BCP-47 tags for Web Speech API
+const SPEECH_LANG: Record<string, string> = {
+  en: "en-US",
+  ar: "ar-SA",
+  fr: "fr-FR",
+  am: "am-ET",
+};
 
 export function Screen5_DignityLoop() {
   const { state, dispatch } = useSession();
@@ -12,6 +21,8 @@ export function Screen5_DignityLoop() {
     audio_note?: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
+  const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
   const language = state.ui_language ?? "en";
   const [confirmed, setConfirmed] = useState({ heard: false, correct: false, consent: false });
 
@@ -33,6 +44,26 @@ export function Screen5_DignityLoop() {
     }
   };
 
+  // Web Speech API fallback — speaks the displayed text on the device speaker
+  const handleSpeak = () => {
+    const text = displayText;
+    if (!text || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = SPEECH_LANG[language] ?? "en-US";
+    utterance.rate = 0.9;
+    utterance.onstart  = () => setSpeaking(true);
+    utterance.onend    = () => setSpeaking(false);
+    utterance.onerror  = () => setSpeaking(false);
+    speechRef.current = utterance;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const handleStopSpeech = () => {
+    window.speechSynthesis.cancel();
+    setSpeaking(false);
+  };
+
   const allConfirmed = confirmed.heard && confirmed.correct && confirmed.consent;
   const isRTL = language === "ar";
 
@@ -50,17 +81,15 @@ export function Screen5_DignityLoop() {
 
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">Confirm with Person</h1>
-        <p className="text-sm text-[#6b7f8c] mt-1">
-          Read or play the summary in the person's language, then confirm they've heard and agreed.
-        </p>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">{t(language, "confirmWithPerson")}</h1>
+        <p className="text-sm text-[#6b7f8c] mt-1">{t(language, "confirmWithPersonSubtitle")}</p>
       </div>
 
       {/* Language + refresh */}
       <div className="flex items-center gap-3">
         <div className="flex-1">
           <label htmlFor="beneficiary-language" className="block text-xs font-semibold text-[#6b7f8c] uppercase tracking-wide mb-1.5">
-            Beneficiary Language
+            {t(language, "beneficiaryLanguage")}
           </label>
           <select
             id="beneficiary-language"
@@ -84,8 +113,8 @@ export function Screen5_DignityLoop() {
                        hover:bg-[#f0f5f8] disabled:opacity-50 transition-colors flex items-center gap-2"
           >
             {loading
-              ? <><span className="w-3.5 h-3.5 border-2 border-[#93B1C2] border-t-transparent rounded-full animate-spin" />Generating…</>
-              : "↻ Refresh"
+              ? <><span className="w-3.5 h-3.5 border-2 border-[#93B1C2] border-t-transparent rounded-full animate-spin" />{t(language, "generating")}</>
+              : t(language, "refresh")
             }
           </button>
         </div>
@@ -96,7 +125,7 @@ export function Screen5_DignityLoop() {
         <div className="px-4 py-3 sm:px-5 sm:py-4 border-b border-[rgba(147,177,194,0.35)] flex items-center justify-between">
           <div>
             <p className="text-sm font-semibold text-[#1a2028]">Summary — {langLabels[language] ?? language}</p>
-            <p className="text-xs text-[#6b7f8c] mt-0.5">Read this aloud to the beneficiary</p>
+            <p className="text-xs text-[#6b7f8c] mt-0.5">{t(language, "readAloud")}</p>
           </div>
           {state.demo_loaded && !ttsResult && (
             <span className="text-xs bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-medium flex-shrink-0">
@@ -109,7 +138,7 @@ export function Screen5_DignityLoop() {
           {loading && !displayText && (
             <div className="flex items-center gap-2 text-sm text-blue-700 py-4">
               <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin flex-shrink-0" />
-              Generating summary in {langLabels[language] ?? language}…
+              {t(language, "generating")} {langLabels[language] ?? language}…
             </div>
           )}
 
@@ -124,41 +153,60 @@ export function Screen5_DignityLoop() {
             </div>
           )}
 
-          {/* Audio */}
+          {/* Audio — Piper .wav if available, Web Speech API otherwise */}
           <div className="mt-4">
             {ttsResult?.audio_url ? (
-              <audio src={ttsResult.audio_url} controls className="w-full h-10 rounded-xl" />
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-[#6b7f8c]">Play audio for beneficiary</p>
+                <audio src={ttsResult.audio_url} controls className="w-full h-10 rounded-xl" />
+              </div>
             ) : (
-              <div className="flex items-start gap-3 p-3.5 bg-amber-50 border border-amber-200 rounded-xl">
-                <span className="text-amber-500 flex-shrink-0">🔊</span>
-                <div>
-                  <p className="text-xs font-semibold text-amber-900 mb-0.5">Piper TTS — on-device only</p>
-                  <p className="text-xs text-amber-700 leading-relaxed">
-                    {ttsResult?.audio_note ||
-                      "Audio playback requires Piper TTS on the Pi 5. In the field, this plays spoken audio in the beneficiary's language through the device speaker."}
-                  </p>
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-[#6b7f8c]">Play summary aloud</p>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={speaking ? handleStopSpeech : handleSpeak}
+                    disabled={!displayText}
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors
+                      ${speaking
+                        ? "bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                        : "bg-blue-600 text-white hover:bg-blue-700 disabled:bg-[#D5DEE3] disabled:text-[#9bafba]"
+                      }`}
+                  >
+                    {speaking ? (
+                      <><span className="w-3.5 h-3.5 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />{t(language, "stopPlayback")}</>
+                    ) : (
+                      <><span>🔊</span>{t(language, "playInLanguage")}</>
+                    )}
+                  </button>
+                  {speaking && (
+                    <div className="flex items-center gap-1.5 px-3 py-2.5 bg-blue-50 rounded-xl border border-blue-200">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                      <span className="text-xs text-blue-700 font-medium">Speaking…</span>
+                    </div>
+                  )}
                 </div>
+                <p className="text-xs text-[#9bafba]">
+                  Uses your device's built-in voice. On the Pi in the field, Piper TTS provides a higher-quality voice.
+                </p>
               </div>
             )}
           </div>
-
-          {ttsResult?.tts_engine && (
-            <p className="mt-2 text-xs text-[#6b7f8c] font-mono">Engine: {ttsResult.tts_engine}</p>
-          )}
         </div>
       </div>
 
       {/* Confirmation checklist */}
       <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
         <div className="px-4 py-3 sm:px-5 sm:py-4 border-b border-[rgba(147,177,194,0.35)]">
-          <p className="text-sm font-semibold text-[#1a2028]">Your Confirmation</p>
-          <p className="text-xs text-[#6b7f8c] mt-0.5">Tick all three before you continue</p>
+          <p className="text-sm font-semibold text-[#1a2028]">{t(language, "yourConfirmation")}</p>
+          <p className="text-xs text-[#6b7f8c] mt-0.5">{t(language, "tickAll")}</p>
         </div>
         <div className="p-4 sm:p-6 space-y-3">
           {[
-            { key: "heard"   as const, label: "Person heard (or read) the summary" },
-            { key: "correct" as const, label: "Person confirmed the information is correct" },
-            { key: "consent" as const, label: "Person agrees to the record being saved" },
+            { key: "heard"   as const, label: t(language, "heard") },
+            { key: "correct" as const, label: t(language, "correct") },
+            { key: "consent" as const, label: t(language, "consent") },
           ].map(({ key, label }) => (
             <label
               key={key}
@@ -195,7 +243,7 @@ export function Screen5_DignityLoop() {
           {allConfirmed && (
             <div className="flex items-center gap-2.5 p-3.5 bg-green-50 border border-green-200 rounded-xl mt-2">
               <span className="text-lg">✅</span>
-              <p className="text-sm font-semibold text-green-800">Confirmed — ready to save the record</p>
+              <p className="text-sm font-semibold text-green-800">{t(language, "confirmedReady")}</p>
             </div>
           )}
         </div>
@@ -209,14 +257,14 @@ export function Screen5_DignityLoop() {
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 4 })}
           className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
         >
-          ← Back to Explainer
+          {t(language, "backToExplainer")}
         </button>
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 6 })}
           className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors shadow-sm"
         >
-          Save the Record →
+          {t(language, "saveRecord")}
         </button>
       </div>
     </div>

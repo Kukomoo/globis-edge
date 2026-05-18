@@ -99,14 +99,14 @@ export function Screen3_Synthesise_with_Override() {
           {d.latency_ms && (
             <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
               <div className="px-5 py-3 border-b border-[rgba(147,177,194,0.35)] flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#6b7f8c] uppercase tracking-wider">Processing Telemetry</span>
-                <span className="text-xs font-mono text-[#6b7f8c]">Raspberry Pi 5 · CPU only</span>
+                <span className="text-xs font-semibold text-[#6b7f8c] uppercase tracking-wider">Processing Time</span>
+                <span className="text-xs text-[#6b7f8c]">Raspberry Pi 5 · offline</span>
               </div>
               <div className="grid grid-cols-3 divide-x divide-[#e8e4dd]">
                 {[
-                  { role: "Gemma Scout",   model: "Gemma 4 E2B · 2B params",  ms: d.latency_ms.scout_ms,   color: "text-blue-700",   bg: "bg-[#eff6ff]" },
-                  { role: "Gemma Analyst", model: "Gemma 4 E4B · 4B params",  ms: d.latency_ms.analyst_ms, color: "text-indigo-700", bg: "bg-[#eef2ff]" },
-                  { role: "Total",         model: "Wall clock",                ms: d.latency_ms.total_ms,   color: "text-[#1a2028]",  bg: "bg-[#f7f9fa]" },
+                  { role: "Quick scan",    model: "Gemma 4 Scout (2B)",  ms: d.latency_ms.scout_ms,   color: "text-blue-700",   bg: "bg-[#eff6ff]" },
+                  { role: "Deep analysis", model: "Gemma 4 Analyst (4B)", ms: d.latency_ms.analyst_ms, color: "text-indigo-700", bg: "bg-[#eef2ff]" },
+                  { role: "Total time",    model: "Wall clock",           ms: d.latency_ms.total_ms,   color: "text-[#1a2028]",  bg: "bg-[#f7f9fa]" },
                 ].map(({ role, model, ms, color, bg }) => (
                   <div key={role} className={`px-3 py-3 sm:px-5 sm:py-4 ${bg}`}>
                     <p className="text-xs text-[#6b7f8c] font-semibold mb-1">{role}</p>
@@ -198,12 +198,12 @@ export function Screen3_Synthesise_with_Override() {
                 <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl border border-green-200">
                   <div className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-lg" aria-hidden="true">✅</div>
                   <div>
-                    <p className="font-semibold text-green-900 text-sm">Clean — eligible for export</p>
-                    <p className="text-xs text-green-700 mt-0.5">No prohibited fields detected. All data complies with humanitarian data protection principles.</p>
-                    <div className="mt-2.5 flex flex-wrap gap-1.5 text-xs font-mono">
-                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">rule check: CLEAN</span>
-                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">model check: CLEAN</span>
-                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">sensitive data logged: no</span>
+                    <p className="font-semibold text-green-900 text-sm">All clear — ready to save</p>
+                    <p className="text-xs text-green-700 mt-0.5">No sensitive or prohibited information was found. The record is safe to save.</p>
+                    <div className="mt-2.5 flex flex-wrap gap-1.5 text-xs">
+                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">Automatic check: passed</span>
+                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">AI review: passed</span>
+                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">No sensitive data recorded</span>
                     </div>
                   </div>
                 </div>
@@ -213,19 +213,21 @@ export function Screen3_Synthesise_with_Override() {
                 <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl border border-red-200">
                   <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 text-lg" aria-hidden="true">🔒</div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-red-900 text-sm">Block — sensitive field detected</p>
+                    <p className="font-semibold text-red-900 text-sm">Needs your review before saving</p>
                     <p className="text-xs text-red-700 mt-0.5 leading-relaxed">
-                      {d.triage_reason || "A prohibited field category was detected and quarantined."}
+                      {d.triage_reason || "A sensitive category was found and set aside. Review the details below before deciding."}
                     </p>
-                    <div className="mt-2.5 flex flex-wrap gap-1.5 text-xs font-mono">
-                      <span className="px-2 py-0.5 bg-red-100 text-red-800 rounded">rule check: BLOCKED</span>
-                      <span className="px-2 py-0.5 bg-[#f0f5f8] text-[#6b7f8c] rounded">model check: skipped</span>
-                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">sensitive data logged: no</span>
+                    <div className="mt-2.5 flex flex-wrap gap-1.5 text-xs">
+                      <span className="px-2 py-0.5 bg-red-100 text-red-800 rounded">Automatic check: held</span>
+                      <span className="px-2 py-0.5 bg-[#f0f5f8] text-[#6b7f8c] rounded">AI review: skipped (not needed)</span>
+                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">No sensitive data recorded</span>
                     </div>
                     {d.blocked_fields?.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {d.blocked_fields.map((f: string) => (
-                          <span key={f} className="px-2 py-0.5 bg-red-200 text-red-900 rounded text-xs font-mono">🔒 {f}</span>
+                          <span key={f} className="px-2 py-0.5 bg-red-200 text-red-900 rounded text-xs">
+                            🔒 {f.replace(/_/g, " ")}
+                          </span>
                         ))}
                       </div>
                     )}
@@ -285,7 +287,7 @@ export function Screen3_Synthesise_with_Override() {
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 2 })}
           className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
         >
-          ← Back to Ingest
+          ← Back to Documents
         </button>
         <button
           type="button"
