@@ -567,6 +567,8 @@ export function Screen2_Ingest() {
           </button>
         </div>
 
+      </div>
     </div>
+  </div>
   );
 }
