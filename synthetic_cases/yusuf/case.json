@@ -1,17 +1,22 @@
 {
   "watermark": "SYNTHETIC SCENARIO",
   "case_id": "YUSUF-001",
-  "persona": "Tobias blocked-field scenario",
+  "persona": "Yusuf intake scenario — protected field detection",
   "artifacts": [
     {
       "artifact_id": "yusuf-audio-001",
       "type": "voice_note_transcript",
-      "text": "The speaker mentioned a political_affiliation field. This should be blocked by the rule auditor before model processing."
+      "text": "My name is Yusuf Ahmed Hassan. I left my village in Chad because of the fighting and persecution. I refused military conscription. The police came to my family home twice. I escaped with help from a neighbor and have been traveling for three weeks."
+    },
+    {
+      "artifact_id": "yusuf-doc-001",
+      "type": "ocr_fragment",
+      "text": "REPUBLIC OF CHAD\nNATIONAL IDENTIFICATION CARD\nName: Yusuf Ahmed Hassan\nDate of Birth: 1992-03-15\nPlace of Birth: Goz Beida, Dar Sila Region\nNationality: Chadian\nSex: Male\nIssue Date: 2019-01-20\nExpiry Date: 2029-01-20"
     },
     {
       "artifact_id": "yusuf-note-001",
       "type": "caseworker_note",
-      "text": "Synthetic test for prohibited field handling. Do not log the value."
+      "text": "Applicant arrived alone with a single identity document. Testimony describes persecution and military service refusal. Appears coherent, describes travel route clearly. No immediate health concerns. Requires protection team review. Testimony references ethnicity-based targeting — Constitutional Auditor will flag for caseworker review before commit."
     }
   ]
 }
