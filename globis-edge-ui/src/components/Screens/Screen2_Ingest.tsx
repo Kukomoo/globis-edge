@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSession } from "../../store/SessionContext";
 import { uploadArtifact } from "../../services/api";
 
@@ -6,9 +6,10 @@ export function Screen2_Ingest() {
   const { state, dispatch } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"photo" | "audio" | "text">(
-    "photo"
-  );
+  const [activeTab, setActiveTab] = useState<"photo" | "audio" | "text">("photo");
+  const [textNotes, setTextNotes] = useState("");
+  const [textSaved, setTextSaved] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -35,6 +36,24 @@ export function Screen2_Ingest() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSaveNotes = () => {
+    if (!textNotes.trim()) return;
+    dispatch({
+      type: "ADD_ARTIFACT",
+      payload: {
+        modality: "text",
+        filename: "caseworker_notes.txt",
+        label: "Caseworker Notes",
+        text: textNotes.trim(),
+        icon: "📝",
+        preview: textNotes.trim().slice(0, 120) + (textNotes.length > 120 ? "…" : ""),
+        ingested_at: new Date().toISOString(),
+      },
+    });
+    setTextSaved(true);
+    setTextNotes("");
   };
 
   const canProceed = state.artifacts.length > 0;
@@ -155,10 +174,24 @@ export function Screen2_Ingest() {
                   Enter intake notes and observations
                 </p>
                 <textarea
-                  placeholder="Caseworker notes..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  ref={textAreaRef}
+                  value={textNotes}
+                  onChange={(e) => { setTextNotes(e.target.value); setTextSaved(false); }}
+                  placeholder="E.g. Arrived via informal group, mother alert and responsive, child appears healthy..."
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   rows={6}
                 />
+                {textSaved && (
+                  <p className="text-sm text-green-600 font-medium">✓ Notes saved as artifact</p>
+                )}
+                <button
+                  type="button"
+                  onClick={handleSaveNotes}
+                  disabled={!textNotes.trim()}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  Save Notes
+                </button>
               </div>
             )}
 
