@@ -8,4 +8,7 @@ export default defineConfig({
     tailwindcss(),
     react(),
   ],
+  // Serve from /app when deployed on Pi 5 hotspot.
+  // Assets resolve correctly whether accessed at /app or / (dev).
+  base: '/app/',
 })
