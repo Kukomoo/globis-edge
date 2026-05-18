@@ -52,7 +52,7 @@ export function Screen3_Synthesise_with_Override() {
   const isBlocked = d?.auditor_status === "blocked";
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
 
       {/* Page title */}
       <div>
@@ -110,7 +110,7 @@ export function Screen3_Synthesise_with_Override() {
                 ].map(({ label, sub, ms, color, bg }) => (
                   <div key={label} className={`px-5 py-4 ${bg}`}>
                     <p className="text-xs text-slate-500 font-medium mb-1">{label}</p>
-                    <p className={`text-2xl font-bold font-mono ${color}`}>
+                    <p className={`text-xl font-bold font-mono ${color}`}>
                       {(ms / 1000).toFixed(2)}s
                     </p>
                     <p className="text-xs text-slate-500 mt-0.5">{sub}</p>
@@ -122,11 +122,11 @@ export function Screen3_Synthesise_with_Override() {
 
           {/* Core fields */}
           <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-            <div className="px-5 py-3.5 border-b border-slate-100">
+            <div className="px-5 py-4 border-b border-slate-100">
               <p className="text-sm font-semibold text-slate-800">Core Information</p>
               <p className="text-xs text-slate-500 mt-0.5">Extracted and reconciled across all uploaded artifacts</p>
             </div>
-            <div className="p-5 grid grid-cols-2 gap-x-8 gap-y-5">
+            <div className="p-6 grid grid-cols-2 gap-x-8 gap-y-5">
               {[
                 { label: "Full Name",         value: d.full_name,         mod: d.full_name_modality,         src: d.full_name_source },
                 { label: "Date of Birth",     value: d.dob,               mod: d.dob_modality,               src: d.dob_source },
@@ -136,35 +136,50 @@ export function Screen3_Synthesise_with_Override() {
                 <div key={label}>
                   <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">{label}</p>
                   <div className="flex items-center gap-2">
-                    <p className="text-base font-semibold text-slate-900">{value || "—"}</p>
+                    <p className={label === "Full Name" ? "text-lg font-bold text-slate-900" : "text-base font-semibold text-slate-900"}>{value || "—"}</p>
                     {mod && <ProvenancePin modality={mod} source={src} />}
                   </div>
                 </div>
               ))}
             </div>
+          </div>
 
-            {/* Conflict row */}
-            {d.conflicts?.length > 0 && (
-              <div className="mx-5 mb-5 rounded-lg border border-amber-200 bg-amber-50 p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-amber-500 font-bold text-sm">⚠</span>
-                  <p className="text-sm font-semibold text-amber-900">Cross-Modal Conflicts Detected</p>
-                </div>
-                {d.conflicts.map((c: any, i: number) => (
-                  <div key={i} className="flex items-start gap-2 mt-1.5 text-sm text-amber-800">
-                    <span className="font-mono bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded text-xs flex-shrink-0">
+          {/* Cross-modal conflicts — standalone card */}
+          {d.conflicts?.length > 0 && (
+            <div className="rounded-xl border border-amber-200 bg-amber-50 overflow-hidden p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-amber-500 font-bold text-sm">⚠</span>
+                <p className="text-sm font-semibold text-amber-900">Cross-Modal Conflicts Detected</p>
+              </div>
+              {d.conflicts.map((c: any, i: number) => {
+                const summary = c.description || c.message
+                  || (c.observed_values?.length
+                      ? `${c.observed_values.join(" vs ")}${c.recommended_action ? " — " + c.recommended_action.replace(/_/g, " ") : ""}`
+                      : typeof c === "string" ? c : JSON.stringify(c));
+                return (
+                  <div key={i} className="flex items-start gap-2 mt-1.5">
+                    <span className="font-mono bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded text-xs flex-shrink-0 mt-0.5">
                       {c.field || "field"}
                     </span>
-                    <span className="text-xs">{c.description || c.message || String(c)}</span>
+                    <div className="text-xs text-amber-800">
+                      <span>{summary}</span>
+                      {c.evidence?.length > 0 && (
+                        <ul className="mt-1 space-y-0.5 text-amber-700 list-disc list-inside">
+                          {c.evidence.map((e: string, j: number) => (
+                            <li key={j} className="font-mono text-[10px]">{e}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
+                );
+              })}
+            </div>
+          )}
 
           {/* Constitutional Auditor */}
           <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-            <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
+            <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
               <div>
                 <p className="text-sm font-semibold text-slate-800">Constitutional Auditor</p>
                 <p className="text-xs text-slate-500 mt-0.5">Dual-pass safety check · Rule Pass + Prompt Pass</p>
@@ -178,7 +193,7 @@ export function Screen3_Synthesise_with_Override() {
               </button>
             </div>
 
-            <div className="p-5">
+            <div className="p-6">
               {isClean && (
                 <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl border border-green-200">
                   <div className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-lg" aria-hidden="true">✅</div>

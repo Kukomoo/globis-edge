@@ -142,5 +142,6 @@ export function Topbar_Enhanced() {
         language={(["en", "ar", "fr"].includes(glossaryLanguage) ? glossaryLanguage : "en") as "en" | "ar" | "fr"}
       />
     </>
+  </div>
   );
 }

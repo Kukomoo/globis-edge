@@ -33,7 +33,7 @@ export function Screen6_Commit() {
   if (submitted) {
     const isQ = decision === "quarantine";
     return (
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className={`rounded-2xl border p-10 text-center ${isQ ? "border-amber-200 bg-amber-50" : "border-green-200 bg-green-50"}`}>
           <div className="text-5xl mb-4" aria-hidden="true">{isQ ? "🗄️" : "✅"}</div>
           <h1 className={`text-2xl font-bold mb-2 ${isQ ? "text-amber-900" : "text-green-900"}`}>
@@ -76,7 +76,7 @@ export function Screen6_Commit() {
 
   // ── Main commit UI ────────────────────────────────────────────────
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
 
       {/* Header */}
       <div>
@@ -88,7 +88,7 @@ export function Screen6_Commit() {
 
       {/* Case summary */}
       {d && (
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
+        <div className="rounded-xl border border-slate-200 bg-white p-6">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Record Summary</p>
           <div className="grid grid-cols-3 gap-5">
             <div>
@@ -126,11 +126,11 @@ export function Screen6_Commit() {
 
       {/* Decision cards */}
       <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-        <div className="px-5 py-3.5 border-b border-slate-100">
+        <div className="px-5 py-4 border-b border-slate-100">
           <p className="text-sm font-semibold text-slate-800">Caseworker Decision</p>
           <p className="text-xs text-slate-500 mt-0.5">Select one to continue</p>
         </div>
-        <div className="p-5 space-y-3">
+        <div className="p-6 space-y-3">
 
           <div role="radiogroup" aria-label="Caseworker decision">
           {/* Commit */}
@@ -231,7 +231,8 @@ export function Screen6_Commit() {
       </div>
 
       {/* Navigation */}
-      <div className="flex gap-3 pt-2">
+      <div className="border-t border-slate-100 mt-2" />
+      <div className="flex gap-3 pt-6">
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 5 })}

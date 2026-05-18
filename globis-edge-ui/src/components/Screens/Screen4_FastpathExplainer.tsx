@@ -24,7 +24,7 @@ export function Screen4_FastpathExplainer() {
   const blocked = traces.filter((r) => r.verdict === "BLOCK").length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
 
       {/* Header */}
       <div>
@@ -106,10 +106,10 @@ export function Screen4_FastpathExplainer() {
 
       {/* Audit summary */}
       <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-        <div className="px-5 py-3.5 border-b border-slate-100">
+        <div className="px-5 py-4 border-b border-slate-100">
           <p className="text-sm font-semibold text-slate-800">Overall Audit Summary</p>
         </div>
-        <div className="p-5">
+        <div className="p-6">
           {blocked === 0 ? (
             <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl border border-green-200">
               <div className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-lg">✅</div>
@@ -159,7 +159,8 @@ export function Screen4_FastpathExplainer() {
       </div>
 
       {/* Navigation */}
-      <div className="flex gap-3 pt-2">
+      <div className="border-t border-slate-100 mt-2" />
+      <div className="flex gap-3 pt-6">
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 3 })}

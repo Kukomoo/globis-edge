@@ -46,7 +46,7 @@ export function Screen5_DignityLoop() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
 
       {/* Header */}
       <div>
@@ -93,7 +93,7 @@ export function Screen5_DignityLoop() {
 
       {/* Summary text card */}
       <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-        <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
+        <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
           <div>
             <p className="text-sm font-semibold text-slate-800">Summary — {langLabels[language] ?? language}</p>
             <p className="text-xs text-slate-500 mt-0.5">Read this aloud to the beneficiary</p>
@@ -105,7 +105,7 @@ export function Screen5_DignityLoop() {
           )}
         </div>
 
-        <div className="p-5">
+        <div className="p-6">
           {loading && !displayText && (
             <div className="flex items-center gap-2 text-sm text-blue-700 py-4">
               <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin flex-shrink-0" />
@@ -150,11 +150,11 @@ export function Screen5_DignityLoop() {
 
       {/* Confirmation checklist */}
       <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-        <div className="px-5 py-3.5 border-b border-slate-100">
+        <div className="px-5 py-4 border-b border-slate-100">
           <p className="text-sm font-semibold text-slate-800">Caseworker Confirmation</p>
           <p className="text-xs text-slate-500 mt-0.5">Tick all three before proceeding</p>
         </div>
-        <div className="p-5 space-y-3">
+        <div className="p-6 space-y-3">
           {[
             { key: "heard"   as const, label: "Beneficiary heard (or read) the summary" },
             { key: "correct" as const, label: "Beneficiary confirmed the information is correct" },
@@ -202,7 +202,8 @@ export function Screen5_DignityLoop() {
       </div>
 
       {/* Navigation */}
-      <div className="flex gap-3 pt-2">
+      <div className="border-t border-slate-100 mt-2" />
+      <div className="flex gap-3 pt-6">
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 4 })}
