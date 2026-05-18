@@ -28,31 +28,31 @@ export function Screen4_FastpathExplainer() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Audit Reasoning</h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Field-by-field explainability — why each claim was approved or blocked
+        <h1 className="text-2xl font-bold text-[#1a2028]">Why Each Field Was Checked</h1>
+        <p className="text-sm text-[#6b7f8c] mt-1">
+          A plain explanation of each piece of information — what the system found and why
         </p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Total Checks</p>
-          <p className="text-3xl font-bold font-mono text-slate-800">{traces.length}</p>
-          <p className="text-xs text-slate-500 mt-0.5">Fields audited by E4B</p>
+        <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white p-4">
+          <p className="text-xs font-semibold text-[#6b7f8c] uppercase tracking-wide mb-1">Total Checks</p>
+          <p className="text-3xl font-bold font-mono text-[#1a2028]">{traces.length}</p>
+          <p className="text-xs text-[#9bafba] mt-0.5">Fields checked by Gemma Analyst</p>
         </div>
         <div className="rounded-xl border border-green-200 bg-green-50 p-4">
           <p className="text-xs font-semibold text-green-600 uppercase tracking-wide mb-1">Passed</p>
           <p className="text-3xl font-bold font-mono text-green-700">{passed}</p>
-          <p className="text-xs text-green-600 mt-0.5">Approved for export</p>
+          <p className="text-xs text-green-600 mt-0.5">Ready to save</p>
         </div>
-        <div className={`rounded-xl border p-4 ${blocked > 0 ? "border-red-200 bg-red-50" : "border-slate-200 bg-slate-50"}`}>
-          <p className={`text-xs font-semibold uppercase tracking-wide mb-1 ${blocked > 0 ? "text-red-600" : "text-slate-500"}`}>
-            Blocked
+        <div className={`rounded-xl border p-4 ${blocked > 0 ? "border-red-200 bg-red-50" : "border-[rgba(147,177,194,0.35)] bg-[#f7f9fa]"}`}>
+          <p className={`text-xs font-semibold uppercase tracking-wide mb-1 ${blocked > 0 ? "text-red-600" : "text-[#6b7f8c]"}`}>
+            Needs Review
           </p>
-          <p className={`text-3xl font-bold font-mono ${blocked > 0 ? "text-red-700" : "text-slate-300"}`}>{blocked}</p>
-          <p className={`text-xs mt-0.5 ${blocked > 0 ? "text-red-600" : "text-slate-500"}`}>
-            {blocked === 0 ? "None detected" : "Requires review"}
+          <p className={`text-3xl font-bold font-mono ${blocked > 0 ? "text-red-700" : "text-[#d9d4ca]"}`}>{blocked}</p>
+          <p className={`text-xs mt-0.5 ${blocked > 0 ? "text-red-600" : "text-[#6b7f8c]"}`}>
+            {blocked === 0 ? "Nothing flagged" : "Caseworker must check"}
           </p>
         </div>
       </div>
@@ -61,10 +61,9 @@ export function Screen4_FastpathExplainer() {
       <div className="rounded-xl border border-blue-100 bg-blue-50 p-4 flex gap-3">
         <span className="text-blue-400 text-base flex-shrink-0 mt-0.5">ℹ</span>
         <p className="text-xs text-blue-900 leading-relaxed">
-          <strong>How to read this:</strong> Each card shows one field extracted from your artifacts.
-          The provenance icon shows which artifact the claim came from. Click{" "}
-          <em>View Evidence</em> to expand the model's reasoning. Blocked fields are never
-          recorded or exported — the value is discarded immediately.
+          <strong>How to use this page:</strong> Each card shows one piece of information found in the documents or testimony.
+          Tap <em>View Evidence</em> to see exactly where it came from. If something is flagged as needing review,
+          the sensitive value is never stored — only the caseworker's decision is recorded.
         </p>
       </div>
 
@@ -72,7 +71,7 @@ export function Screen4_FastpathExplainer() {
       {traces.length > 0 ? (
         <div>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-semibold text-slate-700">Field-by-Field Breakdown</p>
+            <p className="text-sm font-semibold text-[#1a2028]">Each piece of information, explained</p>
             <button
               type="button"
               onClick={() => setExpandAll(!expandAll)}
@@ -99,24 +98,24 @@ export function Screen4_FastpathExplainer() {
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-12 text-center">
-          <p className="text-slate-500 text-sm">No reasoning traces available. Complete synthesis first.</p>
+        <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-[#f7f9fa] p-12 text-center">
+          <p className="text-[#6b7f8c] text-sm">No information yet. Complete the case summary first.</p>
         </div>
       )}
 
       {/* Audit summary */}
-      <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-        <div className="px-5 py-4 border-b border-slate-100">
-          <p className="text-sm font-semibold text-slate-800">Overall Audit Summary</p>
+      <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
+        <div className="px-5 py-4 border-b border-[rgba(147,177,194,0.35)]">
+          <p className="text-sm font-semibold text-[#1a2028]">Review complete</p>
         </div>
         <div className="p-6">
           {blocked === 0 ? (
             <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl border border-green-200">
               <div className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-lg">✅</div>
               <div>
-                <p className="font-semibold text-green-900 text-sm">All {passed} fields passed Constitutional Audit</p>
+                <p className="font-semibold text-green-900 text-sm">All {passed} items passed — record is ready to save</p>
                 <p className="text-xs text-green-700 mt-1 leading-relaxed">
-                  No protected fields were detected. This record is ready for export.
+                  No sensitive or protected information was detected. You can proceed to the next step.
                 </p>
               </div>
             </div>
@@ -125,32 +124,32 @@ export function Screen4_FastpathExplainer() {
               <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 text-lg">⚠️</div>
               <div>
                 <p className="font-semibold text-amber-900 text-sm">
-                  {blocked} field{blocked > 1 ? "s" : ""} blocked — caseworker action required
+                  {blocked} item{blocked > 1 ? "s" : ""} flagged — your review is needed
                 </p>
                 <ul className="text-xs text-amber-800 mt-2 space-y-0.5">
-                  <li>· Read the reasoning above to understand why</li>
-                  <li>· Proceed to commit with awareness (with your signature)</li>
-                  <li>· Quarantine the record for senior caseworker review</li>
+                  <li>· Read the explanations above to understand what was flagged</li>
+                  <li>· You can proceed with your approval (your name will be recorded)</li>
+                  <li>· Or hold the record for a senior colleague to review</li>
                 </ul>
               </div>
             </div>
           )}
 
           {/* Legend */}
-          <div className="mt-5 pt-4 border-t border-slate-100 grid grid-cols-2 gap-3">
+          <div className="mt-5 pt-4 border-t border-[rgba(147,177,194,0.35)] grid grid-cols-2 gap-3">
             {[
-              { icon: "◐", tip: "Image provenance", desc: "Fact from ID / passport photo" },
-              { icon: "♪", tip: "Audio provenance",  desc: "Fact from transcribed testimony" },
-              { icon: "¶", tip: "Text provenance",   desc: "Fact from caseworker notes" },
-              { icon: "🔒", tip: "Blocked field",    desc: "Value quarantined — never logged" },
+              { icon: "◐", tip: "From a document", desc: "Came from an ID or passport photo" },
+              { icon: "♪", tip: "From audio",       desc: "Came from recorded testimony" },
+              { icon: "¶", tip: "From notes",        desc: "Came from caseworker observations" },
+              { icon: "🔒", tip: "Flagged",          desc: "Sensitive — value never stored" },
             ].map(({ icon, tip, desc }) => (
               <div key={tip} className="flex items-start gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-sm flex-shrink-0 font-mono">
+                <span className="w-7 h-7 rounded-lg bg-[#f0f5f8] flex items-center justify-center text-sm flex-shrink-0 font-mono">
                   {icon}
                 </span>
                 <div>
-                  <p className="text-xs font-semibold text-slate-700">{tip}</p>
-                  <p className="text-xs text-slate-500">{desc}</p>
+                  <p className="text-xs font-semibold text-[#3d4d58]">{tip}</p>
+                  <p className="text-xs text-[#6b7f8c]">{desc}</p>
                 </div>
               </div>
             ))}
@@ -159,32 +158,32 @@ export function Screen4_FastpathExplainer() {
       </div>
 
       {/* Navigation */}
-      <div className="border-t border-slate-100 mt-2" />
+      <div className="border-t border-[rgba(147,177,194,0.35)] mt-2" />
       <div className="flex gap-3 pt-6">
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 3 })}
-          className="flex-1 px-4 py-3 border border-slate-200 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 transition-colors"
+          className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
         >
-          ← Back to Dossier
+          ← Back to Summary
         </button>
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 5 })}
           disabled={!state.dossier}
-          className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 transition-colors shadow-sm"
+          className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 disabled:bg-[#D5DEE3] disabled:text-[#9bafba] transition-colors shadow-sm"
         >
-          Dignity Loop →
+          Confirm with Person →
         </button>
       </div>
 
       {/* Legal note */}
-      <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
-        <strong className="text-slate-600">Legal note:</strong>{" "}
-        The <GlossaryTooltip termId="constitutional_auditor">Constitutional Auditor</GlossaryTooltip>{" "}
-        implements data protection principles from the 1951 Refugee Convention (
+      <div className="rounded-xl bg-[#f7f9fa] border border-[rgba(147,177,194,0.35)] p-4 text-xs text-[#6b7f8c] leading-relaxed">
+        <strong className="text-[#3d4d58]">Legal note:</strong>{" "}
+        The <GlossaryTooltip termId="constitutional_auditor">Safety Check</GlossaryTooltip>{" "}
+        applies data protection principles from the 1951 Refugee Convention (
         <GlossaryTooltip termId="article_31">Article 31</GlossaryTooltip>) and UNHCR guidance.
-        Blocked fields are never exported or retained beyond this session.
+        Flagged values are never stored or sent beyond this session.
       </div>
     </div>
   );

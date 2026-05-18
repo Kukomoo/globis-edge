@@ -7,15 +7,15 @@ export function ConflictChip({ conflict }: { conflict: any }) {
   };
 
   return (
-    <div className="flex items-center gap-3 p-3 bg-white border border-yellow-300 rounded-lg">
+    <div className="flex items-center gap-3 p-3 bg-white border border-amber-200 rounded-xl">
       <span className="text-lg">{getIcon(conflict.field)}</span>
       <div className="flex-1">
-        <p className="font-medium text-sm text-gray-900">{conflict.field}</p>
-        <p className="text-xs text-gray-600">
+        <p className="font-medium text-sm text-[#1a2028]">{conflict.field}</p>
+        <p className="text-xs text-[#6b7f8c]">
           {conflict.value_a} vs {conflict.value_b}
         </p>
       </div>
-      <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+      <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-lg font-medium">
         Cross-modal mismatch
       </span>
     </div>

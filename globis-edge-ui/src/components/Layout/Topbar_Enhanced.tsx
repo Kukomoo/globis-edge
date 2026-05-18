@@ -46,28 +46,30 @@ export function Topbar_Enhanced() {
     }
   };
 
-  const screenLabels = ["New Intake", "Ingest", "Synthesise", "Explainer", "Dignity Loop", "Commit"];
+  const screenLabels = ["New Intake", "Documents", "Case Summary", "Explanation", "Confirm", "Save Record"];
   const currentLabel = screenLabels[(state.current_screen ?? 1) - 1] ?? "New Intake";
 
   return (
     <>
-      <header className="h-14 flex items-center px-5 gap-4 flex-shrink-0" style={{ background: "var(--card-bg)", borderBottom: "1px solid var(--card-border)" }}>
-
-        {/* Left: current screen breadcrumb */}
+      <header
+        className="h-14 flex items-center px-5 gap-4 flex-shrink-0"
+        style={{ background: "#ffffff", borderBottom: "1px solid rgba(147,177,194,0.30)" }}
+      >
+        {/* Left: breadcrumb */}
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-xs font-mono text-[#9c9389] flex-shrink-0">
+          <span className="text-xs font-mono flex-shrink-0" style={{ color: "#9bafba" }}>
             {String(state.current_screen ?? 1).padStart(2, "0")}/06
           </span>
-          <span className="text-slate-200 flex-shrink-0">·</span>
-          <span className="text-sm font-semibold text-[#1a1714] truncate">{currentLabel}</span>
+          <span className="flex-shrink-0" style={{ color: "#C4CDD3" }}>·</span>
+          <span className="text-sm font-semibold truncate" style={{ color: "#1a2028" }}>{currentLabel}</span>
         </div>
 
         {/* Divider */}
-        <div className="h-5 w-px bg-slate-200 flex-shrink-0" />
+        <div className="h-5 w-px flex-shrink-0" style={{ background: "rgba(147,177,194,0.35)" }} />
 
         {/* Demo scenario buttons */}
         <div className="flex items-center gap-1.5 flex-shrink-0">
-          <span className="text-xs text-[#6b6357] font-medium mr-0.5">Demo</span>
+          <span className="text-xs font-medium mr-0.5" style={{ color: "#6b7f8c" }}>Demo</span>
           {(["A", "B"] as const).map((s) => (
             <button
               key={s}
@@ -77,28 +79,44 @@ export function Topbar_Enhanced() {
               title={s === "A"
                 ? "Scenario A — Hawa Adam: cross-modal conflict"
                 : "Scenario B — Yusuf Hassan: auditor block"}
-              className={`
-                px-2.5 py-1 rounded-md text-xs font-bold transition-all disabled:opacity-50
-                ${state.demo_loaded && activeScenario === s
-                  ? "bg-green-500 text-white"
-                  : "bg-slate-800 hover:bg-slate-700 text-white"
+              className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all disabled:opacity-50"
+              style={
+                state.demo_loaded && activeScenario === s
+                  ? { background: "#93B1C2", color: "#ffffff" }
+                  : { background: "#424242", color: "#ffffff" }
+              }
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLButtonElement;
+                if (!(state.demo_loaded && activeScenario === s)) {
+                  el.style.background = "#555555";
                 }
-              `}
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLButtonElement;
+                if (!(state.demo_loaded && activeScenario === s)) {
+                  el.style.background = "#424242";
+                } else {
+                  el.style.background = "#93B1C2";
+                }
+              }}
             >
               {demoLoading && activeScenario === s ? "…" : `⚡ ${s}`}
             </button>
           ))}
           {state.demo_loaded && (
-            <span className="text-xs text-green-600 font-medium ml-0.5">✓</span>
+            <span className="text-xs font-medium ml-0.5" style={{ color: "#93B1C2" }}>✓</span>
           )}
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-2.5 ml-auto">
+        <div className="flex items-center gap-2 ml-auto">
 
-          {/* Status pill */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f5f3ef] text-xs text-[#6b6357] font-medium flex-shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
+          {/* Offline pill */}
+          <div
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium flex-shrink-0"
+            style={{ background: "rgba(147,177,194,0.15)", color: "#6b7f8c", border: "1px solid rgba(147,177,194,0.30)" }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#93B1C2" }} />
             Offline · Demo
           </div>
 
@@ -107,9 +125,13 @@ export function Topbar_Enhanced() {
             aria-label="UI language"
             value={glossaryLanguage}
             onChange={(e) => dispatch({ type: "SET_LANGUAGE", payload: e.target.value })}
-            className="px-2 py-1.5 text-xs border border-[#e8e4dd] rounded-lg bg-white text-[#3d3830]
-                       hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500
-                       cursor-pointer flex-shrink-0"
+            className="px-2.5 py-1.5 text-xs rounded-lg cursor-pointer flex-shrink-0 focus:outline-none"
+            style={{
+              background: "#ffffff",
+              border: "1px solid rgba(147,177,194,0.40)",
+              color: "#3d4d58",
+              fontFamily: "var(--font-sans)",
+            }}
           >
             <option value="en">EN · English</option>
             <option value="ar">AR · العربية</option>
@@ -122,9 +144,18 @@ export function Topbar_Enhanced() {
             type="button"
             aria-label="Open glossary"
             onClick={() => setShowGlossary(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[#3d3830]
-                       border border-[#e8e4dd] rounded-lg hover:bg-slate-50 hover:border-slate-300
-                       transition-colors flex-shrink-0"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg transition-colors flex-shrink-0"
+            style={{
+              background: "#ffffff",
+              border: "1px solid rgba(147,177,194,0.40)",
+              color: "#3d4d58",
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = "rgba(147,177,194,0.12)";
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = "#ffffff";
+            }}
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" className="flex-shrink-0">
               <rect x="1" y="1" width="10" height="1.5" rx="0.5" fill="currentColor"/>

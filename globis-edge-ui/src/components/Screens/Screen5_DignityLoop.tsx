@@ -50,23 +50,23 @@ export function Screen5_DignityLoop() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#1a1714]">Dignity Loop</h1>
-        <p className="text-sm text-[#6b6357] mt-1">
-          Read or play the summary to the beneficiary in their language, then confirm understanding.
+        <h1 className="text-2xl font-bold text-[#1a2028]">Confirm with Person</h1>
+        <p className="text-sm text-[#6b7f8c] mt-1">
+          Read or play the summary in the person's language, then confirm they've heard and agreed.
         </p>
       </div>
 
       {/* Language + refresh */}
       <div className="flex items-center gap-3">
         <div className="flex-1">
-          <label htmlFor="beneficiary-language" className="block text-xs font-semibold text-[#6b6357] uppercase tracking-wide mb-1.5">
+          <label htmlFor="beneficiary-language" className="block text-xs font-semibold text-[#6b7f8c] uppercase tracking-wide mb-1.5">
             Beneficiary Language
           </label>
           <select
             id="beneficiary-language"
             value={language}
             onChange={(e) => dispatch({ type: "SET_LANGUAGE", payload: e.target.value })}
-            className="w-full px-3 py-2.5 border border-[#e8e4dd] rounded-xl text-sm text-[#3d3830]
+            className="w-full px-3 py-2.5 border border-[rgba(147,177,194,0.35)] rounded-xl text-sm text-[#3d4d58]
                        bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="en">🇬🇧 English</option>
@@ -80,11 +80,11 @@ export function Screen5_DignityLoop() {
             type="button"
             onClick={handleGenerateTTS}
             disabled={loading}
-            className="px-4 py-2.5 border border-[#e8e4dd] text-[#3d3830] text-sm font-medium rounded-xl
-                       hover:bg-[#f5f3ef] disabled:opacity-50 transition-colors flex items-center gap-2"
+            className="px-4 py-2.5 border border-[rgba(147,177,194,0.35)] text-[#3d4d58] text-sm font-medium rounded-xl
+                       hover:bg-[#f0f5f8] disabled:opacity-50 transition-colors flex items-center gap-2"
           >
             {loading
-              ? <><span className="w-3.5 h-3.5 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" />Generating…</>
+              ? <><span className="w-3.5 h-3.5 border-2 border-[#93B1C2] border-t-transparent rounded-full animate-spin" />Generating…</>
               : "↻ Refresh"
             }
           </button>
@@ -92,11 +92,11 @@ export function Screen5_DignityLoop() {
       </div>
 
       {/* Summary text card */}
-      <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#e8e4dd] flex items-center justify-between">
+      <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
+        <div className="px-5 py-4 border-b border-[rgba(147,177,194,0.35)] flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-[#1a1714]">Summary — {langLabels[language] ?? language}</p>
-            <p className="text-xs text-[#6b6357] mt-0.5">Read this aloud to the beneficiary</p>
+            <p className="text-sm font-semibold text-[#1a2028]">Summary — {langLabels[language] ?? language}</p>
+            <p className="text-xs text-[#6b7f8c] mt-0.5">Read this aloud to the beneficiary</p>
           </div>
           {state.demo_loaded && !ttsResult && (
             <span className="text-xs bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-medium flex-shrink-0">
@@ -115,7 +115,7 @@ export function Screen5_DignityLoop() {
 
           {displayText && (
             <div className={`
-              p-5 bg-[#faf9f7] rounded-xl border border-[#e8e4dd] text-base leading-relaxed text-[#1a1714]
+              p-5 bg-[#f7f9fa] rounded-xl border border-[rgba(147,177,194,0.35)] text-base leading-relaxed text-[#1a2028]
               ${isRTL ? "text-right" : "text-left"}
             `}
               dir={isRTL ? "rtl" : "ltr"}
@@ -143,22 +143,22 @@ export function Screen5_DignityLoop() {
           </div>
 
           {ttsResult?.tts_engine && (
-            <p className="mt-2 text-xs text-[#6b6357] font-mono">Engine: {ttsResult.tts_engine}</p>
+            <p className="mt-2 text-xs text-[#6b7f8c] font-mono">Engine: {ttsResult.tts_engine}</p>
           )}
         </div>
       </div>
 
       {/* Confirmation checklist */}
-      <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#e8e4dd]">
-          <p className="text-sm font-semibold text-[#1a1714]">Caseworker Confirmation</p>
-          <p className="text-xs text-[#6b6357] mt-0.5">Tick all three before proceeding</p>
+      <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
+        <div className="px-5 py-4 border-b border-[rgba(147,177,194,0.35)]">
+          <p className="text-sm font-semibold text-[#1a2028]">Your Confirmation</p>
+          <p className="text-xs text-[#6b7f8c] mt-0.5">Tick all three before you continue</p>
         </div>
         <div className="p-6 space-y-3">
           {[
-            { key: "heard"   as const, label: "Beneficiary heard (or read) the summary" },
-            { key: "correct" as const, label: "Beneficiary confirmed the information is correct" },
-            { key: "consent" as const, label: "Beneficiary consents to the record being saved" },
+            { key: "heard"   as const, label: "Person heard (or read) the summary" },
+            { key: "correct" as const, label: "Person confirmed the information is correct" },
+            { key: "consent" as const, label: "Person agrees to the record being saved" },
           ].map(({ key, label }) => (
             <label
               key={key}
@@ -166,13 +166,13 @@ export function Screen5_DignityLoop() {
                 flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-colors
                 ${confirmed[key]
                   ? "bg-green-50 border-green-200"
-                  : "bg-white border-[#e8e4dd] hover:bg-[#faf9f7]"
+                  : "bg-white border-[rgba(147,177,194,0.35)] hover:bg-[#f7f9fa]"
                 }
               `}
             >
               <div className={`
                 w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors
-                ${confirmed[key] ? "bg-green-500 border-green-500" : "border-slate-300"}
+                ${confirmed[key] ? "bg-green-500 border-green-500" : "border-[rgba(147,177,194,0.5)]"}
               `}>
                 {confirmed[key] && (
                   <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
@@ -186,7 +186,7 @@ export function Screen5_DignityLoop() {
                 onChange={(e) => setConfirmed({ ...confirmed, [key]: e.target.checked })}
                 className="sr-only"
               />
-              <span className={`text-sm ${confirmed[key] ? "text-green-900 font-medium" : "text-[#1a1714]"}`}>
+              <span className={`text-sm ${confirmed[key] ? "text-green-900 font-medium" : "text-[#1a2028]"}`}>
                 {label}
               </span>
             </label>
@@ -195,19 +195,19 @@ export function Screen5_DignityLoop() {
           {allConfirmed && (
             <div className="flex items-center gap-2.5 p-3.5 bg-green-50 border border-green-200 rounded-xl mt-2">
               <span className="text-lg">✅</span>
-              <p className="text-sm font-semibold text-green-800">Dignity Loop complete — ready to commit</p>
+              <p className="text-sm font-semibold text-green-800">Confirmed — ready to save the record</p>
             </div>
           )}
         </div>
       </div>
 
       {/* Navigation */}
-      <div className="border-t border-[#e8e4dd] mt-2" />
+      <div className="border-t border-[rgba(147,177,194,0.35)] mt-2" />
       <div className="flex gap-3 pt-6">
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 4 })}
-          className="flex-1 px-4 py-3 border border-[#e8e4dd] rounded-xl font-medium text-sm text-[#3d3830] hover:bg-[#f5f3ef] transition-colors"
+          className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
         >
           ← Back to Explainer
         </button>
@@ -216,7 +216,7 @@ export function Screen5_DignityLoop() {
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 6 })}
           className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 transition-colors shadow-sm"
         >
-          Continue to Commit →
+          Save the Record →
         </button>
       </div>
     </div>

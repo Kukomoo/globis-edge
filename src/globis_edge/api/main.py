@@ -15,15 +15,77 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import List, Optional
 
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
+from pydantic import BaseModel, Field, field_validator
 
-app = FastAPI(title="Globis Edge 2.0 — Demo")
+# ---------------------------------------------------------------------------
+# Structured logging
+# ---------------------------------------------------------------------------
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+)
+logger = logging.getLogger("globis_edge")
+
+app = FastAPI(
+    title="Globis Edge 2.0 — Demo",
+    description="Humanitarian edge intake demo API (synthetic data only)",
+    version="2.0.0",
+)
+
+
+@app.middleware("http")
+async def add_request_id(request: Request, call_next):
+    """Attach a unique X-Request-ID to every response for traceability."""
+    request_id = str(uuid.uuid4())[:8]
+    response = await call_next(request)
+    response.headers["X-Request-ID"] = request_id
+    return response
+
+
+# ---------------------------------------------------------------------------
+# Pydantic request models
+# ---------------------------------------------------------------------------
+
+class NewSessionRequest(BaseModel):
+    site: str = Field(..., min_length=1, max_length=200, description="Reception site name")
+    caseworker_languages: List[str] = Field(default=["en"], min_length=1)
+    beneficiary_languages: List[str] = Field(..., min_length=1)
+
+    @field_validator("caseworker_languages", "beneficiary_languages")
+    @classmethod
+    def non_empty_strings(cls, v: List[str]) -> List[str]:
+        if not all(isinstance(c, str) and c.strip() for c in v):
+            raise ValueError("Language codes must be non-empty strings")
+        return v
+
+
+class SynthesiseRequest(BaseModel):
+    session_id: str = Field(..., min_length=1)
+
+
+class ExplainerRequest(BaseModel):
+    session_id: str = Field(..., min_length=1)
+    language: str = Field(default="en", max_length=10)
+
+
+class TTSRequest(BaseModel):
+    session_id: str = Field(..., min_length=1)
+    language: str = Field(default="en", max_length=10)
+
+
+class CommitRequest(BaseModel):
+    session_id: str = Field(..., min_length=1)
+    decision: str = Field(default="quarantine", pattern="^(commit|quarantine)$")
+    caseworker_notes: str = Field(default="", max_length=2000)
 
 # Allow the Vite dev server (localhost:5173) to call this API
 app.add_middleware(
@@ -33,6 +95,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+async def on_startup():
+    # _SCOUT_MS / _ANALYST_MS defined below after constants section
+    logger.info("Globis Edge 2.0 demo API starting — scout=820ms analyst=4200ms (Pi 5 CPU)")
 
 # ---------------------------------------------------------------------------
 # Paths & constants
@@ -198,17 +266,22 @@ def quarantine_count() -> dict:
 # ===========================================================================
 
 @app.post("/new-session")
-def new_session(body: dict) -> dict:
+def new_session(body: NewSessionRequest) -> dict:
     """Create a new intake session. Returns session ID used by all downstream calls."""
     session_id = str(uuid.uuid4())
     _SESSIONS[session_id] = {
         "id": session_id,
-        "site": body.get("site", ""),
-        "caseworker_languages": body.get("caseworker_languages", ["en"]),
-        "beneficiary_languages": body.get("beneficiary_languages", ["en"]),
+        "site": body.site,
+        "caseworker_languages": body.caseworker_languages,
+        "beneficiary_languages": body.beneficiary_languages,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     _ARTIFACTS[session_id] = []
+    logger.info(
+        f"new_session site={body.site!r} "
+        f"ben_langs={body.beneficiary_languages} "
+        f"session_id={session_id}"
+    )
     return {"id": session_id, **_SESSIONS[session_id]}
 
 
@@ -380,7 +453,7 @@ def _synthesise_yusuf(session_id: str) -> dict:
 
 
 @app.post("/synthesise", response_model=None)
-def synthesise(body: dict) -> dict | JSONResponse:
+def synthesise(body: SynthesiseRequest) -> dict | JSONResponse:
     """
     Run dual-pass Constitutional Auditor (Rule Pass → Prompt Pass) and
     return a fully synthesised dossier with provenance, conflicts, and
@@ -392,8 +465,9 @@ def synthesise(body: dict) -> dict | JSONResponse:
 
     Latency values are real measurements from Gemma 4 E2B on Raspberry Pi 5 CPU.
     """
-    session_id = body.get("session_id")
-    if not session_id or session_id not in _SESSIONS:
+    session_id = body.session_id
+    if session_id not in _SESSIONS:
+        logger.warning(f"synthesise session_not_found session_id={session_id}")
         return JSONResponse(status_code=404, content={"error": "Session not found"})
 
     # Detect Yusuf scenario: site contains "Adré" AND exactly one beneficiary
@@ -404,8 +478,10 @@ def synthesise(body: dict) -> dict | JSONResponse:
     is_yusuf = (ben_langs == ["ar"] and "Adré" not in site) or "yusuf" in site.lower()
 
     if is_yusuf:
+        logger.info(f"synthesise scenario=B(yusuf) session_id={session_id} scout_ms={_SCOUT_MS}")
         dossier = _synthesise_yusuf(session_id)
         _SESSIONS[session_id]["dossier"] = dossier
+        logger.info(f"synthesise complete scenario=B auditor_status={dossier['auditor_status']} session_id={session_id}")
         return dossier
 
     scenario = load_scenario("aisha", "case_scenario_a.json")
@@ -560,18 +636,25 @@ def synthesise(body: dict) -> dict | JSONResponse:
     }
 
     _SESSIONS[session_id]["dossier"] = dossier
+    logger.info(
+        f"synthesise complete scenario=A "
+        f"auditor_status={dossier['auditor_status']} "
+        f"conflicts={len(dossier['conflicts'])} "
+        f"scout_ms={_SCOUT_MS} analyst_ms={_ANALYST_MS} "
+        f"session_id={session_id}"
+    )
     return dossier
 
 
 @app.post("/generate-explainer")
-def generate_explainer(body: dict) -> dict:
+def generate_explainer(body: ExplainerRequest) -> dict:
     """
     Generate a plain-language Dignity Loop summary in the beneficiary's language.
     In production: Gemma 4 E4B generates this dynamically from the dossier.
     In demo: pre-authored translations grounded in Scenario A facts.
     """
-    session_id = body.get("session_id")
-    language = body.get("language", "en")
+    session_id = body.session_id
+    language = body.language
 
     session = _SESSIONS.get(session_id or "", {})
     dossier = session.get("dossier", {})
@@ -623,7 +706,7 @@ def generate_explainer(body: dict) -> dict:
 
 
 @app.post("/generate-tts")
-def generate_tts(body: dict) -> dict:
+def generate_tts(body: TTSRequest) -> dict:
     """
     Generate spoken audio for the Dignity Loop summary.
 
@@ -634,11 +717,11 @@ def generate_tts(body: dict) -> dict:
     Demo: Returns the explainer text only. TTS audio generation requires
     Piper TTS installed locally — see README for setup instructions.
     """
-    session_id = body.get("session_id")
-    language = body.get("language", "en")
+    session_id = body.session_id
+    language = body.language
 
     # Get the explainer text for this language
-    explainer = generate_explainer({"session_id": session_id, "language": language})
+    explainer = generate_explainer(ExplainerRequest(session_id=session_id, language=language))
 
     return {
         "session_id": session_id,
@@ -656,25 +739,32 @@ def generate_tts(body: dict) -> dict:
 
 
 @app.post("/commit", response_model=None)
-def commit_session(body: dict) -> dict | JSONResponse:
+def commit_session(body: CommitRequest) -> dict | JSONResponse:
     """
     Finalise an intake record — commit to outbox or quarantine for human review.
     In production: writes to SQLCipher outbox via routes.py commit gate.
     """
-    session_id = body.get("session_id")
-    decision = body.get("decision", "quarantine")
-    notes = body.get("caseworker_notes", "")
+    session_id = body.session_id
+    decision = body.decision
+    notes = body.caseworker_notes
 
-    if not session_id or session_id not in _SESSIONS:
+    if session_id not in _SESSIONS:
+        logger.warning(f"commit session_not_found session_id={session_id}")
         return JSONResponse(status_code=404, content={"error": "Session not found"})
 
     commit_id = stable_hash({"session_id": session_id, "decision": decision})
+    committed_at = datetime.now(timezone.utc).isoformat()
     _SESSIONS[session_id]["committed"] = {
         "decision": decision,
         "notes": notes,
         "commit_id": commit_id,
-        "committed_at": datetime.now(timezone.utc).isoformat(),
+        "committed_at": committed_at,
     }
+    logger.info(
+        f"commit decision={decision} "
+        f"commit_id={commit_id} "
+        f"session_id={session_id}"
+    )
 
     return {
         "session_id": session_id,
@@ -687,7 +777,7 @@ def commit_session(body: dict) -> dict | JSONResponse:
             else "Record quarantined for human review. Caseworker must clear before export."
         ),
         "value_logged": False,
-        "committed_at": datetime.now(timezone.utc).isoformat(),
+        "committed_at": committed_at,
     }
 
 

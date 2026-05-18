@@ -34,12 +34,18 @@ function LangToggle({
         ${selected
           ? lang.minority
             ? "bg-orange-100 border-orange-400 text-orange-900"
-            : "bg-blue-600 border-blue-600 text-white shadow-sm"
+            : "text-white shadow-sm"
           : lang.minority
-            ? "bg-white border-slate-200 text-slate-500 hover:border-orange-300 hover:text-orange-700"
-            : "bg-white border-slate-200 text-slate-600 hover:border-blue-300 hover:text-blue-700 hover:bg-blue-50"
+            ? "bg-white text-orange-700 hover:border-orange-300"
+            : "bg-white hover:bg-[#f0f5f8]"
         }
       `}
+      style={selected && !lang.minority
+        ? { background: "#93B1C2", borderColor: "#93B1C2" }
+        : !selected && !lang.minority
+          ? { borderColor: "rgba(147,177,194,0.40)", color: "#3d4d58" }
+          : undefined
+      }
     >
       <span className="text-base leading-none">{lang.flag}</span>
       <span>{lang.label}</span>
@@ -108,9 +114,9 @@ export function Screen1_NewIntake() {
 
         {/* Page header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[#1a1714] mb-2">New Intake</h1>
-          <p className="text-[#6b6357] text-sm">
-            Register a new beneficiary arrival at your reception site
+          <h1 className="text-3xl font-bold mb-2" style={{ color: "#1a2028" }}>New Intake</h1>
+          <p className="text-sm" style={{ color: "#6b7f8c" }}>
+            Register a new arrival at your reception site
           </p>
         </div>
 
@@ -128,14 +134,14 @@ export function Screen1_NewIntake() {
         )}
 
         {/* Form card */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" style={{ boxShadow: "var(--card-shadow)" }}>
+        <div className="bg-white rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(147,177,194,0.30)", boxShadow: "var(--card-shadow-md)" }}>
 
           <form onSubmit={handleSubmit}>
             <div className="p-7 space-y-7">
 
               {/* Reception site */}
               <div>
-                <label htmlFor="site" className="block text-sm font-semibold text-[#1a1714] mb-2">
+                <label htmlFor="site" className="block text-sm font-semibold mb-2" style={{ color: "#1a2028" }}>
                   Reception Site
                   <span className="text-red-400 ml-1">*</span>
                 </label>
@@ -146,27 +152,26 @@ export function Screen1_NewIntake() {
                   readOnly={state.demo_loaded}
                   onChange={(e) => setFormData({ ...formData, site: e.target.value })}
                   placeholder="e.g., Adré reception point — Tent 4"
-                  className={`
-                    w-full px-4 py-3 border border-[#e8e4dd] rounded-xl text-sm text-slate-900
-                    placeholder-slate-400 transition-shadow
-                    ${state.demo_loaded
-                      ? "bg-slate-50 text-slate-500 cursor-not-allowed"
-                      : "bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    }
-                  `}
+                  className="w-full px-4 py-3 rounded-xl text-sm transition-shadow"
+                  style={{
+                    border: "1.5px solid rgba(147,177,194,0.40)",
+                    color: state.demo_loaded ? "#6b7f8c" : "#1a2028",
+                    background: state.demo_loaded ? "#f7f9fa" : "#ffffff",
+                    cursor: state.demo_loaded ? "not-allowed" : "text",
+                  }}
                   required={!state.demo_loaded}
                 />
-                <p className="text-xs text-[#6b6357] mt-1.5">
+                <p className="text-xs mt-1.5" style={{ color: "#6b7f8c" }}>
                   Recorded in the audit trail for this session.
                 </p>
               </div>
 
               {/* Caseworker languages */}
               <div>
-                <label className="block text-sm font-semibold text-[#1a1714] mb-1">
+                <label className="block text-sm font-semibold mb-1" style={{ color: "#1a2028" }}>
                   Caseworker Languages
                 </label>
-                <p className="text-xs text-[#6b6357] mb-3">Languages the caseworker speaks</p>
+                <p className="text-xs mb-3" style={{ color: "#6b7f8c" }}>Languages the caseworker speaks</p>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((lang) => (
                     <LangToggle
@@ -181,11 +186,11 @@ export function Screen1_NewIntake() {
 
               {/* Beneficiary languages */}
               <div>
-                <label className="block text-sm font-semibold text-[#1a1714] mb-1">
-                  Beneficiary Languages
+                <label className="block text-sm font-semibold mb-1" style={{ color: "#1a2028" }}>
+                  Person's Languages
                   <span className="text-red-400 ml-1">*</span>
                 </label>
-                <p className="text-xs text-[#6b6357] mb-3">Languages the arriving person speaks</p>
+                <p className="text-xs mb-3" style={{ color: "#6b7f8c" }}>Languages the arriving person speaks</p>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((lang) => (
                     <LangToggle
@@ -244,29 +249,30 @@ export function Screen1_NewIntake() {
             </div>
 
             {/* Footer with CTA */}
-            <div className="px-7 py-5 bg-[#faf9f7] border-t border-[#e8e4dd]">
+            <div className="px-7 py-5" style={{ background: "#f7f9fa", borderTop: "1px solid rgba(147,177,194,0.25)" }}>
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-blue-600 text-white rounded-xl font-semibold text-sm
-                           hover:bg-blue-700 active:bg-blue-800 disabled:bg-slate-300 disabled:text-slate-500
-                           transition-colors shadow-sm"
+                className="w-full py-3 text-white rounded-xl font-semibold text-sm transition-colors shadow-sm"
+                style={{ background: loading ? "#C4CDD3" : "#424242" }}
+                onMouseEnter={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.background = "#555555"; }}
+                onMouseLeave={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.background = "#424242"; }}
               >
-                {loading ? "Creating session…" : "Continue to Ingest →"}
+                {loading ? "Creating session…" : "Continue →"}
               </button>
             </div>
           </form>
         </div>
 
         {/* Caseworker context note */}
-        <div className="mt-5 px-5 py-4 rounded-xl border border-[#e8e4dd] bg-white/80 backdrop-blur-sm">
+        <div className="mt-5 px-5 py-4 rounded-xl bg-white" style={{ border: "1px solid rgba(147,177,194,0.30)", boxShadow: "var(--card-shadow)" }}>
           <div className="flex items-start gap-3">
-            <span aria-hidden="true" className="text-[#6b6357] text-base flex-shrink-0">💡</span>
-            <p className="text-xs text-[#6b6357] leading-relaxed">
-              <strong className="text-[#3d3830]">You are a frontline protection worker.</strong>{" "}
-              This system helps you quickly ingest documents, audio, and notes — then surfaces
-              any discrepancies so you can make an informed decision.{" "}
-              <strong className="text-[#3d3830]">You always decide; the system never denies.</strong>
+            <span aria-hidden="true" className="text-base flex-shrink-0" style={{ color: "#93B1C2" }}>💡</span>
+            <p className="text-xs leading-relaxed" style={{ color: "#6b7f8c" }}>
+              <strong style={{ color: "#3d4d58" }}>You are a frontline protection worker.</strong>{" "}
+              This system helps you capture documents, audio, and notes — then flags any discrepancies
+              so you can make an informed decision.{" "}
+              <strong style={{ color: "#3d4d58" }}>You always decide; the system never denies.</strong>
             </p>
           </div>
         </div>

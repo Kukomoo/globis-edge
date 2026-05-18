@@ -31,7 +31,7 @@ export function ProvenancePin({ modality, source, tooltip }: ProvenancePinProps)
       case "text":
         return "text-cyan-600"; // #06b7d4
       default:
-        return "text-gray-600";
+        return "text-[#6b7f8c]";
     }
   };
 
@@ -61,11 +61,11 @@ export function ProvenancePin({ modality, source, tooltip }: ProvenancePinProps)
       </button>
 
       {showTooltip && (
-        <div className="absolute left-0 bottom-full mb-2 bg-gray-900 text-white px-3 py-2 rounded text-xs whitespace-nowrap z-10">
+        <div className="absolute left-0 bottom-full mb-2 bg-[#1a2028] text-white px-3 py-2 rounded-xl text-xs whitespace-nowrap z-10">
           <p className="font-medium">{getLabel()}</p>
-          {source && <p className="text-gray-300 mt-1">{source}</p>}
-          {tooltip && <p className="text-gray-400 text-xs mt-1">{tooltip}</p>}
-          <div className="absolute top-full left-2 w-2 h-2 bg-gray-900 transform rotate-45"></div>
+          {source && <p className="text-[#93B1C2] mt-1">{source}</p>}
+          {tooltip && <p className="text-[#9bafba] text-xs mt-1">{tooltip}</p>}
+          <div className="absolute top-full left-2 w-2 h-2 bg-[#1a2028] transform rotate-45"></div>
         </div>
       )}
     </div>

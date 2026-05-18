@@ -41,7 +41,7 @@ export function OverrideButton({ blockedFieldCount, onConfirm, disabled = false 
         onClick={() => setOpen(true)}
         disabled={disabled || blockedFieldCount === 0}
         className="px-4 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-xl
-                   hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400
+                   hover:bg-red-700 disabled:bg-[#dce8ee] disabled:text-[#9bafba]
                    transition-colors"
       >
         Commit with Awareness
@@ -62,7 +62,7 @@ export function OverrideButton({ blockedFieldCount, onConfirm, disabled = false 
           >
 
             {/* Header */}
-            <div className="px-6 py-5 border-b border-slate-100">
+            <div className="px-6 py-5 border-b border-[rgba(147,177,194,0.25)]">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -71,8 +71,8 @@ export function OverrideButton({ blockedFieldCount, onConfirm, disabled = false 
                   </svg>
                 </div>
                 <div>
-                  <p id="override-dialog-title" className="font-bold text-slate-900 text-base">Commit with Protected Fields?</p>
-                  <p className="text-xs text-slate-500 mt-0.5">This action will be permanently logged</p>
+                  <p id="override-dialog-title" className="font-bold text-[#1a2028] text-base">Commit with Protected Fields?</p>
+                  <p className="text-xs text-[#6b7f8c] mt-0.5">This action will be permanently logged</p>
                 </div>
               </div>
             </div>
@@ -95,10 +95,10 @@ export function OverrideButton({ blockedFieldCount, onConfirm, disabled = false 
               </div>
 
               {/* Legal note */}
-              <div className="flex items-start gap-3 p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
-                <span className="text-slate-500 flex-shrink-0 mt-0.5 text-sm">⚖️</span>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  <strong className="text-slate-700">Article 31 · 1951 Refugee Convention:</strong>{" "}
+              <div className="flex items-start gap-3 p-3.5 bg-[#f7f9fa] border border-[rgba(147,177,194,0.35)] rounded-xl">
+                <span className="text-[#6b7f8c] flex-shrink-0 mt-0.5 text-sm">⚖️</span>
+                <p className="text-xs text-[#6b7f8c] leading-relaxed">
+                  <strong className="text-[#3d4d58]">Article 31 · 1951 Refugee Convention:</strong>{" "}
                   Protected fields are withheld to minimise sensitive data collection
                   and comply with international protection principles.
                 </p>
@@ -106,7 +106,7 @@ export function OverrideButton({ blockedFieldCount, onConfirm, disabled = false 
 
               {/* Signature */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold text-[#3d4d58] mb-1.5">
                   Caseworker Name / ID
                   <span className="text-red-500 ml-1">*</span>
                 </label>
@@ -116,20 +116,20 @@ export function OverrideButton({ blockedFieldCount, onConfirm, disabled = false 
                   value={signature}
                   onChange={(e) => setSignature(e.target.value)}
                   placeholder="Your name or caseworker ID"
-                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm
+                  className="w-full px-3.5 py-2.5 border border-[rgba(147,177,194,0.35)] rounded-xl text-sm
                              focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
-                <p className="text-xs text-slate-500 mt-1">Recorded in the audit trail with timestamp</p>
+                <p className="text-xs text-[#6b7f8c] mt-1">Recorded in the audit trail with timestamp</p>
               </div>
 
               {/* Acknowledgement */}
               <label className={`
                 flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-colors
-                ${agreed ? "bg-green-50 border-green-200" : "bg-white border-slate-200 hover:bg-slate-50"}
+                ${agreed ? "bg-green-50 border-green-200" : "bg-white border-[rgba(147,177,194,0.35)] hover:bg-[#f7f9fa]"}
               `}>
                 <div className={`
                   w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors
-                  ${agreed ? "bg-green-500 border-green-500" : "border-slate-300"}
+                  ${agreed ? "bg-green-500 border-green-500" : "border-[rgba(147,177,194,0.5)]"}
                 `}>
                   {agreed && (
                     <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
@@ -138,22 +138,22 @@ export function OverrideButton({ blockedFieldCount, onConfirm, disabled = false 
                   )}
                 </div>
                 <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="sr-only" />
-                <span className="text-sm text-slate-700 leading-snug">
+                <span className="text-sm text-[#3d4d58] leading-snug">
                   I acknowledge that{" "}
-                  <strong className="text-slate-900">{blockedFieldCount} field{blockedFieldCount > 1 ? "s" : ""} were blocked</strong>{" "}
+                  <strong className="text-[#1a2028]">{blockedFieldCount} field{blockedFieldCount > 1 ? "s" : ""} were blocked</strong>{" "}
                   for protection reasons, and I am proceeding with full awareness.
                 </span>
               </label>
             </div>
 
             {/* Footer */}
-            <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex gap-3">
+            <div className="px-6 py-4 bg-[#f7f9fa] border-t border-[rgba(147,177,194,0.25)] flex gap-3">
               <button
                 type="button"
                 aria-label="Close"
                 onClick={handleCancel}
-                className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium
-                           text-slate-600 hover:bg-slate-100 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-[rgba(147,177,194,0.35)] rounded-xl text-sm font-medium
+                           text-[#6b7f8c] hover:bg-[#f0f5f8] transition-colors"
               >
                 Cancel
               </button>
@@ -162,13 +162,13 @@ export function OverrideButton({ blockedFieldCount, onConfirm, disabled = false 
                 onClick={handleConfirm}
                 disabled={!canCommit}
                 className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl text-sm font-semibold
-                           hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400 transition-colors"
+                           hover:bg-red-700 disabled:bg-[#dce8ee] disabled:text-[#9bafba] transition-colors"
               >
                 Commit & Log Decision
               </button>
             </div>
 
-            <div className="px-6 pb-4 text-xs text-slate-500 text-center">
+            <div className="px-6 pb-4 text-xs text-[#6b7f8c] text-center">
               Logged with: timestamp · name/ID · session ID · blocked fields
             </div>
           </div>

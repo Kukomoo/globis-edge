@@ -66,7 +66,7 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
   if (captured) {
     return (
       <div className="space-y-3">
-        <div className="relative rounded-xl overflow-hidden border border-slate-200">
+        <div className="relative rounded-xl overflow-hidden border border-[rgba(147,177,194,0.35)]">
           <img src={captured} alt="Captured" className="w-full object-cover max-h-64" />
           <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
             ✓ Captured
@@ -86,7 +86,7 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
   if (active) {
     return (
       <div className="space-y-3">
-        <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-black">
+        <div className="relative rounded-xl overflow-hidden border border-[rgba(147,177,194,0.35)] bg-black">
           <video ref={videoRef} playsInline muted className="w-full max-h-72 object-cover" />
           <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-red-500/90 text-white text-xs font-bold px-2 py-1 rounded-full">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -105,7 +105,7 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
           <button
             type="button"
             onClick={stopCamera}
-            className="px-4 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-sm hover:bg-slate-50 transition-colors"
+            className="px-4 py-2.5 border border-[rgba(147,177,194,0.35)] text-[#6b7f8c] rounded-xl text-sm hover:bg-[#f7f9fa] transition-colors"
           >
             Cancel
           </button>
@@ -124,19 +124,19 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
         <button
           type="button"
           onClick={startCamera}
-          className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-slate-200
+          className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
                      rounded-xl hover:border-blue-400 hover:bg-blue-50/30 transition-colors group"
         >
           <span className="text-3xl">📷</span>
-          <span className="text-sm font-medium text-slate-600 group-hover:text-blue-700">Use Camera</span>
-          <span className="text-xs text-slate-500">Live capture from device</span>
+          <span className="text-sm font-medium text-[#6b7f8c] group-hover:text-blue-700">Use Camera</span>
+          <span className="text-xs text-[#9bafba]">Live capture from device</span>
         </button>
         {/* File upload fallback */}
-        <label className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-slate-200
+        <label className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
                           rounded-xl hover:border-blue-400 hover:bg-blue-50/30 transition-colors group cursor-pointer">
           <span className="text-3xl">🖼️</span>
-          <span className="text-sm font-medium text-slate-600 group-hover:text-blue-700">Upload File</span>
-          <span className="text-xs text-slate-500">JPG, PNG, HEIC — 10MB</span>
+          <span className="text-sm font-medium text-[#6b7f8c] group-hover:text-blue-700">Upload File</span>
+          <span className="text-xs text-[#9bafba]">JPG, PNG, HEIC — 10MB</span>
           <input
             type="file"
             accept="image/*"
@@ -263,19 +263,19 @@ function AudioRecorder({ onRecord }: { onRecord: (file: File) => void }) {
           <button
             type="button"
             onClick={startRecording}
-            className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-slate-200
+            className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
                        rounded-xl hover:border-purple-400 hover:bg-purple-50/30 transition-colors group"
           >
             <span className="text-3xl">🎤</span>
-            <span className="text-sm font-medium text-slate-600 group-hover:text-purple-700">Record Audio</span>
-            <span className="text-xs text-slate-500">Uses device microphone</span>
+            <span className="text-sm font-medium text-[#6b7f8c] group-hover:text-purple-700">Record Audio</span>
+            <span className="text-xs text-[#9bafba]">Uses device microphone</span>
           </button>
           {/* File upload fallback */}
-          <label className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-slate-200
+          <label className="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
                             rounded-xl hover:border-purple-400 hover:bg-purple-50/30 transition-colors group cursor-pointer">
             <span className="text-3xl">📁</span>
-            <span className="text-sm font-medium text-slate-600 group-hover:text-purple-700">Upload File</span>
-            <span className="text-xs text-slate-500">MP3, WAV, M4A — 50MB</span>
+            <span className="text-sm font-medium text-[#6b7f8c] group-hover:text-purple-700">Upload File</span>
+            <span className="text-xs text-[#9bafba]">MP3, WAV, M4A — 50MB</span>
             <input
               type="file"
               accept="audio/*"
@@ -365,10 +365,10 @@ export function Screen2_Ingest() {
 
         {/* Header */}
         <div className="mb-7">
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">Ingest Artifacts</h1>
-          <p className="text-sm text-slate-500">
-            Capture documents, audio testimony, and notes for{" "}
-            <strong className="text-slate-700">{state.site || "this session"}</strong>
+          <h1 className="text-2xl font-bold text-[#1a2028] mb-1">Add Documents &amp; Notes</h1>
+          <p className="text-sm text-[#6b7f8c]">
+            Upload or capture documents, record audio testimony, and add your notes for{" "}
+            <strong className="text-[#3d4d58]">{state.site || "this session"}</strong>
           </p>
         </div>
 
@@ -380,7 +380,7 @@ export function Screen2_Ingest() {
               <div>
                 <p className="font-semibold text-amber-900 text-sm mb-0.5">Demo Pre-loaded — Hawa Adam / Adré</p>
                 <p className="text-xs text-amber-700">
-                  Passport (OCR) · Arabic audio (Scout E2B — 820ms) · Caseworker notes. All synthetic.
+                  Passport (OCR) · Arabic audio (Gemma Scout · E2B — 820ms) · Caseworker notes. All synthetic.
                 </p>
               </div>
             </div>
@@ -391,7 +391,7 @@ export function Screen2_Ingest() {
         {state.demo_loaded && state.artifacts.length > 0 && (
           <div className="space-y-3 mb-7">
             {state.artifacts.map((artifact: any, idx: number) => (
-              <div key={idx} className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+              <div key={idx} className="bg-white rounded-xl border border-[rgba(147,177,194,0.35)] p-4" style={{ boxShadow: "var(--card-shadow)" }}>
                 <div className="flex items-start gap-3">
                   <div className={`
                     w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0
@@ -402,20 +402,20 @@ export function Screen2_Ingest() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                      <p className="font-semibold text-slate-900 text-sm">{artifact.label}</p>
+                      <p className="font-semibold text-[#1a2028] text-sm">{artifact.label}</p>
                       <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
                         ✓ Loaded
                       </span>
                     </div>
-                    <p className="text-xs text-slate-500 font-mono mb-2 truncate">{artifact.filename}</p>
+                    <p className="text-xs text-[#9bafba] font-mono mb-2 truncate">{artifact.filename}</p>
                     {artifact.preview && (
-                      <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                        <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-1">
+                      <div className="p-3 bg-[#f7f9fa] rounded-lg border border-[rgba(147,177,194,0.35)]">
+                        <p className="text-xs text-[#6b7f8c] font-semibold uppercase tracking-wide mb-1">
                           {artifact.modality === "image" ? "OCR Extract"
-                           : artifact.modality === "audio" ? "Transcript · Scout E2B"
+                           : artifact.modality === "audio" ? "Transcript · Gemma Scout (E2B)"
                            : "Caseworker Notes"}
                         </p>
-                        <p className="text-sm text-slate-700 leading-relaxed italic">
+                        <p className="text-sm text-[#3d4d58] leading-relaxed italic">
                           "{artifact.preview}"
                         </p>
                       </div>
@@ -429,10 +429,10 @@ export function Screen2_Ingest() {
 
         {/* Manual capture/upload UI */}
         {!state.demo_loaded && (
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-6">
+          <div className="bg-white rounded-2xl border border-[rgba(147,177,194,0.35)] overflow-hidden mb-6" style={{ boxShadow: "var(--card-shadow)" }}>
 
             {/* Tabs */}
-            <div className="flex border-b border-slate-100">
+            <div className="flex border-b border-[rgba(147,177,194,0.35)]">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
@@ -443,7 +443,7 @@ export function Screen2_Ingest() {
                     transition-colors border-b-2
                     ${activeTab === tab.id
                       ? "border-blue-600 text-blue-700 bg-blue-50/40"
-                      : "border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-50"
+                      : "border-transparent text-[#6b7f8c] hover:text-[#3d4d58] hover:bg-[#f7f9fa]"
                     }
                   `}
                 >
@@ -456,8 +456,8 @@ export function Screen2_Ingest() {
             <div className="p-6">
               {activeTab === "photo" && (
                 <div className="space-y-3">
-                  <p className="text-xs text-slate-500 mb-4">
-                    Use the connected device camera or upload a file. The Pi hotspot makes your phone/tablet camera available.
+                  <p className="text-xs text-[#6b7f8c] mb-4">
+                    Take a photo using the device camera, or upload an existing file. On a Raspberry Pi, connect your phone to the Pi hotspot to use its camera.
                   </p>
                   <CameraCapture onCapture={(file) => uploadFile(file, "image")} />
                 </div>
@@ -465,8 +465,8 @@ export function Screen2_Ingest() {
 
               {activeTab === "audio" && (
                 <div className="space-y-3">
-                  <p className="text-xs text-slate-500 mb-4">
-                    Record directly from device microphone or upload an existing audio file. Used for transcription via Whisper-small.
+                  <p className="text-xs text-[#6b7f8c] mb-4">
+                    Record the person's spoken testimony directly, or upload an audio file. The system will transcribe it automatically.
                   </p>
                   <AudioRecorder onRecord={(file) => uploadFile(file, "audio")} />
                 </div>
@@ -474,15 +474,15 @@ export function Screen2_Ingest() {
 
               {activeTab === "text" && (
                 <div className="space-y-3">
-                  <p className="text-sm text-slate-500">
-                    Enter intake observations, context, and any verbal information.
+                  <p className="text-sm text-[#6b7f8c]">
+                    Type your observations here — anything you noticed or were told during intake.
                   </p>
                   <textarea
                     value={textNotes}
                     onChange={(e) => { setTextNotes(e.target.value); setTextSaved(false); }}
                     placeholder="e.g. Arrived via informal group. Mother alert and responsive. Said they left Al-Geneina three weeks ago..."
-                    className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-800
-                               placeholder-slate-400 resize-none focus:outline-none focus:ring-2
+                    className="w-full px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl text-sm text-[#1a2028]
+                               placeholder-[#9bafba] resize-none focus:outline-none focus:ring-2
                                focus:ring-blue-500 focus:border-transparent"
                     rows={6}
                   />
@@ -499,7 +499,7 @@ export function Screen2_Ingest() {
                     onClick={handleSaveNotes}
                     disabled={!textNotes.trim()}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium
-                               hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 transition-colors"
+                               hover:bg-blue-700 disabled:bg-[#D5DEE3] disabled:text-[#9bafba] transition-colors"
                   >
                     Save as Artifact
                   </button>
@@ -524,19 +524,19 @@ export function Screen2_Ingest() {
 
         {/* Artifact list (non-demo, after upload) */}
         {!state.demo_loaded && state.artifacts.length > 0 && (
-          <div className="bg-white rounded-xl border border-slate-200 p-4 mb-6">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
-              Ingested ({state.artifacts.length})
+          <div className="bg-white rounded-xl border border-[rgba(147,177,194,0.35)] p-4 mb-6">
+            <p className="text-xs font-semibold text-[#6b7f8c] uppercase tracking-wide mb-3">
+              Added ({state.artifacts.length})
             </p>
             <div className="space-y-2">
               {state.artifacts.map((artifact: any, idx: number) => (
-                <div key={idx} className="flex items-center gap-3 py-2 px-3 bg-slate-50 rounded-lg">
+                <div key={idx} className="flex items-center gap-3 py-2 px-3 bg-[#f7f9fa] rounded-lg border border-[rgba(147,177,194,0.35)]">
                   <span className="text-lg flex-shrink-0">
                     {artifact.modality === "image" ? "📷" : artifact.modality === "audio" ? "🎤" : "📝"}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-slate-700 truncate">{artifact.filename}</p>
-                    <p className="text-xs text-slate-500 capitalize">{artifact.modality}</p>
+                    <p className="text-sm font-medium text-[#3d4d58] truncate">{artifact.filename}</p>
+                    <p className="text-xs text-[#6b7f8c] capitalize">{artifact.modality}</p>
                   </div>
                   <span className="text-xs text-green-600 font-medium flex-shrink-0">✓</span>
                 </div>
@@ -550,8 +550,8 @@ export function Screen2_Ingest() {
           <button
             type="button"
             onClick={() => dispatch({ type: "SET_SCREEN", payload: 1 })}
-            className="flex-1 px-4 py-3 border border-slate-200 rounded-xl font-medium text-sm
-                       text-slate-600 hover:bg-slate-100 transition-colors"
+            className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm
+                       text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
           >
             ← Back
           </button>
@@ -560,10 +560,10 @@ export function Screen2_Ingest() {
             onClick={() => dispatch({ type: "SET_SCREEN", payload: 3 })}
             disabled={uploading || !canProceed}
             className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold text-sm
-                       hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400
+                       hover:bg-blue-700 disabled:bg-[#D5DEE3] disabled:text-[#9bafba]
                        transition-colors shadow-sm"
           >
-            {uploading ? "Uploading…" : "Continue to Synthesis →"}
+            {uploading ? "Uploading…" : "Continue →"}
           </button>
         </div>
 

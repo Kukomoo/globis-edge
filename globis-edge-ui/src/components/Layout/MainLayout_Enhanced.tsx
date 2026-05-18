@@ -5,13 +5,13 @@ import { SyntheticWatermark } from "../UI/SyntheticWatermark";
 
 export function MainLayout_Enhanced({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-screen w-screen overflow-hidden" style={{ background: "var(--surface-0)" }}>
+    <div className="flex h-screen w-screen overflow-hidden" style={{ background: "var(--slate-canvas)" }}>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2
-                   focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-blue-700
+                   focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-[#424242]
                    focus:rounded-lg focus:shadow-lg focus:font-semibold focus:outline-none
-                   focus:ring-2 focus:ring-blue-500"
+                   focus:ring-2 focus:ring-[#93B1C2]"
       >
         Skip to main content
       </a>
@@ -21,7 +21,7 @@ export function MainLayout_Enhanced({ children }: { children: ReactNode }) {
         <main
           id="main-content"
           className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth"
-          style={{ background: "var(--surface-0)" }}
+          style={{ background: "var(--slate-canvas)" }}
           tabIndex={-1}
         >
           <div className="max-w-3xl mx-auto px-8 py-10 min-h-full">

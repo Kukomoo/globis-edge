@@ -56,9 +56,9 @@ export function Screen3_Synthesise_with_Override() {
 
       {/* Page title */}
       <div>
-        <h1 className="text-2xl font-bold text-[#1a1714]">Synthesised Dossier</h1>
-        <p className="text-sm text-[#6b6357] mt-1">
-          Unified view across all modalities · Constitutional Audit complete
+        <h1 className="text-2xl font-bold text-[#1a2028]">Case Summary</h1>
+        <p className="text-sm text-[#6b7f8c] mt-1">
+          Information gathered from all documents and testimony · Safety check complete
         </p>
       </div>
 
@@ -67,16 +67,16 @@ export function Screen3_Synthesise_with_Override() {
         <div className="rounded-xl border border-blue-200 bg-blue-50 p-5" role="status" aria-live="polite">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin flex-shrink-0" />
-            <p className="font-semibold text-blue-900 text-sm">Running Constitutional Auditor…</p>
+            <p className="font-semibold text-blue-900 text-sm">Checking your record for safety…</p>
           </div>
           <div className="ml-7 space-y-1.5 text-xs text-blue-700">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse flex-shrink-0" />
-              Scout E2B — pre-processing artifacts
+              <span>Gemma Scout <span className="text-[10px] text-blue-500">E2B · pre-processing documents</span></span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-300 flex-shrink-0" />
-              Analyst E4B — cross-modal reasoning (est. 10–15s on Pi 5)
+              <span>Gemma Analyst <span className="text-[10px] text-blue-500">E4B · cross-checking all sources (est. 10–15s on Pi 5)</span></span>
             </div>
           </div>
         </div>
@@ -97,23 +97,23 @@ export function Screen3_Synthesise_with_Override() {
         <>
           {/* Latency telemetry */}
           {d.latency_ms && (
-            <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
-              <div className="px-5 py-3 border-b border-[#e8e4dd] flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#6b6357] uppercase tracking-wider">Processing Telemetry</span>
-                <span className="text-xs font-mono text-[#6b6357]">Raspberry Pi 5 · CPU only</span>
+            <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
+              <div className="px-5 py-3 border-b border-[rgba(147,177,194,0.35)] flex items-center justify-between">
+                <span className="text-xs font-semibold text-[#6b7f8c] uppercase tracking-wider">Processing Telemetry</span>
+                <span className="text-xs font-mono text-[#6b7f8c]">Raspberry Pi 5 · CPU only</span>
               </div>
               <div className="grid grid-cols-3 divide-x divide-[#e8e4dd]">
                 {[
-                  { label: "Scout",   sub: "E2B · 2B params",  ms: d.latency_ms.scout_ms,   color: "text-blue-700",   bg: "bg-[#eff6ff]" },
-                  { label: "Analyst", sub: "E4B · 4B params",  ms: d.latency_ms.analyst_ms, color: "text-indigo-700", bg: "bg-[#eef2ff]" },
-                  { label: "Total",   sub: "Wall clock",        ms: d.latency_ms.total_ms,   color: "text-[#1a1714]",  bg: "bg-[#faf9f7]" },
-                ].map(({ label, sub, ms, color, bg }) => (
-                  <div key={label} className={`px-5 py-4 ${bg}`}>
-                    <p className="text-xs text-[#6b6357] font-medium mb-1">{label}</p>
+                  { role: "Gemma Scout",   model: "Gemma 4 E2B · 2B params",  ms: d.latency_ms.scout_ms,   color: "text-blue-700",   bg: "bg-[#eff6ff]" },
+                  { role: "Gemma Analyst", model: "Gemma 4 E4B · 4B params",  ms: d.latency_ms.analyst_ms, color: "text-indigo-700", bg: "bg-[#eef2ff]" },
+                  { role: "Total",         model: "Wall clock",                ms: d.latency_ms.total_ms,   color: "text-[#1a2028]",  bg: "bg-[#f7f9fa]" },
+                ].map(({ role, model, ms, color, bg }) => (
+                  <div key={role} className={`px-5 py-4 ${bg}`}>
+                    <p className="text-xs text-[#6b7f8c] font-semibold mb-1">{role}</p>
                     <p className={`text-xl font-bold font-mono ${color}`}>
-                      {(ms / 1000).toFixed(2)}s
+                      {ms > 0 ? (ms / 1000).toFixed(2) + "s" : "—"}
                     </p>
-                    <p className="text-xs text-[#6b6357] mt-0.5">{sub}</p>
+                    <p className="text-[10px] text-[#9bafba] mt-0.5">{model}</p>
                   </div>
                 ))}
               </div>
@@ -121,10 +121,10 @@ export function Screen3_Synthesise_with_Override() {
           )}
 
           {/* Core fields */}
-          <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
-            <div className="px-5 py-4 border-b border-[#e8e4dd]">
-              <p className="text-sm font-semibold text-[#1a1714]">Core Information</p>
-              <p className="text-xs text-[#6b6357] mt-0.5">Extracted and reconciled across all uploaded artifacts</p>
+          <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
+            <div className="px-5 py-4 border-b border-[rgba(147,177,194,0.35)]">
+              <p className="text-sm font-semibold text-[#1a2028]">Core Information</p>
+              <p className="text-xs text-[#6b7f8c] mt-0.5">Extracted and reconciled across all uploaded artifacts</p>
             </div>
             <div className="p-6 grid grid-cols-2 gap-x-8 gap-y-5">
               {[
@@ -134,9 +134,9 @@ export function Screen3_Synthesise_with_Override() {
                 { label: "Country of Origin", value: d.country_of_origin, mod: d.country_of_origin_modality, src: d.country_of_origin_source },
               ].map(({ label, value, mod, src }) => (
                 <div key={label}>
-                  <p className="text-xs font-semibold text-[#6b6357] uppercase tracking-wide mb-1" style={{ fontFamily: "var(--font-mono)" }}>{label}</p>
+                  <p className="text-xs font-semibold text-[#6b7f8c] uppercase tracking-wide mb-1" style={{ fontFamily: "var(--font-mono)" }}>{label}</p>
                   <div className="flex items-center gap-2">
-                    <p className={label === "Full Name" ? "text-lg font-bold text-slate-900" : "text-base font-semibold text-slate-900"}>{value || "—"}</p>
+                    <p className={label === "Full Name" ? "text-lg font-bold text-[#1a2028]" : "text-base font-semibold text-[#1a2028]"}>{value || "—"}</p>
                     {mod && <ProvenancePin modality={mod} source={src} />}
                   </div>
                 </div>
@@ -178,11 +178,11 @@ export function Screen3_Synthesise_with_Override() {
           )}
 
           {/* Constitutional Auditor */}
-          <div className="rounded-xl border border-[#e8e4dd] bg-white overflow-hidden">
-            <div className="px-5 py-4 border-b border-[#e8e4dd] flex items-center justify-between">
+          <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
+            <div className="px-5 py-4 border-b border-[rgba(147,177,194,0.35)] flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-[#1a1714]">Constitutional Auditor</p>
-                <p className="text-xs text-[#6b6357] mt-0.5">Dual-pass safety check · Rule Pass + Prompt Pass</p>
+                <p className="text-sm font-semibold text-[#1a2028]">Safety Check</p>
+                <p className="text-xs text-[#6b7f8c] mt-0.5">Automatic review of your record before saving</p>
               </div>
               <button
                 type="button"
@@ -201,9 +201,9 @@ export function Screen3_Synthesise_with_Override() {
                     <p className="font-semibold text-green-900 text-sm">Clean — eligible for export</p>
                     <p className="text-xs text-green-700 mt-0.5">No prohibited fields detected. All data complies with humanitarian data protection principles.</p>
                     <div className="mt-2.5 flex flex-wrap gap-1.5 text-xs font-mono">
-                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">rule_pass: CLEAN</span>
-                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">prompt_pass: CLEAN</span>
-                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">value_logged: false</span>
+                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">rule check: CLEAN</span>
+                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">model check: CLEAN</span>
+                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">sensitive data logged: no</span>
                     </div>
                   </div>
                 </div>
@@ -218,9 +218,9 @@ export function Screen3_Synthesise_with_Override() {
                       {d.triage_reason || "A prohibited field category was detected and quarantined."}
                     </p>
                     <div className="mt-2.5 flex flex-wrap gap-1.5 text-xs font-mono">
-                      <span className="px-2 py-0.5 bg-red-100 text-red-800 rounded">rule_pass: BLOCK</span>
-                      <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded">prompt_pass: skipped</span>
-                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">value_logged: false</span>
+                      <span className="px-2 py-0.5 bg-red-100 text-red-800 rounded">rule check: BLOCKED</span>
+                      <span className="px-2 py-0.5 bg-[#f0f5f8] text-[#6b7f8c] rounded">model check: skipped</span>
+                      <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">sensitive data logged: no</span>
                     </div>
                     {d.blocked_fields?.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1.5">
@@ -262,7 +262,7 @@ export function Screen3_Synthesise_with_Override() {
             <div className="rounded-xl border border-red-200 bg-red-50 p-5">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-lg" aria-hidden="true">⚖️</span>
-                <p className="font-semibold text-red-900 text-sm">Caseworker Override Available</p>
+                <p className="font-semibold text-red-900 text-sm">Proceed with your approval</p>
               </div>
               <p className="text-xs text-red-800 mb-4 leading-relaxed">
                 You may commit this record with your signature. Your decision will be logged with a
@@ -283,7 +283,7 @@ export function Screen3_Synthesise_with_Override() {
         <button
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 2 })}
-          className="flex-1 px-4 py-3 border border-[#e8e4dd] rounded-xl font-medium text-sm text-[#3d3830] hover:bg-[#f5f3ef] transition-colors"
+          className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
         >
           ← Back to Ingest
         </button>
@@ -291,9 +291,9 @@ export function Screen3_Synthesise_with_Override() {
           type="button"
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 4 })}
           disabled={!d}
-          className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 transition-colors shadow-sm"
+          className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 disabled:bg-[#D5DEE3] disabled:text-[#9bafba] transition-colors shadow-sm"
         >
-          View Reasoning →
+          See Full Explanation →
         </button>
       </div>
     </div>
