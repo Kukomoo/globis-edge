@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "../../store/SessionContext";
 import { generateTTS } from "../../services/api";
+import { DEMO_SCENARIO } from "../../data/demoScenario";
 
 export function Screen5_DignityLoop() {
   const { state, dispatch } = useSession();
@@ -11,18 +12,22 @@ export function Screen5_DignityLoop() {
     audio_note?: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
-  const [language, setLanguage] = useState("en");
+  // language is driven by the global topbar selector
+  const language = state.ui_language;
   const [confirmed, setConfirmed] = useState({
     heard: false,
     correct: false,
     consent: false,
   });
 
+  // Fetch TTS on mount and whenever the global language changes
   useEffect(() => {
-    if (!ttsResult && state.id) {
+    if (state.id) {
+      setTtsResult(null);
       handleGenerateTTS();
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [language]);
 
   const handleGenerateTTS = async () => {
     if (!state.id) return;
@@ -38,6 +43,15 @@ export function Screen5_DignityLoop() {
   };
 
   const allConfirmed = confirmed.heard && confirmed.correct && confirmed.consent;
+
+  // In demo mode, we can show the pre-translated dignity text immediately
+  // while the backend call is in-flight (or if the session id is a stub)
+  const demoFallbackText = state.demo_loaded
+    ? (DEMO_SCENARIO.dignityText as Record<string, string>)[language] ||
+      DEMO_SCENARIO.dignityText.en
+    : null;
+
+  const displayText = ttsResult?.text ?? demoFallbackText;
 
   return (
     <div className="p-8 max-w-4xl mx-auto">
@@ -57,8 +71,7 @@ export function Screen5_DignityLoop() {
             <select
               value={language}
               onChange={(e) => {
-                setLanguage(e.target.value);
-                setTtsResult(null);
+                dispatch({ type: "SET_LANGUAGE", payload: e.target.value });
               }}
               className="px-4 py-2 border border-gray-300 rounded-lg"
             >
@@ -83,23 +96,28 @@ export function Screen5_DignityLoop() {
           </div>
         )}
 
-        {ttsResult && (
+        {(ttsResult || displayText) && (
           <>
             {/* Text summary — always visible */}
-            <div className="bg-gray-50 rounded-lg p-6 mb-4 border border-gray-200">
+            <div className={`rounded-lg p-6 mb-4 border ${language === "ar" ? "text-right" : ""} bg-gray-50 border-gray-200`}>
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-2xl">📋</span>
                 <p className="text-sm font-medium text-gray-700">
                   Summary — read aloud to beneficiary
                 </p>
+                {state.demo_loaded && !ttsResult && (
+                  <span className="ml-auto text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">
+                    ⚡ Demo text
+                  </span>
+                )}
               </div>
-              <p className="text-base leading-relaxed text-gray-900">
-                {ttsResult.text}
+              <p className={`text-base leading-relaxed text-gray-900 ${language === "ar" ? "font-arabic" : ""}`}>
+                {displayText}
               </p>
             </div>
 
             {/* Audio player if available, otherwise Piper TTS note */}
-            {ttsResult.audio_url ? (
+            {ttsResult?.audio_url ? (
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
                 <audio src={ttsResult.audio_url} controls className="w-full" />
               </div>
@@ -109,15 +127,17 @@ export function Screen5_DignityLoop() {
                   🔊 Piper TTS — on-device only (Raspberry Pi 5)
                 </p>
                 <p className="text-xs text-amber-800">
-                  {ttsResult.audio_note ||
+                  {ttsResult?.audio_note ||
                     "Audio playback requires Piper TTS installed on the Pi 5. In the field, this plays spoken audio in the beneficiary's language directly through the device speaker."}
                 </p>
               </div>
             )}
 
-            <div className="text-xs text-gray-500 mb-2">
-              Engine: {ttsResult.tts_engine}
-            </div>
+            {ttsResult && (
+              <div className="text-xs text-gray-500 mb-2">
+                Engine: {ttsResult.tts_engine}
+              </div>
+            )}
           </>
         )}
 

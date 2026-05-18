@@ -8,6 +8,9 @@ export interface SessionState {
   artifacts: any[];
   dossier: any | null;
   current_screen: 1 | 2 | 3 | 4 | 5 | 6;
+  ui_language: "en" | "ar" | "fr" | "am";
+  /** True after "Load Demo" has been triggered — screens use this to show pre-filled data */
+  demo_loaded: boolean;
 }
 
 const initialState: SessionState = {
@@ -18,6 +21,8 @@ const initialState: SessionState = {
   artifacts: [],
   dossier: null,
   current_screen: 1,
+  ui_language: "en",
+  demo_loaded: false,
 };
 
 interface SessionContextType {
@@ -53,6 +58,21 @@ function sessionReducer(state: SessionState, action: any): SessionState {
       return { ...state, dossier: action.payload };
     case "SET_SCREEN":
       return { ...state, current_screen: action.payload };
+    case "SET_LANGUAGE":
+      return { ...state, ui_language: action.payload as SessionState["ui_language"] };
+    case "LOAD_DEMO":
+      // Merges the full demo payload: session + artifacts + flags screen 2
+      return {
+        ...state,
+        id: action.payload.id,
+        site: action.payload.site,
+        caseworker_languages: action.payload.caseworker_languages,
+        beneficiary_languages: action.payload.beneficiary_languages,
+        artifacts: action.payload.artifacts,
+        ui_language: "ar",
+        demo_loaded: true,
+        current_screen: 2,
+      };
     default:
       return state;
   }

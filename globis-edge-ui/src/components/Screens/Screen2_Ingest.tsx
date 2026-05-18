@@ -37,6 +37,8 @@ export function Screen2_Ingest() {
     }
   };
 
+  const canProceed = state.artifacts.length > 0;
+
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-2">Ingest Artifacts</h1>
@@ -44,96 +46,152 @@ export function Screen2_Ingest() {
         Upload documents, audio, and notes for {state.site}
       </p>
 
-      <div className="flex gap-4 mb-6 border-b border-gray-200">
-        {(["photo", "audio", "text"] as const).map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 font-medium ${
-              activeTab === tab
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "text-gray-600"
-            }`}
-          >
-            {tab === "photo"
-              ? "📷 ID Photo"
-              : tab === "audio"
-                ? "🎤 Audio"
-                : "📝 Text Notes"}
-          </button>
-        ))}
-      </div>
-
-      <div className="bg-white rounded-lg border border-gray-200 p-8">
-        {activeTab === "photo" && (
-          <div className="space-y-4">
-            <p className="text-gray-600">Upload ID document photo for OCR</p>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleFileUpload(e, "image")}
-              disabled={loading}
-              className="block w-full"
-            />
+      {/* ── Demo pre-load banner ─────────────────────────────────── */}
+      {state.demo_loaded && (
+        <div className="mb-6 p-4 bg-amber-50 border border-amber-300 rounded-lg">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-lg">⚡</span>
+            <p className="font-semibold text-amber-900">Demo Scenario Pre-loaded — Yusuf Ahmed Hassan</p>
           </div>
-        )}
-
-        {activeTab === "audio" && (
-          <div className="space-y-4">
-            <p className="text-gray-600">
-              Upload audio testimony for transcription
-            </p>
-            <input
-              type="file"
-              accept="audio/*"
-              onChange={(e) => handleFileUpload(e, "audio")}
-              disabled={loading}
-              className="block w-full"
-            />
-          </div>
-        )}
-
-        {activeTab === "text" && (
-          <div className="space-y-4">
-            <p className="text-gray-600">
-              Enter intake notes and observations
-            </p>
-            <textarea
-              placeholder="Caseworker notes..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              rows={6}
-            />
-          </div>
-        )}
-
-        {error && (
-          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-            {error}
-          </div>
-        )}
-      </div>
-
-      <div className="mt-8">
-        <h3 className="font-medium text-gray-700 mb-4">Uploaded Artifacts</h3>
-        <div className="space-y-2">
-          {state.artifacts.length === 0 ? (
-            <p className="text-gray-500">No artifacts uploaded yet</p>
-          ) : (
-            state.artifacts.map((artifact, idx) => (
-              <div key={idx} className="flex items-center gap-2 p-3 bg-gray-50 rounded">
-                <span className="text-lg">
-                  {artifact.modality === "image"
-                    ? "📷"
-                    : artifact.modality === "audio"
-                      ? "🎤"
-                      : "📝"}
-                </span>
-                <span className="text-sm text-gray-700">{artifact.filename}</span>
-              </div>
-            ))
-          )}
+          <p className="text-sm text-amber-800 mb-3">
+            Three synthetic artifacts have been injected below: a national ID photo (OCR), an Arabic audio
+            testimony (transcribed by Scout E2B in 820ms), and caseworker notes. In the field, each would
+            be captured or uploaded in real time.
+          </p>
+          <p className="text-xs text-amber-700 italic">
+            All data is synthetic and watermarked. No real personal data is used.
+          </p>
         </div>
-      </div>
+      )}
+
+      {/* ── Artifact preview cards (demo mode) ─────────────────────── */}
+      {state.demo_loaded && state.artifacts.length > 0 && (
+        <div className="space-y-4 mb-8">
+          {state.artifacts.map((artifact: any, idx: number) => (
+            <div key={idx} className="bg-white rounded-lg border border-gray-200 p-5">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">{artifact.icon}</span>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="font-semibold text-gray-900">{artifact.label}</p>
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                      ✓ Loaded
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 font-mono mb-2">{artifact.filename}</p>
+                  {artifact.preview && (
+                    <div className="mt-2 p-3 bg-gray-50 rounded border border-gray-200">
+                      <p className="text-xs text-gray-500 font-medium mb-1 uppercase tracking-wide">
+                        {artifact.modality === "image" ? "OCR Extract" :
+                         artifact.modality === "audio" ? "Transcript (Scout E2B)" : "Caseworker Notes"}
+                      </p>
+                      <p className="text-sm text-gray-800 leading-relaxed italic">
+                        "{artifact.preview}"
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── Manual upload tabs (non-demo or additional uploads) ────── */}
+      {!state.demo_loaded && (
+        <>
+          <div className="flex gap-4 mb-6 border-b border-gray-200">
+            {(["photo", "audio", "text"] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-2 font-medium ${
+                  activeTab === tab
+                    ? "text-blue-600 border-b-2 border-blue-600"
+                    : "text-gray-600"
+                }`}
+              >
+                {tab === "photo"
+                  ? "📷 ID Photo"
+                  : tab === "audio"
+                    ? "🎤 Audio"
+                    : "📝 Text Notes"}
+              </button>
+            ))}
+          </div>
+
+          <div className="bg-white rounded-lg border border-gray-200 p-8">
+            {activeTab === "photo" && (
+              <div className="space-y-4">
+                <p className="text-gray-600">Upload ID document photo for OCR</p>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileUpload(e, "image")}
+                  disabled={loading}
+                  className="block w-full"
+                />
+              </div>
+            )}
+
+            {activeTab === "audio" && (
+              <div className="space-y-4">
+                <p className="text-gray-600">
+                  Upload audio testimony for transcription
+                </p>
+                <input
+                  type="file"
+                  accept="audio/*"
+                  onChange={(e) => handleFileUpload(e, "audio")}
+                  disabled={loading}
+                  className="block w-full"
+                />
+              </div>
+            )}
+
+            {activeTab === "text" && (
+              <div className="space-y-4">
+                <p className="text-gray-600">
+                  Enter intake notes and observations
+                </p>
+                <textarea
+                  placeholder="Caseworker notes..."
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  rows={6}
+                />
+              </div>
+            )}
+
+            {error && (
+              <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                {error}
+              </div>
+            )}
+          </div>
+
+          <div className="mt-8">
+            <h3 className="font-medium text-gray-700 mb-4">Uploaded Artifacts</h3>
+            <div className="space-y-2">
+              {state.artifacts.length === 0 ? (
+                <p className="text-gray-500">No artifacts uploaded yet</p>
+              ) : (
+                state.artifacts.map((artifact: any, idx: number) => (
+                  <div key={idx} className="flex items-center gap-2 p-3 bg-gray-50 rounded">
+                    <span className="text-lg">
+                      {artifact.modality === "image"
+                        ? "📷"
+                        : artifact.modality === "audio"
+                          ? "🎤"
+                          : "📝"}
+                    </span>
+                    <span className="text-sm text-gray-700">{artifact.filename}</span>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </>
+      )}
 
       <div className="flex gap-4 mt-8">
         <button
@@ -144,10 +202,10 @@ export function Screen2_Ingest() {
         </button>
         <button
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 3 })}
-          disabled={loading || state.artifacts.length === 0}
+          disabled={loading || !canProceed}
           className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400"
         >
-          {loading ? "Uploading..." : "Continue to Synthesis"}
+          {loading ? "Uploading..." : "Continue to Synthesis →"}
         </button>
       </div>
     </div>

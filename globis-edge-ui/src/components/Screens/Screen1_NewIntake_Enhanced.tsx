@@ -3,7 +3,7 @@ import { useSession } from "../../store/SessionContext";
 import { createSession } from "../../services/api";
 
 export function Screen1_NewIntake() {
-  const { dispatch } = useSession();
+  const { state, dispatch } = useSession();
   const [formData, setFormData] = useState({
     site: "",
     caseworker_languages: ["en"] as string[],
@@ -39,8 +39,17 @@ export function Screen1_NewIntake() {
     return minorityLangs[0]?.warning || "Minority language selected";
   };
 
+  // If demo was already loaded from topbar, sync form data from session state
+  // so Screen1 reflects the autofilled values (even though we skip past it)
+  const displaySite = state.demo_loaded ? (state.site ?? formData.site) : formData.site;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // If demo is loaded, just advance — session already exists
+    if (state.demo_loaded && state.id) {
+      dispatch({ type: "SET_SCREEN", payload: 2 });
+      return;
+    }
     if (!formData.site || formData.beneficiary_languages.length === 0) {
       setError("Please fill in all required fields");
       return;
@@ -64,6 +73,20 @@ export function Screen1_NewIntake() {
       <h1 className="text-3xl font-bold mb-2">Start a New Intake</h1>
       <p className="text-gray-600 mb-8">Register a new beneficiary case</p>
 
+      {/* Demo autofill banner */}
+      {state.demo_loaded && (
+        <div className="mb-6 p-4 bg-amber-50 border border-amber-300 rounded-lg flex items-start gap-3">
+          <span className="text-xl">⚡</span>
+          <div>
+            <p className="font-semibold text-amber-900">Demo Scenario Active — Yusuf Ahmed Hassan</p>
+            <p className="text-sm text-amber-800 mt-1">
+              Session created. Fields are pre-filled with the synthetic Adré scenario.
+              Click <strong>Continue to Ingest</strong> to see the artifacts.
+            </p>
+          </div>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -71,7 +94,8 @@ export function Screen1_NewIntake() {
           </label>
           <input
             type="text"
-            value={formData.site}
+            value={displaySite}
+            readOnly={state.demo_loaded}
             onChange={(e) =>
               setFormData({ ...formData, site: e.target.value })
             }
