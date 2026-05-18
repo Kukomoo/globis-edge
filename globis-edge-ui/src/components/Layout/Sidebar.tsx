@@ -1,75 +1,103 @@
 import { useSession } from "../../store/SessionContext";
 
 const screens = [
-  { id: 1 as const, label: "New Intake",   icon: "🏕️",  short: "Intake"  },
-  { id: 2 as const, label: "Ingest",        icon: "📎",  short: "Ingest"  },
-  { id: 3 as const, label: "Synthesise",    icon: "🧩",  short: "Synth"   },
-  { id: 4 as const, label: "Explainer",     icon: "🔍",  short: "Explain" },
-  { id: 5 as const, label: "Dignity Loop",  icon: "🔊",  short: "Dignity" },
-  { id: 6 as const, label: "Commit",        icon: "💾",  short: "Commit"  },
+  { id: 1 as const, label: "New Intake",   step: "01" },
+  { id: 2 as const, label: "Ingest",       step: "02" },
+  { id: 3 as const, label: "Synthesise",   step: "03" },
+  { id: 4 as const, label: "Explainer",    step: "04" },
+  { id: 5 as const, label: "Dignity Loop", step: "05" },
+  { id: 6 as const, label: "Commit",       step: "06" },
 ];
 
 export function Sidebar() {
   const { state, dispatch } = useSession();
 
   return (
-    <aside className="w-52 bg-slate-900 text-white flex flex-col">
-      {/* Logo / brand */}
-      <div className="px-5 py-5 border-b border-slate-700">
-        <p className="text-xs font-bold tracking-widest text-slate-400 uppercase mb-1">Globis Edge</p>
-        <p className="text-xs text-slate-500">v2.0 · Offline mode</p>
+    <aside className="w-56 bg-slate-950 text-white flex flex-col flex-shrink-0">
+
+      {/* Brand */}
+      <div className="px-6 pt-6 pb-5 border-b border-slate-800">
+        <div className="flex items-center gap-2.5 mb-1">
+          <div className="w-7 h-7 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <circle cx="7" cy="7" r="5" stroke="white" strokeWidth="1.5"/>
+              <circle cx="7" cy="7" r="2" fill="white"/>
+            </svg>
+          </div>
+          <span className="text-sm font-bold tracking-widest text-white uppercase">Globis Edge</span>
+        </div>
+        <p className="text-xs text-slate-500 ml-9">v2.0 · Offline mode</p>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      {/* Nav */}
+      <nav className="flex-1 px-3 py-5 space-y-1" aria-label="Application steps">
         {screens.map((screen) => {
-          const isActive = state.current_screen === screen.id;
-          const isCompleted = state.current_screen > screen.id;
+          const isActive     = state.current_screen === screen.id;
+          const isCompleted  = state.current_screen > screen.id;
           const isAccessible = screen.id <= state.current_screen || state.demo_loaded;
 
           return (
             <button
               key={screen.id}
+              type="button"
               onClick={() => isAccessible && dispatch({ type: "SET_SCREEN", payload: screen.id })}
               disabled={!isAccessible}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-all
+              aria-current={isActive ? "step" : undefined}
+              aria-disabled={!isAccessible ? "true" : undefined}
+              className={`
+                w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm
+                transition-all duration-150 group
                 ${isActive
-                  ? "bg-blue-600 text-white shadow-md"
+                  ? "bg-blue-600 text-white shadow-lg"
                   : isCompleted
                     ? "text-slate-300 hover:bg-slate-800 cursor-pointer"
                     : isAccessible
-                      ? "text-slate-400 hover:bg-slate-800 cursor-pointer"
-                      : "text-slate-600 cursor-not-allowed"
-                }`}
+                      ? "text-slate-500 hover:bg-slate-800 cursor-pointer"
+                      : "text-slate-600 cursor-not-allowed opacity-50"
+                }
+              `}
             >
-              <span className="text-base w-5 flex-shrink-0">{screen.icon}</span>
-              <span className="font-medium truncate">{screen.label}</span>
-              {isCompleted && !isActive && (
-                <span className="ml-auto text-green-400 text-xs">✓</span>
-              )}
+              {/* Step badge */}
+              <span className={`
+                w-6 h-6 rounded-md flex items-center justify-center text-xs font-mono font-bold flex-shrink-0
+                ${isActive    ? "bg-white/20 text-white"
+                : isCompleted ? "bg-green-500/20 text-green-400"
+                : isAccessible ? "bg-slate-800 text-slate-500"
+                : "bg-slate-900 text-slate-700"
+                }
+              `}>
+                {isCompleted ? "✓" : screen.step}
+              </span>
+
+              <span className="font-medium">{screen.label}</span>
+
               {isActive && (
-                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-white opacity-80"></span>
+                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-white/60 flex-shrink-0" />
               )}
             </button>
           );
         })}
       </nav>
 
-      {/* Session info footer */}
-      <div className="px-4 py-4 border-t border-slate-700 space-y-2">
+      {/* Footer */}
+      <div className="px-4 pb-5 pt-3 border-t border-slate-800 space-y-2">
         {state.demo_loaded && (
-          <div className="flex items-center gap-2 px-2 py-1.5 bg-amber-900/40 rounded-md">
-            <span className="text-amber-400 text-xs">⚡</span>
+          <div className="flex items-center gap-2 px-3 py-2 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" />
             <span className="text-xs text-amber-300 font-medium">Demo active</span>
           </div>
         )}
-        <div className="px-2">
-          <p className="text-xs text-slate-500 mb-0.5">
-            {state.site ? state.site.split("—")[0].trim() : "No site selected"}
-          </p>
+        <div className="px-1">
+          {state.site ? (
+            <p className="text-xs text-slate-500 leading-snug truncate" title={state.site}>
+              {state.site}
+            </p>
+          ) : (
+            <p className="text-xs text-slate-600 italic">No site selected</p>
+          )}
           {state.id && (
-            <p className="text-xs font-mono text-slate-600">
-              {state.id.slice(0, 8)}…
+            <p className="text-xs font-mono text-slate-700 mt-0.5">
+              {state.id.slice(0, 8)}
             </p>
           )}
         </div>

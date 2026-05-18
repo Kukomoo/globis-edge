@@ -1,28 +1,17 @@
 import { useState } from "react";
 import { useSession } from "../../store/SessionContext";
-import { TestDataBadge } from "../UI/TestDataBadge";
 import { GlossaryPanel } from "../UI/GlossaryPanel";
 import { DEMO_SCENARIO_A, DEMO_SCENARIO_B } from "../../data/demoScenario";
 import { createSession } from "../../services/api";
 
 export function Topbar_Enhanced() {
   const { state, dispatch } = useSession();
-  const [showGlossary, setShowGlossary] = useState(false);
-  const [demoLoading, setDemoLoading] = useState(false);
+  const [showGlossary, setShowGlossary]     = useState(false);
+  const [demoLoading, setDemoLoading]       = useState(false);
   const [activeScenario, setActiveScenario] = useState<"A" | "B">("A");
 
-  // ui_language is global session state — drives Glossary, Dignity Loop, and explainer
   const glossaryLanguage = state.ui_language ?? "en";
 
-  // Check if dossier is synthetic
-  const isSyntheticData = state.dossier?.is_synthetic_data || false;
-
-  /**
-   * One-click demo autofill:
-   * 1. Calls /new-session with Yusuf's scenario data
-   * 2. Injects synthetic artifacts into session state (no real upload needed)
-   * 3. Dispatches LOAD_DEMO → jumps to Screen 2 with everything pre-filled
-   */
   const handleLoadDemo = async (scenario: "A" | "B" = activeScenario) => {
     if (demoLoading) return;
     const scenarioData = scenario === "A" ? DEMO_SCENARIO_A : DEMO_SCENARIO_B;
@@ -31,7 +20,6 @@ export function Topbar_Enhanced() {
     try {
       const response = await createSession(scenarioData.session);
       const sessionId: string = response.data.id;
-
       dispatch({
         type: "LOAD_DEMO",
         payload: {
@@ -42,8 +30,7 @@ export function Topbar_Enhanced() {
           artifacts: scenarioData.artifacts.map((a) => ({ ...a })),
         },
       });
-    } catch (err) {
-      console.error("Demo load failed:", err);
+    } catch {
       dispatch({
         type: "LOAD_DEMO",
         payload: {
@@ -59,88 +46,96 @@ export function Topbar_Enhanced() {
     }
   };
 
+  const screenLabels = ["New Intake", "Ingest", "Synthesise", "Explainer", "Dignity Loop", "Commit"];
+  const currentLabel = screenLabels[(state.current_screen ?? 1) - 1] ?? "New Intake";
+
   return (
     <>
-      <header className="h-16 bg-white border-b border-gray-200 flex items-center px-6 gap-4">
-        {/* Test Data Badge */}
-        {isSyntheticData && (
-          <div className="flex items-center gap-2">
-            <TestDataBadge
-              isSyntheticData={isSyntheticData}
-              sessionId={state.id || undefined}
-            />
-          </div>
-        )}
+      <header className="h-14 bg-white border-b border-slate-200 flex items-center px-5 gap-4 flex-shrink-0">
 
-        {/* ⚡ Demo scenario selector — two scenarios for judges */}
-        <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
-          <span className="text-xs text-gray-500 font-medium px-1">Demo:</span>
+        {/* Left: current screen breadcrumb */}
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-xs font-mono text-slate-500 flex-shrink-0">
+            {String(state.current_screen ?? 1).padStart(2, "0")}/06
+          </span>
+          <span className="text-slate-200 flex-shrink-0">·</span>
+          <span className="text-sm font-semibold text-slate-700 truncate">{currentLabel}</span>
+        </div>
+
+        {/* Divider */}
+        <div className="h-5 w-px bg-slate-200 flex-shrink-0" />
+
+        {/* Demo scenario buttons */}
+        <div className="flex items-center gap-1.5 flex-shrink-0">
+          <span className="text-xs text-slate-500 font-medium mr-0.5">Demo</span>
           {(["A", "B"] as const).map((s) => (
             <button
               key={s}
+              type="button"
               onClick={() => handleLoadDemo(s)}
               disabled={demoLoading}
               title={s === "A"
-                ? "Scenario A — Hawa Adam: dossier reconstruction + cross-modal conflict"
-                : "Scenario B — Yusuf Hassan: Constitutional Auditor block + quarantine chip"}
-              className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all disabled:opacity-60
+                ? "Scenario A — Hawa Adam: cross-modal conflict"
+                : "Scenario B — Yusuf Hassan: auditor block"}
+              className={`
+                px-2.5 py-1 rounded-md text-xs font-bold transition-all disabled:opacity-50
                 ${state.demo_loaded && activeScenario === s
-                  ? "bg-green-500 text-white shadow-sm"
-                  : "bg-amber-500 hover:bg-amber-600 text-white"
-                }`}
+                  ? "bg-green-500 text-white"
+                  : "bg-slate-800 hover:bg-slate-700 text-white"
+                }
+              `}
             >
-              {demoLoading && activeScenario === s ? "⏳" : `⚡ ${s}`}
+              {demoLoading && activeScenario === s ? "…" : `⚡ ${s}`}
             </button>
           ))}
           {state.demo_loaded && (
-            <span className="text-xs text-green-700 font-medium px-1">✓ Loaded</span>
+            <span className="text-xs text-green-600 font-medium ml-0.5">✓</span>
           )}
         </div>
 
-        {/* Session Info */}
-        <div className="flex items-center gap-4 ml-auto">
-          {state.id && (
-            <span className="text-sm text-gray-600">
-              Session: <code className="font-mono text-xs bg-gray-100 px-2 py-1 rounded">{state.id.slice(0, 8)}</code>
-            </span>
-          )}
+        {/* Right side */}
+        <div className="flex items-center gap-2.5 ml-auto">
 
-          {state.current_screen && (
-            <span className="text-sm text-gray-600">
-              Screen <span className="font-semibold">{state.current_screen}</span> of 6
-            </span>
-          )}
-
-          {/* Status Indicator */}
-          <div className="flex items-center gap-1 text-xs text-gray-500">
-            <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-            <span>Demo Mode</span>
+          {/* Status pill */}
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-xs text-slate-500 font-medium flex-shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
+            Offline · Demo
           </div>
 
-          {/* Glossary Button */}
-          <button
-            onClick={() => setShowGlossary(true)}
-            className="ml-4 px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition"
-            title="Open humanitarian glossary"
-          >
-            📚 Glossary
-          </button>
-
-          {/* Language Selector */}
+          {/* Language picker */}
           <select
+            aria-label="UI language"
             value={glossaryLanguage}
             onChange={(e) => dispatch({ type: "SET_LANGUAGE", payload: e.target.value })}
-            className="px-2 py-1 text-xs border border-gray-300 rounded hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-2 py-1.5 text-xs border border-slate-200 rounded-lg bg-white text-slate-600
+                       hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500
+                       cursor-pointer flex-shrink-0"
           >
-            <option value="en">English</option>
-            <option value="ar">العربية</option>
-            <option value="fr">Français</option>
-            <option value="am">አማርኛ</option>
+            <option value="en">EN · English</option>
+            <option value="ar">AR · العربية</option>
+            <option value="fr">FR · Français</option>
+            <option value="am">AM · አማርኛ</option>
           </select>
+
+          {/* Glossary button */}
+          <button
+            type="button"
+            aria-label="Open glossary"
+            onClick={() => setShowGlossary(true)}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600
+                       border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-slate-300
+                       transition-colors flex-shrink-0"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" className="flex-shrink-0">
+              <rect x="1" y="1" width="10" height="1.5" rx="0.5" fill="currentColor"/>
+              <rect x="1" y="4.5" width="10" height="1.5" rx="0.5" fill="currentColor"/>
+              <rect x="1" y="8" width="7" height="1.5" rx="0.5" fill="currentColor"/>
+            </svg>
+            Glossary
+          </button>
         </div>
       </header>
 
-      {/* Glossary Panel — supports en/ar/fr; falls back to en for other locales */}
       <GlossaryPanel
         isOpen={showGlossary}
         onClose={() => setShowGlossary(false)}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface OverrideButtonProps {
   blockedFieldCount: number;
@@ -6,135 +6,174 @@ interface OverrideButtonProps {
   disabled?: boolean;
 }
 
-export function OverrideButton({
-  blockedFieldCount,
-  onConfirm,
-  disabled = false,
-}: OverrideButtonProps) {
-  const [showConfirmation, setShowConfirmation] = useState(false);
+export function OverrideButton({ blockedFieldCount, onConfirm, disabled = false }: OverrideButtonProps) {
+  const [open, setOpen]         = useState(false);
   const [signature, setSignature] = useState("");
-  const [agreed, setAgreed] = useState(false);
+  const [agreed, setAgreed]     = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const signatureInputRef = useRef<HTMLInputElement>(null);
+
+  const canCommit = signature.trim().length > 0 && agreed;
 
   const handleConfirm = () => {
-    if (signature.trim() && agreed) {
-      onConfirm(signature);
-      // Reset state after confirmation
-      setSignature("");
-      setAgreed(false);
-      setShowConfirmation(false);
-    }
+    if (!canCommit) return;
+    onConfirm(signature.trim());
+    setSignature(""); setAgreed(false); setOpen(false);
+    triggerRef.current?.focus();
   };
 
+  const handleCancel = () => {
+    setSignature(""); setAgreed(false); setOpen(false);
+    triggerRef.current?.focus();
+  };
+
+  useEffect(() => {
+    if (open) {
+      signatureInputRef.current?.focus();
+    }
+  }, [open]);
+
   return (
-    <div>
-      {!showConfirmation ? (
-        <button
-          onClick={() => setShowConfirmation(true)}
-          disabled={disabled || blockedFieldCount === 0}
-          className="px-4 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 disabled:bg-gray-400 transition"
+    <>
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={() => setOpen(true)}
+        disabled={disabled || blockedFieldCount === 0}
+        className="px-4 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-xl
+                   hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400
+                   transition-colors"
+      >
+        Commit with Awareness
+      </button>
+
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(15,23,42,0.6)", backdropFilter: "blur(2px)" }}
+          onClick={(e) => { if (e.target === e.currentTarget) handleCancel(); }}
+          onKeyDown={(e) => { if (e.key === "Escape") handleCancel(); }}
         >
-          Commit with Awareness
-        </button>
-      ) : (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="override-dialog-title"
+          >
+
             {/* Header */}
-            <div className="bg-red-50 border-b border-red-200 p-6">
-              <p className="text-lg font-bold text-red-900">
-                ⚠️ Commit Record with Protected Fields?
-              </p>
+            <div className="px-6 py-5 border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 2L14 13H2L8 2Z" stroke="#dc2626" strokeWidth="1.5" strokeLinejoin="round"/>
+                    <path d="M8 6v3.5M8 11v.5" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <p id="override-dialog-title" className="font-bold text-slate-900 text-base">Commit with Protected Fields?</p>
+                  <p className="text-xs text-slate-500 mt-0.5">This action will be permanently logged</p>
+                </div>
+              </div>
             </div>
 
-            {/* Content */}
-            <div className="p-6 space-y-4">
-              {/* Warning */}
-              <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
-                <p className="text-sm text-yellow-900 font-medium mb-1">
-                  This record contains {blockedFieldCount} protected field(s):
-                </p>
-                <p className="text-sm text-yellow-800">
-                  By committing, you are acknowledging that you are aware of
-                  what was blocked and understand the protection implications.
+            {/* Body */}
+            <div className="px-6 py-5 space-y-4">
+
+              {/* What's blocked */}
+              <div className="flex items-start gap-3 p-3.5 bg-red-50 border border-red-200 rounded-xl">
+                <span className="text-red-500 flex-shrink-0 mt-0.5">🔒</span>
+                <div>
+                  <p className="text-sm font-semibold text-red-900">
+                    {blockedFieldCount} protected field{blockedFieldCount > 1 ? "s" : ""} will not be exported
+                  </p>
+                  <p className="text-xs text-red-700 mt-0.5 leading-relaxed">
+                    By proceeding, you acknowledge awareness of what was blocked
+                    and understand the protection implications.
+                  </p>
+                </div>
+              </div>
+
+              {/* Legal note */}
+              <div className="flex items-start gap-3 p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
+                <span className="text-slate-500 flex-shrink-0 mt-0.5 text-sm">⚖️</span>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong className="text-slate-700">Article 31 · 1951 Refugee Convention:</strong>{" "}
+                  Protected fields are withheld to minimise sensitive data collection
+                  and comply with international protection principles.
                 </p>
               </div>
 
-              {/* Legal Grounding */}
-              <div className="text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded p-3">
-                <p className="font-medium mb-1">
-                  🛡️ Legal Foundation (Article 31, 1951 Refugee Convention):
-                </p>
-                <p>
-                  Protected fields are withheld to minimize sensitive data
-                  collection and comply with international protection principles.
-                  Your decision will be logged.
-                </p>
-              </div>
-
-              {/* Signature Field */}
+              {/* Signature */}
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">
-                  Caseworker Name/ID (Required):
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                  Caseworker Name / ID
+                  <span className="text-red-500 ml-1">*</span>
                 </label>
                 <input
+                  ref={signatureInputRef}
                   type="text"
                   value={signature}
                   onChange={(e) => setSignature(e.target.value)}
                   placeholder="Your name or caseworker ID"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm
+                             focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
-                <p className="text-xs text-gray-500 mt-1">
-                  This will be logged in the audit trail
-                </p>
+                <p className="text-xs text-slate-500 mt-1">Recorded in the audit trail with timestamp</p>
               </div>
 
-              {/* Acknowledgment */}
-              <label className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  checked={agreed}
-                  onChange={(e) => setAgreed(e.target.checked)}
-                  className="mt-1"
-                />
-                <span className="text-sm text-gray-700">
+              {/* Acknowledgement */}
+              <label className={`
+                flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-colors
+                ${agreed ? "bg-green-50 border-green-200" : "bg-white border-slate-200 hover:bg-slate-50"}
+              `}>
+                <div className={`
+                  w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors
+                  ${agreed ? "bg-green-500 border-green-500" : "border-slate-300"}
+                `}>
+                  {agreed && (
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path d="M1 4l2.5 2.5L9 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
+                </div>
+                <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="sr-only" />
+                <span className="text-sm text-slate-700 leading-snug">
                   I acknowledge that{" "}
-                  <strong>{blockedFieldCount} field(s) were blocked</strong> for
-                  protection reasons, and I am proceeding with full awareness of
-                  this decision.
+                  <strong className="text-slate-900">{blockedFieldCount} field{blockedFieldCount > 1 ? "s" : ""} were blocked</strong>{" "}
+                  for protection reasons, and I am proceeding with full awareness.
                 </span>
               </label>
             </div>
 
-            {/* Actions */}
-            <div className="border-t border-gray-200 p-6 bg-gray-50 flex gap-3">
+            {/* Footer */}
+            <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex gap-3">
               <button
-                onClick={() => {
-                  setShowConfirmation(false);
-                  setSignature("");
-                  setAgreed(false);
-                }}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50"
+                type="button"
+                aria-label="Close"
+                onClick={handleCancel}
+                className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium
+                           text-slate-600 hover:bg-slate-100 transition-colors"
               >
                 Cancel
               </button>
               <button
+                type="button"
                 onClick={handleConfirm}
-                disabled={!signature.trim() || !agreed}
-                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 disabled:bg-gray-400 transition"
+                disabled={!canCommit}
+                className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl text-sm font-semibold
+                           hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-400 transition-colors"
               >
                 Commit & Log Decision
               </button>
             </div>
 
-            {/* Footer Info */}
-            <div className="border-t border-gray-200 p-4 bg-white text-xs text-gray-500">
-              <p>
-                ℹ️ This decision will be logged with: timestamp, your name/ID,
-                session ID, and which fields were blocked.
-              </p>
+            <div className="px-6 pb-4 text-xs text-slate-500 text-center">
+              Logged with: timestamp · name/ID · session ID · blocked fields
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
