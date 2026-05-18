@@ -220,7 +220,5 @@ export function Screen5_DignityLoop() {
         </button>
       </div>
     </div>
-  </div>
-  </div>
   );
 }

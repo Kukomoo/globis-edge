@@ -257,6 +257,5 @@ export function Screen6_Commit() {
         </button>
       </div>
     </div>
-  </div>
   );
 }
