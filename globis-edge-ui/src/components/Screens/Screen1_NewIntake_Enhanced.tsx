@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSession } from "../../store/SessionContext";
 import { createSession } from "../../services/api";
+import { t } from "../../data/translations";
 
 const LANGUAGES = [
   { code: "en",  label: "English",  flag: "🇬🇧", minority: false },
@@ -63,6 +64,7 @@ function LangToggle({
 
 export function Screen1_NewIntake() {
   const { state, dispatch } = useSession();
+  const language = state.ui_language ?? "en";
   const [formData, setFormData] = useState({
     site: "",
     caseworker_languages: ["en"] as string[],
@@ -114,9 +116,9 @@ export function Screen1_NewIntake() {
 
         {/* Page header */}
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: "#1a2028" }}>New Intake</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: "#1a2028" }}>{t(language, "newIntake")}</h1>
           <p className="text-sm" style={{ color: "#6b7f8c" }}>
-            Register a new arrival at your reception site
+            {t(language, "newIntakeSubtitle")}
           </p>
         </div>
 
@@ -152,7 +154,7 @@ export function Screen1_NewIntake() {
               {/* Reception site */}
               <div>
                 <label htmlFor="site" className="block text-sm font-semibold mb-2" style={{ color: "#1a2028" }}>
-                  Reception Site
+                  {t(language, "receptionSite")}
                   <span className="text-red-400 ml-1">*</span>
                 </label>
                 <input
@@ -161,7 +163,7 @@ export function Screen1_NewIntake() {
                   value={displaySite}
                   readOnly={state.demo_loaded}
                   onChange={(e) => setFormData({ ...formData, site: e.target.value })}
-                  placeholder="e.g., Adré reception point — Tent 4"
+                  placeholder={t(language, "receptionSitePlaceholder")}
                   className="w-full px-4 py-3 rounded-xl text-sm transition-shadow"
                   style={{
                     border: "1.5px solid rgba(147,177,194,0.40)",
@@ -179,9 +181,9 @@ export function Screen1_NewIntake() {
               {/* Caseworker languages */}
               <div>
                 <label className="block text-sm font-semibold mb-1" style={{ color: "#1a2028" }}>
-                  Caseworker Languages
+                  {t(language, "caseworkerLanguages")}
                 </label>
-                <p className="text-xs mb-3" style={{ color: "#6b7f8c" }}>Languages the caseworker speaks</p>
+                <p className="text-xs mb-3" style={{ color: "#6b7f8c" }}>{t(language, "caseworkerLanguagesHint")}</p>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((lang) => (
                     <LangToggle
@@ -197,10 +199,10 @@ export function Screen1_NewIntake() {
               {/* Beneficiary languages */}
               <div>
                 <label className="block text-sm font-semibold mb-1" style={{ color: "#1a2028" }}>
-                  Person's Languages
+                  {t(language, "personLanguages")}
                   <span className="text-red-400 ml-1">*</span>
                 </label>
-                <p className="text-xs mb-3" style={{ color: "#6b7f8c" }}>Languages the arriving person speaks</p>
+                <p className="text-xs mb-3" style={{ color: "#6b7f8c" }}>{t(language, "personLanguagesHint")}</p>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((lang) => (
                     <LangToggle
@@ -268,7 +270,7 @@ export function Screen1_NewIntake() {
                 onMouseEnter={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.background = "#555555"; }}
                 onMouseLeave={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.background = "#424242"; }}
               >
-                {loading ? "Creating session…" : "Continue →"}
+                {loading ? t(language, "uploading") : t(language, "continueBtn")}
               </button>
             </div>
           </form>

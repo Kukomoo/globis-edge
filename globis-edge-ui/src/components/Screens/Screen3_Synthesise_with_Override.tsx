@@ -4,9 +4,11 @@ import { synthesise } from "../../services/api";
 import { ProvenancePin } from "../UI/ProvenancePin";
 import { AuditorPanel } from "../UI/AuditorPanel";
 import { OverrideButton } from "../UI/OverrideButton";
+import { t } from "../../data/translations";
 
 export function Screen3_Synthesise_with_Override() {
   const { state, dispatch } = useSession();
+  const language = state.ui_language ?? "en";
   const [loading, setLoading]               = useState(false);
   const [error, setError]                   = useState<string | null>(null);
   const [showAuditorDetails, setShowAuditor] = useState(false);
@@ -56,9 +58,9 @@ export function Screen3_Synthesise_with_Override() {
 
       {/* Page title */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">Case Summary</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">{t(language, "caseSummary")}</h1>
         <p className="text-sm text-[#6b7f8c] mt-1">
-          Information gathered from all documents and testimony · Safety check complete
+          {t(language, "caseSummarySubtitle")}
         </p>
       </div>
 
@@ -123,8 +125,8 @@ export function Screen3_Synthesise_with_Override() {
           {/* Core fields */}
           <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
             <div className="px-5 py-4 border-b border-[rgba(147,177,194,0.35)]">
-              <p className="text-sm font-semibold text-[#1a2028]">Core Information</p>
-              <p className="text-xs text-[#6b7f8c] mt-0.5">Extracted and reconciled across all uploaded artifacts</p>
+              <p className="text-sm font-semibold text-[#1a2028]">{t(language, "coreInfo")}</p>
+              <p className="text-xs text-[#6b7f8c] mt-0.5">{t(language, "coreInfoHint")}</p>
             </div>
             <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-5">
               {[
@@ -181,15 +183,15 @@ export function Screen3_Synthesise_with_Override() {
           <div className="rounded-xl border border-[rgba(147,177,194,0.35)] bg-white overflow-hidden">
             <div className="px-5 py-4 border-b border-[rgba(147,177,194,0.35)] flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-[#1a2028]">Safety Check</p>
-                <p className="text-xs text-[#6b7f8c] mt-0.5">Automatic review of your record before saving</p>
+                <p className="text-sm font-semibold text-[#1a2028]">{t(language, "safetyCheck")}</p>
+                <p className="text-xs text-[#6b7f8c] mt-0.5">{t(language, "safetyCheckHint")}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setShowAuditor(!showAuditorDetails)}
                 className="text-xs text-blue-600 hover:text-blue-700 font-medium px-3 py-1.5 rounded-xl hover:bg-blue-50 transition-colors flex-shrink-0 ml-4"
               >
-                {showAuditorDetails ? "Hide" : "Show details"}
+                {showAuditorDetails ? t(language, "hideDetails") : t(language, "showDetails")}
               </button>
             </div>
 
@@ -198,8 +200,8 @@ export function Screen3_Synthesise_with_Override() {
                 <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl border border-green-200">
                   <div className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 text-lg" aria-hidden="true">✅</div>
                   <div>
-                    <p className="font-semibold text-green-900 text-sm">All clear — ready to save</p>
-                    <p className="text-xs text-green-700 mt-0.5">No sensitive or prohibited information was found. The record is safe to save.</p>
+                    <p className="font-semibold text-green-900 text-sm">{t(language, "safetyClean")}</p>
+                    <p className="text-xs text-green-700 mt-0.5">{t(language, "safetyCleanHint")}</p>
                     <div className="mt-2.5 flex flex-wrap gap-1.5 text-xs">
                       <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">Automatic check: passed</span>
                       <span className="px-2 py-0.5 bg-green-100 text-green-800 rounded">AI review: passed</span>
@@ -213,7 +215,7 @@ export function Screen3_Synthesise_with_Override() {
                 <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl border border-red-200">
                   <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 text-lg" aria-hidden="true">🔒</div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-red-900 text-sm">Needs your review before saving</p>
+                    <p className="font-semibold text-red-900 text-sm">{t(language, "safetyBlocked")}</p>
                     <p className="text-xs text-red-700 mt-0.5 leading-relaxed">
                       {d.triage_reason || "A sensitive category was found and set aside. Review the details below before deciding."}
                     </p>
@@ -287,7 +289,7 @@ export function Screen3_Synthesise_with_Override() {
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 2 })}
           className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
         >
-          ← Back to Documents
+          {t(language, "back")}
         </button>
         <button
           type="button"

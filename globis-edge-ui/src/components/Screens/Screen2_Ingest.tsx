@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useSession } from "../../store/SessionContext";
 import { uploadArtifact } from "../../services/api";
 import { DEMO_SCENARIO_A, DEMO_SCENARIO_B } from "../../data/demoScenario";
+import { t } from "../../data/translations";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 type Tab = "photo" | "audio" | "text";
@@ -18,10 +19,20 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
   const startCamera = async () => {
     setError(null);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment", width: { ideal: 1920 }, height: { ideal: 1080 } },
-        audio: false,
-      });
+      // Try rear camera first; fall back to any camera if OverconstrainedError
+      let stream: MediaStream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } },
+          audio: false,
+        });
+      } catch (constraintErr: any) {
+        if (constraintErr.name === "OverconstrainedError" || constraintErr.name === "ConstraintNotSatisfiedError") {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        } else {
+          throw constraintErr;
+        }
+      }
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -30,8 +41,8 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
       setActive(true);
     } catch (err: any) {
       setError(err.name === "NotAllowedError"
-        ? "Camera access denied. Allow camera in browser settings and retry."
-        : "Could not access camera: " + err.message);
+        ? "Camera access denied. Allow camera in your browser settings and retry."
+        : "Could not access camera: " + (err.message || err.name));
     }
   };
 
@@ -132,7 +143,7 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
           <span className="text-sm font-medium text-[#6b7f8c] group-hover:text-blue-700">Use Camera</span>
           <span className="text-xs text-[#9bafba]">Live capture from device</span>
         </button>
-        {/* File upload fallback */}
+        {/* File upload fallback — no capture attr so mobile shows file picker not camera */}
         <label className="flex flex-col items-center justify-center gap-2 p-5 sm:p-6 border-2 border-dashed border-[rgba(147,177,194,0.4)]
                           rounded-xl hover:border-blue-400 hover:bg-blue-50/30 transition-colors group cursor-pointer">
           <span className="text-3xl">🖼️</span>
@@ -140,8 +151,7 @@ function CameraCapture({ onCapture }: { onCapture: (file: File) => void }) {
           <span className="text-xs text-[#9bafba]">JPG, PNG, HEIC — 10MB</span>
           <input
             type="file"
-            accept="image/*"
-            capture="environment"
+            accept="image/jpeg,image/png,image/heic,image/heif,image/webp"
             onChange={(e) => { const f = e.target.files?.[0]; if (f) onCapture(f); }}
             className="hidden"
           />
@@ -183,8 +193,8 @@ function AudioRecorder({ onRecord }: { onRecord: (file: File) => void }) {
       timerRef.current = setInterval(() => setDuration((d) => d + 1), 1000);
     } catch (err: any) {
       setError(err.name === "NotAllowedError"
-        ? "Microphone access denied. Allow microphone in browser settings."
-        : "Could not access microphone: " + err.message);
+        ? "Microphone access denied. Allow microphone in your browser settings and retry."
+        : "Could not access microphone: " + (err.message || err.name));
     }
   };
 
@@ -296,6 +306,7 @@ function AudioRecorder({ onRecord }: { onRecord: (file: File) => void }) {
 // ── Main Screen ────────────────────────────────────────────────────────────────
 export function Screen2_Ingest() {
   const { state, dispatch } = useSession();
+  const language = state.ui_language ?? "en";
   const [uploading, setUploading] = useState(false);
   const [error, setError]         = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("photo");
@@ -366,9 +377,9 @@ export function Screen2_Ingest() {
 
         {/* Header */}
         <div className="mb-5 sm:mb-7">
-          <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028] mb-1">Add Documents &amp; Notes</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028] mb-1">{t(language, "addDocuments")}</h1>
           <p className="text-sm text-[#6b7f8c]">
-            Upload or capture documents, record audio testimony, and add caseworker notes.
+            {t(language, "addDocumentsSubtitle")}
             {state.site && (
               <> Site: <strong className="text-[#3d4d58]">{state.site}</strong></>
             )}
@@ -560,7 +571,7 @@ export function Screen2_Ingest() {
             className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm
                        text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
           >
-            ← Back
+            {t(language, "back")}
           </button>
           <button
             type="button"
@@ -570,7 +581,7 @@ export function Screen2_Ingest() {
                        hover:bg-blue-700 disabled:bg-[#D5DEE3] disabled:text-[#9bafba]
                        transition-colors shadow-sm"
           >
-            {uploading ? "Uploading…" : "Continue →"}
+            {uploading ? t(language, "uploading") : t(language, "continueBtn")}
           </button>
         </div>
 

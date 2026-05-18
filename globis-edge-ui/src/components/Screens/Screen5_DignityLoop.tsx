@@ -31,6 +31,15 @@ export function Screen5_DignityLoop() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
 
+  // Cancel speech synthesis when component unmounts (user navigates to another screen)
+  useEffect(() => {
+    return () => {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
   const handleGenerateTTS = async () => {
     if (!state.id) return;
     setLoading(true);

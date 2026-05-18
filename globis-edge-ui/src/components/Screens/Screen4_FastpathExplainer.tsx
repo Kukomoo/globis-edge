@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSession } from "../../store/SessionContext";
 import { ReasoningCard } from "../UI/ReasoningCard";
 import { GlossaryTooltip } from "../UI/GlossaryTooltip";
+import { t } from "../../data/translations";
 
 interface ReasoningTrace {
   field: string;
@@ -17,6 +18,7 @@ interface ReasoningTrace {
 
 export function Screen4_FastpathExplainer() {
   const { state, dispatch } = useSession();
+  const language = state.ui_language ?? "en";
   const [expandAll, setExpandAll] = useState(false);
 
   const traces: ReasoningTrace[] = state.dossier?.reasoning_traces || [];
@@ -28,9 +30,9 @@ export function Screen4_FastpathExplainer() {
 
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">Why Each Field Was Checked</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">{t(language, "explanation")}</h1>
         <p className="text-sm text-[#6b7f8c] mt-1">
-          A plain explanation of each piece of information — what the system found and why
+          {t(language, "explanationSubtitle")}
         </p>
       </div>
 
@@ -244,7 +246,7 @@ export function Screen4_FastpathExplainer() {
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 3 })}
           className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
         >
-          ← Back to Summary
+          {t(language, "back")}
         </button>
         <button
           type="button"
@@ -252,7 +254,7 @@ export function Screen4_FastpathExplainer() {
           disabled={!state.dossier}
           className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 disabled:bg-[#D5DEE3] disabled:text-[#9bafba] transition-colors shadow-sm"
         >
-          Confirm with Person →
+          {t(language, "confirmWithPerson")} →
         </button>
       </div>
 

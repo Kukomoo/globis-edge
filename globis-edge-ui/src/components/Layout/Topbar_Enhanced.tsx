@@ -3,6 +3,7 @@ import { useSession } from "../../store/SessionContext";
 import { GlossaryPanel } from "../UI/GlossaryPanel";
 import { DEMO_SCENARIO_A, DEMO_SCENARIO_B } from "../../data/demoScenario";
 import { createSession } from "../../services/api";
+import { t } from "../../data/translations";
 
 interface TopbarProps {
   onMenuToggle?: () => void;
@@ -55,8 +56,16 @@ export function Topbar_Enhanced({ onMenuToggle, sidebarOpen }: TopbarProps) {
     }
   };
 
-  const screenLabels = ["New Intake", "Documents", "Case Summary", "Explanation", "Confirm", "Save Record"];
-  const currentLabel = screenLabels[(state.current_screen ?? 1) - 1] ?? "New Intake";
+  const lang = state.ui_language ?? "en";
+  const screenLabels = [
+    t(lang, "newIntake"),
+    t(lang, "addDocuments"),
+    t(lang, "caseSummary"),
+    t(lang, "explanation"),
+    t(lang, "confirmWithPerson"),
+    t(lang, "saveRecordTitle"),
+  ];
+  const currentLabel = screenLabels[(state.current_screen ?? 1) - 1] ?? t(lang, "newIntake");
 
   return (
     <>

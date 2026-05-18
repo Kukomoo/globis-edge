@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useSession } from "../../store/SessionContext";
 import { commitRecord } from "../../services/api";
+import { t } from "../../data/translations";
 
 export function Screen6_Commit() {
   const { state, dispatch } = useSession();
+  const language = state.ui_language ?? "en";
   const [decision, setDecision] = useState<"commit" | "quarantine" | null>(null);
   const [notes, setNotes]       = useState("");
   const [loading, setLoading]   = useState(false);
@@ -37,7 +39,7 @@ export function Screen6_Commit() {
         <div className={`rounded-2xl border p-6 sm:p-10 text-center ${isQ ? "border-amber-200 bg-amber-50" : "border-green-200 bg-green-50"}`}>
           <div className="text-4xl sm:text-5xl mb-3 sm:mb-4" aria-hidden="true">{isQ ? "🗄️" : "✅"}</div>
           <h1 className={`text-xl sm:text-2xl font-bold mb-2 ${isQ ? "text-amber-900" : "text-green-900"}`}>
-            {isQ ? "Record Held for Review" : "Record Saved"}
+            {isQ ? t(language, "recordHeld") : t(language, "recordSaved")}
           </h1>
           <p className={`text-sm mb-2 ${isQ ? "text-amber-700" : "text-green-700"}`}>
             {isQ
@@ -69,7 +71,7 @@ export function Screen6_Commit() {
             onClick={() => dispatch({ type: "RESET_SESSION" })}
             className="px-5 sm:px-8 py-3 bg-[#424242] text-white rounded-xl font-semibold hover:bg-[#555555] transition-colors"
           >
-            Start New Intake
+            {t(language, "startNewIntake")}
           </button>
         </div>
       </div>
@@ -82,9 +84,9 @@ export function Screen6_Commit() {
 
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">Save the Record</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1a2028]">{t(language, "saveRecordTitle")}</h1>
         <p className="text-sm text-[#6b7f8c] mt-1">
-          Your decision is needed before anything is stored
+          {t(language, "saveRecordSubtitle")}
         </p>
       </div>
 
@@ -240,7 +242,7 @@ export function Screen6_Commit() {
           onClick={() => dispatch({ type: "SET_SCREEN", payload: 5 })}
           className="flex-1 px-4 py-3 border border-[rgba(147,177,194,0.35)] rounded-xl font-medium text-sm text-[#3d4d58] hover:bg-[#f0f5f8] transition-colors"
         >
-          ← Back to Confirmation
+          {t(language, "back")}
         </button>
         <button
           onClick={handleCommit}
@@ -252,10 +254,10 @@ export function Screen6_Commit() {
               : "bg-blue-600 hover:bg-blue-700 text-white"
             }`}
         >
-          {loading ? "Saving…"
-            : decision === "quarantine" ? "Hold for Review"
-            : decision === "commit"     ? "Save Record"
-            : "Choose an option above"}
+          {loading ? t(language, "generating")
+            : decision === "quarantine" ? t(language, "recordHeld")
+            : decision === "commit"     ? t(language, "saveRecord")
+            : t(language, "saveRecordTitle")}
         </button>
       </div>
     </div>
