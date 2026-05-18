@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useSession } from "../../store/SessionContext";
 import { TestDataBadge } from "../UI/TestDataBadge";
 import { GlossaryPanel } from "../UI/GlossaryPanel";
-import { DEMO_SCENARIO } from "../../data/demoScenario";
+import { DEMO_SCENARIO_A, DEMO_SCENARIO_B } from "../../data/demoScenario";
 import { createSession } from "../../services/api";
 
 export function Topbar_Enhanced() {
   const { state, dispatch } = useSession();
   const [showGlossary, setShowGlossary] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
+  const [activeScenario, setActiveScenario] = useState<"A" | "B">("A");
 
   // ui_language is global session state — drives Glossary, Dignity Loop, and explainer
   const glossaryLanguage = state.ui_language ?? "en";
@@ -22,34 +23,35 @@ export function Topbar_Enhanced() {
    * 2. Injects synthetic artifacts into session state (no real upload needed)
    * 3. Dispatches LOAD_DEMO → jumps to Screen 2 with everything pre-filled
    */
-  const handleLoadDemo = async () => {
+  const handleLoadDemo = async (scenario: "A" | "B" = activeScenario) => {
     if (demoLoading) return;
+    const scenarioData = scenario === "A" ? DEMO_SCENARIO_A : DEMO_SCENARIO_B;
     setDemoLoading(true);
+    setActiveScenario(scenario);
     try {
-      const response = await createSession(DEMO_SCENARIO.session);
+      const response = await createSession(scenarioData.session);
       const sessionId: string = response.data.id;
 
       dispatch({
         type: "LOAD_DEMO",
         payload: {
           id: sessionId,
-          site: DEMO_SCENARIO.session.site,
-          caseworker_languages: [...DEMO_SCENARIO.session.caseworker_languages],
-          beneficiary_languages: [...DEMO_SCENARIO.session.beneficiary_languages],
-          artifacts: DEMO_SCENARIO.artifacts.map((a) => ({ ...a })),
+          site: scenarioData.session.site,
+          caseworker_languages: [...scenarioData.session.caseworker_languages],
+          beneficiary_languages: [...scenarioData.session.beneficiary_languages],
+          artifacts: scenarioData.artifacts.map((a) => ({ ...a })),
         },
       });
     } catch (err) {
       console.error("Demo load failed:", err);
-      // Still load the UI with a stub session id so the demo is usable offline
       dispatch({
         type: "LOAD_DEMO",
         payload: {
           id: "demo-" + Math.random().toString(36).slice(2, 10),
-          site: DEMO_SCENARIO.session.site,
-          caseworker_languages: [...DEMO_SCENARIO.session.caseworker_languages],
-          beneficiary_languages: [...DEMO_SCENARIO.session.beneficiary_languages],
-          artifacts: DEMO_SCENARIO.artifacts.map((a) => ({ ...a })),
+          site: scenarioData.session.site,
+          caseworker_languages: [...scenarioData.session.caseworker_languages],
+          beneficiary_languages: [...scenarioData.session.beneficiary_languages],
+          artifacts: scenarioData.artifacts.map((a) => ({ ...a })),
         },
       });
     } finally {
@@ -70,24 +72,30 @@ export function Topbar_Enhanced() {
           </div>
         )}
 
-        {/* ⚡ Load Demo button — always visible, prominent for judges */}
-        <button
-          onClick={handleLoadDemo}
-          disabled={demoLoading}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all
-            ${state.demo_loaded
-              ? "bg-green-100 text-green-700 border border-green-300 cursor-default"
-              : "bg-amber-500 hover:bg-amber-600 text-white shadow-sm hover:shadow-md"
-            }
-            disabled:opacity-60`}
-          title="Pre-load Yusuf's synthetic scenario for a guided demo walkthrough"
-        >
-          {demoLoading
-            ? "⏳ Loading..."
-            : state.demo_loaded
-              ? "✅ Demo Loaded"
-              : "⚡ Load Demo"}
-        </button>
+        {/* ⚡ Demo scenario selector — two scenarios for judges */}
+        <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+          <span className="text-xs text-gray-500 font-medium px-1">Demo:</span>
+          {(["A", "B"] as const).map((s) => (
+            <button
+              key={s}
+              onClick={() => handleLoadDemo(s)}
+              disabled={demoLoading}
+              title={s === "A"
+                ? "Scenario A — Hawa Adam: dossier reconstruction + cross-modal conflict"
+                : "Scenario B — Yusuf Hassan: Constitutional Auditor block + quarantine chip"}
+              className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all disabled:opacity-60
+                ${state.demo_loaded && activeScenario === s
+                  ? "bg-green-500 text-white shadow-sm"
+                  : "bg-amber-500 hover:bg-amber-600 text-white"
+                }`}
+            >
+              {demoLoading && activeScenario === s ? "⏳" : `⚡ ${s}`}
+            </button>
+          ))}
+          {state.demo_loaded && (
+            <span className="text-xs text-green-700 font-medium px-1">✓ Loaded</span>
+          )}
+        </div>
 
         {/* Session Info */}
         <div className="flex items-center gap-4 ml-auto">

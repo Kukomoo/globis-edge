@@ -262,6 +262,123 @@ async def intake(
     return artifact
 
 
+def _synthesise_yusuf(session_id: str) -> dict:
+    """Return a Scenario B (auditor block) synthesis result for the Yusuf demo."""
+    scenario = load_scenario("yusuf", "case_scenario_b.json")
+    expected = scenario["expected_outcome"]
+    auditor = scenario["constitutional_auditor_behavior"]
+    now = datetime.now(timezone.utc).isoformat()
+
+    reasoning_traces = [
+        {
+            "field": "name",
+            "verdict": "PASS",
+            "claim": "Yusuf Ahmed Hassan",
+            "reasoning": (
+                "Name is consistent across audio testimony and National ID card OCR. "
+                "No abbreviation or discrepancy detected."
+            ),
+            "evidence": (
+                "Audio (scenario-b-audio-001): 'My name is Yusuf Ahmed Hassan' | "
+                "National ID OCR (scenario-b-doc-001): 'Name: Yusuf Ahmed Hassan'"
+            ),
+            "artifact_id": "scenario-b-audio-001",
+            "artifact_type": "audio",
+            "source_timestamp": now,
+            "supporting_sources": ["scenario-b-audio-001", "scenario-b-doc-001"],
+        },
+        {
+            "field": "date_of_birth",
+            "verdict": "PASS",
+            "claim": "1992-03-15",
+            "reasoning": (
+                "Date of birth extracted cleanly from National ID. "
+                "Audio testimony does not contradict. "
+                "Cross-modal check: PASS."
+            ),
+            "evidence": "National ID OCR (scenario-b-doc-001): 'Date of Birth: 1992-03-15'",
+            "artifact_id": "scenario-b-doc-001",
+            "artifact_type": "image",
+            "source_timestamp": now,
+            "supporting_sources": ["scenario-b-doc-001"],
+        },
+        {
+            "field": "ethnicity_based_persecution_concern",
+            "verdict": "BLOCK — RULE PASS",
+            "claim": "[VALUE NOT LOGGED]",
+            "reasoning": (
+                "Constitutional Auditor Rule Pass detected an ethnicity-related persecution "
+                "claim in the testimony. This field name matches the PROHIBITED_FIELDS set "
+                "{'ethnicity', 'political_affiliation', ...}. "
+                "The field was blocked before reaching the LLM (Prompt Pass). "
+                "The value was NOT logged — only the field name is recorded in the audit trail. "
+                "Caseworker sees protection-concern chip."
+            ),
+            "evidence": (
+                "Audio (scenario-b-audio-001): testimony mentions ethnic targeting — "
+                "BLOCKED before logging. Field name only in audit log."
+            ),
+            "artifact_id": "scenario-b-audio-001",
+            "artifact_type": "audio",
+            "source_timestamp": now,
+            "supporting_sources": ["scenario-b-audio-001"],
+            "constitutional_basis": "PROHIBITED_FIELDS rule — Article 31, 1951 Refugee Convention",
+            "value_logged": False,
+        },
+    ]
+
+    return {
+        "session_id": session_id,
+        "watermark": "SYNTHETIC SCENARIO",
+        "scenario": "B — Tobias and the Blocked Field",
+        "full_name": "Yusuf Ahmed Hassan",
+        "dob": "1992-03-15",
+        "origin": "Goz Beida, Dar Sila Region, Chad",
+        "nationality": "Chadian",
+        "arrival_location": "Eisenhüttenstadt, Germany",
+        "arrival_date": "2026-05-16",
+        "documents_provided": ["National ID Card (Chad, valid 2029)"],
+        "auditor_status": "blocked",
+        "blocked_fields": expected["blocked_field_names"],
+        "triage_reason": (
+            "Rule Pass blocked ethnicity-related persecution field. "
+            "Value was NOT logged. Caseworker must review before commit."
+        ),
+        "rule_pass_result": {
+            "passed": False,
+            "blocked_field_names": expected["blocked_field_names"],
+            "value_logged": False,
+            "note": (
+                "Ethnicity-based persecution concern matches PROHIBITED_FIELDS. "
+                "Field blocked at Rule Pass — LLM never saw the value."
+            ),
+            "constitutional_basis": "Article 31, 1951 Refugee Convention + PROHIBITED_FIELDS policy",
+            "log_entry": auditor["rule_pass_result"]["log_entry"],
+        },
+        "prompt_pass_result": {
+            "verdict": "SKIPPED",
+            "reason": "Rule Pass blocked a prohibited field. Prompt Pass is never run when Rule Pass blocks.",
+        },
+        "conflicts": [],
+        "reasoning_traces": reasoning_traces,
+        "case_readiness": {
+            "eligible_for_export": False,
+            "requires_human_review": True,
+            "dignity_confirmed": False,
+            "quarantine_action": auditor["quarantine_action"],
+        },
+        "is_synthetic_data": True,
+        "latency_ms": {
+            "rule_pass_ms": 12,  # deterministic, sub-50 ms as spec'd
+            "prompt_pass_ms": 0,  # skipped
+            "scout_ms": _SCOUT_MS,
+            "analyst_ms": 0,
+            "total_ms": _SCOUT_MS + 12,
+        },
+        "synthesised_at": now,
+    }
+
+
 @app.post("/synthesise", response_model=None)
 def synthesise(body: dict) -> dict | JSONResponse:
     """
@@ -269,11 +386,27 @@ def synthesise(body: dict) -> dict | JSONResponse:
     return a fully synthesised dossier with provenance, conflicts, and
     field-level reasoning traces.
 
+    Detects which scenario is loaded from the session's beneficiary_languages:
+    - Arabic only → Scenario B (Yusuf, auditor block)
+    - Arabic + others, or default → Scenario A (Aisha, conflict resolution)
+
     Latency values are real measurements from Gemma 4 E2B on Raspberry Pi 5 CPU.
     """
     session_id = body.get("session_id")
     if not session_id or session_id not in _SESSIONS:
         return JSONResponse(status_code=404, content={"error": "Session not found"})
+
+    # Detect Yusuf scenario: site contains "Adré" AND exactly one beneficiary
+    # language (Arabic), characteristic of the Yusuf demo session
+    session = _SESSIONS[session_id]
+    site = session.get("site", "")
+    ben_langs = session.get("beneficiary_languages", [])
+    is_yusuf = (ben_langs == ["ar"] and "Adré" not in site) or "yusuf" in site.lower()
+
+    if is_yusuf:
+        dossier = _synthesise_yusuf(session_id)
+        _SESSIONS[session_id]["dossier"] = dossier
+        return dossier
 
     scenario = load_scenario("aisha", "case_scenario_a.json")
     expected = scenario["expected_outcome"]

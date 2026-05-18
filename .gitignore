@@ -86,3 +86,38 @@ synthetic_cases/**/*.png
 logs/
 .claude/
 Gemma4 ai model/
+
+# ── Process / working docs (internal sprint notes, not for judges) ────────────
+PRIORITY_*.md
+UI_*.md
+UI_*.txt
+CLEANUP_*.md
+CLEANUP_*.txt
+CASEWORKER_CONSOLE_*.md
+DELIVERY_CHECKLIST.md
+HACKATHON_SUBMISSION_ANALYSIS.md
+MANIFEST.txt
+README_PRIORITY_1.md
+START_HERE.md
+SUBMISSION_READINESS.txt
+SUBMISSION_SUMMARY.md
+cleanup.sh
+
+# ── Sample dossier test fixtures ──────────────────────────────────────────────
+sample-dossier-*.json
+
+# ── Vite / React dev artifacts ────────────────────────────────────────────────
+globis-edge-ui/node_modules/
+globis-edge-ui/dist/
+globis-edge-ui/src/App.css
+globis-edge-ui/src/assets/react.svg
+globis-edge-ui/src/assets/vite.svg
+# Dead/superseded component files (kept locally, not for judges)
+globis-edge-ui/src/components/Layout/MainLayout.tsx
+globis-edge-ui/src/components/Layout/Topbar.tsx
+globis-edge-ui/src/components/Screens/Screen1_NewIntake.tsx
+globis-edge-ui/src/components/Screens/Screen3_Synthesise.tsx
+globis-edge-ui/src/components/Screens/Screen3_Synthesise_Enhanced.tsx
+globis-edge-ui/src/components/Screens/Screen4_Explainer.tsx
+globis-edge-ui/.gitignore
+globis-edge-ui/README.md
