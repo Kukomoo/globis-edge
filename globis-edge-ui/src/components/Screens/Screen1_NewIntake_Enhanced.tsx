@@ -271,6 +271,7 @@ export function Screen1_NewIntake() {
           </div>
         </div>
 
+      </div>
     </div>
   );
 }
