@@ -1,0 +1,40 @@
+{
+  "run_timestamp": "2026-05-18T02:21:41.459095+00:00",
+  "api_base_url": "http://127.0.0.1:8080",
+  "scenarios": {
+    "scenario_a": {
+      "scenario_id": "scenario-a-aisha-001",
+      "scenario_name": "Scenario A: Hawa and the Reconstructed Dossier",
+      "timestamp": "2026-05-18T02:21:33.637046+00:00",
+      "result": {
+        "status_code": 201,
+        "latency_ms": 11099.56,
+        "response": {
+          "status": "created",
+          "auditor_status": "clean",
+          "outbox_uuid": "90a6e7ce-ecde-4427-8d5f-7d3bf35ebda4",
+          "blocked_field_names": [],
+          "triage_reason": null
+        },
+        "error": null
+      }
+    },
+    "scenario_b": {
+      "scenario_id": "scenario-b-yusuf-001",
+      "scenario_name": "Scenario B: Tobias and the Blocked Field",
+      "timestamp": "2026-05-18T02:21:41.459079+00:00",
+      "result": {
+        "status_code": 403,
+        "latency_ms": 7821.8,
+        "response": {
+          "status": "forbidden",
+          "auditor_status": "blocked",
+          "outbox_uuid": null,
+          "blocked_field_names": [],
+          "triage_reason": "Protected field"
+        },
+        "error": null
+      }
+    }
+  }
+}

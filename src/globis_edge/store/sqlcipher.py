@@ -68,7 +68,9 @@ class SQLCipherDB:
     def __init__(self, db_path: str | Path, db_key: str) -> None:
         self._db_path = str(db_path)
         # Open the connection. SQLCipher does not validate the key here.
-        self._conn = _sqlcipher.connect(self._db_path)
+        # check_same_thread=False is required for async frameworks (Uvicorn)
+        # where the connection may be accessed from different threads.
+        self._conn = _sqlcipher.connect(self._db_path, check_same_thread=False)
         self._conn.row_factory = _sqlcipher.Row
 
         # Apply the encryption key. If this PRAGMA fails the file is in an
