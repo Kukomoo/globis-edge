@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globis Edge 2.0 — On-Device Refugee Reception Intelligence</title>
+    <meta name="description" content="Offline multimodal AI for humanitarian intake. Secure, PRIMES-aligned, edge-deployed.">
+    <meta name="theme-color" content="#0066cc">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #f5f7fa;
+            --color-primary: #0066cc;
+            --color-text-dark: #1a2038;
+            --color-text-light: #5a6c7d;
+            --color-white: #ffffff;
+            --color-accent: #00b4d8;
+            --color-border: #d5dde3;
+            --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            --spacing: 16px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grid lines */
+        .grid-line-v {
+            position: fixed;
+            left: 50%;
+            width: 1px;
+            height: 100vh;
+            background: var(--color-primary);
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing) * 3;
+            position: relative;
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f8 100%);
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 10;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--color-white);
+            border: 2px solid var(--color-primary);
+            border-radius: 50px;
+            padding: 8px 32px;
+            margin-bottom: 32px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+        }
+
+        .hero-title {
+            font-size: clamp(36px, 8vw, 72px);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: var(--color-text-dark);
+        }
+
+        .hero-title-accent {
+            color: var(--color-primary);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 3vw, 24px);
+            color: var(--color-text-light);
+            margin-bottom: 48px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: 2px solid;
+            cursor: pointer;
+            transition: all 200ms ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .cta-btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        .cta-btn-primary:hover {
+            background: #0052a3;
+            border-color: #0052a3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.2);
+        }
+
+        .cta-btn-secondary {
+            background: var(--color-white);
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .cta-btn-secondary:hover {
+            background: #f0f4f8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.1);
+        }
+
+        .icon-play {
+            width: 18px;
+            height: 18px;
+        }
+
+        .scroll-indicator {
+            margin-top: 48px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        /* Intro Section */
+        .intro {
+            padding: calc(var(--spacing) * 8) calc(var(--spacing) * 2);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro-card {
+            background: var(--color-white);
+            border: 2px solid var(--color-border);
+            border-radius: 16px;
+            padding: calc(var(--spacing) * 3);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--spacing) * 3);
+            align-items: center;
+        }
+
+        .intro-card h2 {
+            font-size: clamp(24px, 5vw, 42px);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            color: var(--color-text-dark);
+        }
+
+        .intro-card p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--color-text-light);
+            margin-bottom: 16px;
+        }
+
+        .intro-card ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .intro-card li {
+            padding: 12px 0;
+            font-size: 15px;
+            color: var(--color-text-light);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .intro-card li:last-child {
+            border-bottom: none;
+        }
+
+        .intro-card li::before {
+            content: "→";
+            color: var(--color-primary);
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .intro-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #e8eef8 0%, #f0f4fa 100%);
+            border-radius: 12px;
+            min-height: 300px;
+            font-size: 14px;
+            color: var(--color-text-light);
+            text-align: center;
+            padding: var(--spacing) * 2;
+        }
+
+        /* Features Section */
+        .features {
+            padding: calc(var(--spacing) * 8) calc(var(--spacing) * 2);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 6vw, 48px);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: calc(var(--spacing) * 4);
+            color: var(--color-text-dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: calc(var(--spacing) * 3);
+        }
+
+        .feature-card {
+            background: var(--color-white);
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            padding: calc(var(--spacing) * 2.5);
+            transition: all 200ms ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 12px 32px rgba(0, 102, 204, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--color-text-dark);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: var(--color-text-light);
+            line-height: 1.7;
+        }
+
+        /* Links Section */
+        .links {
+            padding: calc(var(--spacing) * 8) calc(var(--spacing) * 2);
+            background: var(--color-white);
+            border-top: 2px solid var(--color-border);
+        }
+
+        .links-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: calc(var(--spacing) * 3);
+        }
+
+        .link-card {
+            background: linear-gradient(135deg, #f8fafb 0%, #f0f4f8 100%);
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            padding: calc(var(--spacing) * 2);
+            text-align: center;
+            transition: all 200ms ease;
+            text-decoration: none;
+            color: var(--color-text-dark);
+        }
+
+        .link-card:hover {
+            border-color: var(--color-primary);
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8eef8 100%);
+            box-shadow: 0 12px 32px rgba(0, 102, 204, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .link-card-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .link-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-text-dark);
+        }
+
+        .link-card p {
+            font-size: 13px;
+            color: var(--color-text-light);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-text-dark);
+            color: var(--color-white);
+            padding: calc(var(--spacing) * 4) calc(var(--spacing) * 2);
+            text-align: center;
+            border-top: 2px solid var(--color-border);
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .footer a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-line-v {
+                display: none;
+            }
+
+            .hero {
+                padding: calc(var(--spacing) * 2);
+                min-height: auto;
+                padding-top: calc(var(--spacing) * 6);
+                padding-bottom: calc(var(--spacing) * 6);
+            }
+
+            .cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .intro-card {
+                grid-template-columns: 1fr;
+                gap: calc(var(--spacing) * 2);
+            }
+
+            .intro-visual {
+                min-height: 200px;
+            }
+
+            .intro,
+            .features,
+            .links-container {
+                padding-left: calc(var(--spacing) * 1);
+                padding-right: calc(var(--spacing) * 1);
+            }
+        }
+
+        /* Smooth scrolling sections */
+        section {
+            scroll-margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-line-v"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Gemma 4 Good Hackathon Winner</div>
+            <h1 class="hero-title">
+                Offline AI for <span class="hero-title-accent">Refugee Reception</span>
+            </h1>
+            <p class="hero-subtitle">
+                Secure, multimodal intake for the frontline. No cloud dependency. PRIMES-aligned. Built for Raspberry Pi 5.
+            </p>
+
+            <div class="cta-group">
+                <a href="https://www.youtube.com/watch?v=VtwEi7SoPxA" class="cta-btn cta-btn-primary" target="_blank">
+                    <span>▶</span> Watch Demo (3 min)
+                </a>
+                <a href="https://youtube.com/shorts/pHhzpePO5_0?si=8FmIjY2sXJCkKtve" class="cta-btn cta-btn-secondary" target="_blank">
+                    Live Demo (30 sec)
+                </a>
+            </div>
+
+            <div class="cta-group">
+                <a href="https://github.com/Kukomoo/globis-edge" class="cta-btn cta-btn-secondary" target="_blank">
+                    GitHub Repo
+                </a>
+                <a href="https://www.kaggle.com/code/nadakhas/globis-edge" class="cta-btn cta-btn-secondary" target="_blank">
+                    Kaggle Notebook
+                </a>
+            </div>
+
+            <div class="scroll-indicator">↓</div>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <section class="intro" id="about">
+        <div class="intro-card">
+            <div>
+                <h2>What is Globis Edge?</h2>
+                <p>
+                    Globis Edge 2.0 is an offline, on-device caseworker companion for refugee reception centres operating in low-connectivity environments. It turns fragmented identity documents, multilingual testimony, and handwritten notes into structured, audit-safe intake records.
+                </p>
+                <p style="font-weight: 500; color: var(--color-text-dark); margin-top: 24px;">
+                    Built for:
+                </p>
+                <ul>
+                    <li><strong>Caseworkers</strong> processing diverse identity documents</li>
+                    <li><strong>Interpreters</strong translating oral testimony</li>
+                    <li><strong>Protection staff</strong ensuring ethical data handling</li>
+                    <li><strong>Field settings</strong with no reliable internet</li>
+                </ul>
+            </div>
+            <div class="intro-visual">
+                <div>
+                    <div style="font-size: 48px; margin-bottom: 16px;">🛡️</div>
+                    <strong>Constitutional Auditor</strong><br>
+                    <small style="opacity: 0.7;">Dual-pass verification</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Core Capabilities</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Tiered Inference</h3>
+                <p>Fast 2B Scout model for translation & light checks. Powerful 4B Analyst for multimodal synthesis.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎤</div>
+                <h3>Multimodal Intake</h3>
+                <p>Transcribe audio, extract text from documents via OCR, process typed notes—all in one unified pipeline.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚠️</div>
+                <h3>Conflict Resolution</h3>
+                <p>Detect mismatches across modalities. Never auto-resolve—always human-in-the-loop review.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Constitutional Audit</h3>
+                <p>Dual-pass (rule + reasoning) verification. No political affiliation, no ethnic classification, fail-closed design.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Encrypted Persistence</h3>
+                <p>SQLCipher with value-masked logging. No sensitive data in plain text. Append-only quarantine for audit trail.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Edge Deployment</h3>
+                <p>Runs offline on Raspberry Pi 5 (8GB). True offline-first. No cloud dependency. Deploy locally.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Links Section -->
+    <section class="links" id="links">
+        <div class="links-container">
+            <h2 class="section-title" style="margin-bottom: 48px;">Explore Globis Edge</h2>
+            <div class="links-grid">
+                <a href="https://www.youtube.com/watch?v=VtwEi7SoPxA" class="link-card" target="_blank">
+                    <div class="link-card-icon">📹</div>
+                    <h3>Full Demo Video</h3>
+                    <p>3-minute walkthrough of the multimodal intake pipeline</p>
+                </a>
+
+                <a href="https://youtube.com/shorts/pHhzpePO5_0?si=8FmIjY2sXJCkKtve" class="link-card" target="_blank">
+                    <div class="link-card-icon">⚡</div>
+                    <h3>Live Demo (30s)</h3>
+                    <p>Quick preview of the UI in action</p>
+                </a>
+
+                <a href="https://github.com/Kukomoo/globis-edge" class="link-card" target="_blank">
+                    <div class="link-card-icon">💻</div>
+                    <h3>GitHub Repository</h3>
+                    <p>Full source code, tests, and documentation</p>
+                </a>
+
+                <a href="https://www.kaggle.com/code/nadakhas/globis-edge" class="link-card" target="_blank">
+                    <div class="link-card-icon">📊</div>
+                    <h3>Kaggle Notebook</h3>
+                    <p>Implementation walkthrough and integration guide</p>
+                </a>
+
+                <a href="https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461" class="link-card" target="_blank">
+                    <div class="link-card-icon">📄</div>
+                    <h3>Kaggle Writeup</h3>
+                    <p>Problem statement, approach, and impact analysis</p>
+                </a>
+
+                <a href="https://github.com/Kukomoo/globis-edge/blob/main/README.md" class="link-card" target="_blank">
+                    <div class="link-card-icon">📚</div>
+                    <h3>Full Documentation</h3>
+                    <p>PRD, architecture, ethics, and Pi5 deployment guide</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            Globis Edge 2.0 is a humanitarian intake prototype built for the
+            <a href="https://www.kaggle.com/competitions/gemma-4-good-hackathon" target="_blank">Gemma 4 Good Hackathon</a>.
+        </p>
+        <p style="margin-top: 24px; opacity: 0.6;">
+            Built with Gemma 4 · Designed for low-resource settings · PRIMES-aligned · Open source
+        </p>
+        <p style="margin-top: 8px; font-size: 12px;">
+            © 2026 Nada Khas. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        // Smooth scroll offset for fixed headers
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Optional: Subtle scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .link-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 600ms ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
