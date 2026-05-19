@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globis Edge 2.0 — On-Device Refugee Reception Intelligence</title>
+    <meta name="description" content="Offline multimodal AI for humanitarian intake. Secure, PRIMES-aligned, edge-deployed.">
+    <meta name="theme-color" content="#0066cc">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #ffffff;
+            --color-primary: #000000;
+            --color-secondary: #1a1a1a;
+            --color-text-dark: #000000;
+            --color-text-light: #666666;
+            --color-text-muted: #999999;
+            --color-white: #ffffff;
+            --color-accent: #444444;
+            --color-border: #e0e0e0;
+            --color-dark-bg: #f5f5f5;
+            --color-hover-bg: #f0f0f0;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            --spacing: 16px;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grid lines */
+        .grid-line-v {
+            position: fixed;
+            left: 50%;
+            width: 1px;
+            height: 100vh;
+            background: var(--color-primary);
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: calc(var(--spacing) * 3);
+            position: relative;
+            background: var(--color-bg);
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 10;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--color-white);
+            border: 1px solid var(--color-primary);
+            border-radius: 50px;
+            padding: 10px 36px;
+            margin-bottom: 32px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-text-dark);
+            font-family: var(--font-body);
+            box-shadow: none;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: var(--color-text-dark);
+        }
+
+        .hero-title-accent {
+            color: var(--color-primary);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 3vw, 24px);
+            color: var(--color-text-light);
+            margin-bottom: 48px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+            margin-top: 16px;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 32px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: 1px solid;
+            cursor: pointer;
+            transition: all 200ms ease;
+            text-decoration: none;
+            white-space: nowrap;
+            font-family: var(--font-body);
+        }
+
+        .cta-btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-btn-primary:hover {
+            background: var(--color-secondary);
+            border-color: var(--color-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-btn-secondary {
+            background: var(--color-white);
+            color: var(--color-text-dark);
+            border-color: var(--color-border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .cta-btn-secondary:hover {
+            background: var(--color-dark-bg);
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .scroll-indicator {
+            margin-top: 48px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        /* Intro Section */
+        .intro {
+            padding: calc(var(--spacing) * 8) calc(var(--spacing) * 2);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro-card {
+            background: var(--color-white);
+            border: 2px solid var(--color-border);
+            border-radius: 16px;
+            padding: calc(var(--spacing) * 3);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--spacing) * 3);
+            align-items: center;
+        }
+
+        .intro-card h2 {
+            font-size: clamp(24px, 5vw, 42px);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            color: var(--color-text-dark);
+        }
+
+        .intro-card p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--color-text-light);
+            margin-bottom: 16px;
+        }
+
+        .intro-card ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .intro-card li {
+            padding: 12px 0;
+            font-size: 15px;
+            color: var(--color-text-light);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .intro-card li:last-child {
+            border-bottom: none;
+        }
+
+        .intro-card li::before {
+            content: "→";
+            color: var(--color-primary);
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .intro-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-dark-bg);
+            border-radius: 12px;
+            min-height: 300px;
+            font-size: 14px;
+            color: var(--color-text-light);
+            text-align: center;
+            padding: calc(var(--spacing) * 2);
+        }
+
+        /* Features Section */
+        .features {
+            padding: calc(var(--spacing) * 8) calc(var(--spacing) * 2);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 6vw, 48px);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: calc(var(--spacing) * 4);
+            color: var(--color-text-dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: calc(var(--spacing) * 3);
+        }
+
+        .feature-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: calc(var(--spacing) * 2.5);
+            transition: all 200ms ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .feature-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--color-text-dark);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: var(--color-text-light);
+            line-height: 1.7;
+        }
+
+        /* Links Section */
+        .links {
+            padding: calc(var(--spacing) * 8) calc(var(--spacing) * 2);
+            background: var(--color-white);
+            border-top: 2px solid var(--color-border);
+        }
+
+        .links-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: calc(var(--spacing) * 3);
+        }
+
+        .link-card {
+            background: var(--color-dark-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: calc(var(--spacing) * 2);
+            text-align: center;
+            transition: all 200ms ease;
+            text-decoration: none;
+            color: var(--color-text-dark);
+        }
+
+        .link-card:hover {
+            border-color: var(--color-primary);
+            background: var(--color-hover-bg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .link-card-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .link-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--color-text-dark);
+        }
+
+        .link-card p {
+            font-size: 13px;
+            color: var(--color-text-light);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-text-dark);
+            color: var(--color-white);
+            padding: calc(var(--spacing) * 4) calc(var(--spacing) * 2);
+            text-align: center;
+            border-top: 2px solid var(--color-border);
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .footer a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-line-v {
+                display: none;
+            }
+
+            .hero {
+                padding: calc(var(--spacing) * 2);
+                min-height: auto;
+                padding-top: calc(var(--spacing) * 6);
+                padding-bottom: calc(var(--spacing) * 6);
+            }
+
+            .cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .intro-card {
+                grid-template-columns: 1fr;
+                gap: calc(var(--spacing) * 2);
+            }
+
+            .intro-visual {
+                min-height: 200px;
+            }
+
+            .intro,
+            .features,
+            .links-container {
+                padding-left: calc(var(--spacing) * 1);
+                padding-right: calc(var(--spacing) * 1);
+            }
+        }
+
+        /* Smooth scrolling sections */
+        section {
+            scroll-margin-top: 80px;
+        }
+
+        /* Social links header */
+        .social-header {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            display: flex;
+            gap: 16px;
+            z-index: 100;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 200ms ease;
+        }
+
+        .social-icon:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: var(--color-white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .social-header {
+                top: 16px;
+                right: 16px;
+                gap: 12px;
+            }
+
+            .social-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+        }
+
+        /* Footer social links */
+        .footer-social {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-social a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 200ms ease;
+        }
+
+        .footer-social a:hover {
+            opacity: 0.8;
+        }
+
+        /* Author section */
+        .author-section {
+            padding: calc(var(--spacing) * 8) calc(var(--spacing) * 2);
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--color-bg);
+            border-top: 2px solid var(--color-border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .author-card {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            border-radius: 16px;
+            padding: calc(var(--spacing) * 4);
+            max-width: 500px;
+            color: var(--color-white);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .author-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: calc(var(--spacing) * 2);
+        }
+
+        .author-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--color-white);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .author-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .author-info h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: var(--color-white);
+        }
+
+        .author-role {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+
+        .author-bio {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .author-social {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .author-social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 200ms ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .author-social-btn:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .get-in-touch-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 32px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            background: var(--color-white);
+            color: var(--color-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 200ms ease;
+            margin-top: 24px;
+        }
+
+        .get-in-touch-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--color-white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .author-section {
+                padding: calc(var(--spacing) * 6) calc(var(--spacing) * 1.5);
+            }
+
+            .author-card {
+                padding: calc(var(--spacing) * 3);
+                max-width: 100%;
+            }
+
+            .author-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .author-info h2 {
+                font-size: 20px;
+            }
+
+            .author-bio {
+                font-size: 13px;
+            }
+        }
+
+        /* Embedded video */
+        .hero-video-container {
+            margin-top: 64px;
+            margin-bottom: 48px;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .hero-video-container iframe {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+        }
+
+        @media (max-width: 768px) {
+            .hero-video-container {
+                max-width: 100%;
+                margin-top: 48px;
+                margin-bottom: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-line-v"></div>
+
+    <!-- Social Header -->
+    <div class="social-header">
+        <a href="https://github.com/Kukomoo" class="social-icon" target="_blank" title="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/nadahkhas/" class="social-icon" target="_blank" title="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+            </svg>
+        </a>
+        <a href="https://x.com/Nado_Kukomo" class="social-icon" target="_blank" title="X (Twitter)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.6l-5.165-6.75-5.896 6.75h-3.31l7.73-8.835L2.702 2.25h6.75l4.676 6.189 5.316-6.189zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Gemma 4 Hackathon</div>
+            <h1 class="hero-title">
+                Globis Edge: <span class="hero-title-accent">Offline Refugee Reception Intelligence</span>
+            </h1>
+            <p class="hero-subtitle">
+                Secure, multimodal intake for the frontline. No cloud dependency. PRIMES-aligned. Built for Raspberry Pi 5.
+            </p>
+
+            <div class="hero-video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/VtwEi7SoPxA?si=qrT8LyXwFghDf2B5" title="Globis Edge 2.0 — Multimodal Refugee Reception AI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+
+            <div class="cta-group">
+                <a href="https://github.com/Kukomoo/globis-edge" class="cta-btn cta-btn-secondary" target="_blank">
+                    GitHub Repo
+                </a>
+                <a href="https://www.kaggle.com/code/nadakhas/globis-edge" class="cta-btn cta-btn-secondary" target="_blank">
+                    Kaggle Notebook
+                </a>
+                <a href="https://youtube.com/shorts/pHhzpePO5_0?si=hpIJk7ZKZ1UfyPTT" class="cta-btn cta-btn-secondary" target="_blank">
+                    Live Demo (1 min)
+                </a>
+                <a href="https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461#3460726" class="cta-btn cta-btn-secondary" target="_blank">
+                    Kaggle Writeup
+                </a>
+            </div>
+
+            <div class="scroll-indicator">↓</div>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <section class="intro" id="about">
+        <div class="intro-card">
+            <div>
+                <h2>What is Globis Edge?</h2>
+                <p>
+                    Globis Edge 2.0 is an offline, on-device caseworker companion for refugee reception centres operating in low-connectivity environments. It turns fragmented identity documents, multilingual testimony, and handwritten notes into structured, audit-safe intake records.
+                </p>
+                <p style="font-weight: 500; color: var(--color-text-dark); margin-top: 24px;">
+                    Built for:
+                </p>
+                <ul>
+                    <li><strong>Caseworkers</strong> processing diverse identity documents</li>
+                    <li><strong>Interpreters</strong> translating oral testimony</li>
+                    <li><strong>Protection staff</strong> ensuring ethical data handling</li>
+                    <li><strong>Field settings</strong> with no reliable internet</li>
+                </ul>
+            </div>
+            <div class="intro-visual">
+                <div>
+                    <div style="font-size: 48px; margin-bottom: 16px;">🛡️</div>
+                    <strong>Constitutional Auditor</strong><br>
+                    <small style="opacity: 0.7;">Dual-pass verification</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Core Capabilities</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Tiered Inference</h3>
+                <p>Fast 2B Scout model for translation & light checks. Powerful 4B Analyst for multimodal synthesis.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎤</div>
+                <h3>Multimodal Intake</h3>
+                <p>Transcribe audio, extract text from documents via OCR, process typed notes—all in one unified pipeline.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚠️</div>
+                <h3>Conflict Resolution</h3>
+                <p>Detect mismatches across modalities. Never auto-resolve—always human-in-the-loop review.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Constitutional Audit</h3>
+                <p>Dual-pass (rule + reasoning) verification. No political affiliation, no ethnic classification, fail-closed design.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Encrypted Persistence</h3>
+                <p>SQLCipher with value-masked logging. No sensitive data in plain text. Append-only quarantine for audit trail.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Edge Deployment</h3>
+                <p>Runs offline on Raspberry Pi 5 (8GB). True offline-first. No cloud dependency. Deploy locally.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Links Section -->
+    <section class="links" id="links">
+        <div class="links-container">
+            <h2 class="section-title" style="margin-bottom: 48px;">Explore Globis Edge</h2>
+            <div class="links-grid">
+                <a href="https://www.youtube.com/watch?v=VtwEi7SoPxA" class="link-card" target="_blank">
+                    <div class="link-card-icon">📹</div>
+                    <h3>Main Demo Video</h3>
+                    <p>Complete multimodal intake walkthrough</p>
+                </a>
+
+                <a href="https://youtube.com/shorts/pHhzpePO5_0?si=8FmIjY2sXJCkKtve" class="link-card" target="_blank">
+                    <div class="link-card-icon">⚡</div>
+                    <h3>Quick Demo (1 min)</h3>
+                    <p>Fast preview of the UI in action</p>
+                </a>
+
+                <a href="https://github.com/Kukomoo/globis-edge" class="link-card" target="_blank">
+                    <div class="link-card-icon">💻</div>
+                    <h3>GitHub Repository</h3>
+                    <p>Full source code, tests, and documentation</p>
+                </a>
+
+                <a href="https://www.kaggle.com/code/nadakhas/globis-edge" class="link-card" target="_blank">
+                    <div class="link-card-icon">📊</div>
+                    <h3>Kaggle Notebook</h3>
+                    <p>Implementation walkthrough and integration guide</p>
+                </a>
+
+                <a href="https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461" class="link-card" target="_blank">
+                    <div class="link-card-icon">📄</div>
+                    <h3>Kaggle Writeup</h3>
+                    <p>Problem statement, approach, and impact analysis</p>
+                </a>
+
+                <a href="https://github.com/Kukomoo/globis-edge/blob/main/README.md" class="link-card" target="_blank">
+                    <div class="link-card-icon">📚</div>
+                    <h3>Full Documentation</h3>
+                    <p>PRD, architecture, ethics, and Pi5 deployment guide</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author Section -->
+    <section class="author-section" id="author">
+        <div class="author-card">
+            <div class="author-container">
+                <div class="author-image">
+                    <img src="DisplayPicture.jpeg" alt="Nada Khas - Author" />
+                </div>
+                <div class="author-info">
+                    <h2>Nada Khas</h2>
+                    <div class="author-role">Software Engineer · Calgary</div>
+                    <p class="author-bio">
+                        Building systems that reduce friction and improve visibility. I work with Python, TypeScript, SQL, and modern platforms. With Globis Edge 2.0, I applied systems-thinking to a humanitarian challenge: responsible, edge-first AI for low-resource settings where accessibility matters most.
+                    </p>
+                </div>
+                <div class="author-social">
+                    <a href="https://github.com/Kukomoo" class="author-social-btn" target="_blank" title="GitHub">
+                        💻
+                    </a>
+                    <a href="https://www.linkedin.com/in/nadahkhas/" class="author-social-btn" target="_blank" title="LinkedIn">
+                        💼
+                    </a>
+                    <a href="https://x.com/Nado_Kukomo" class="author-social-btn" target="_blank" title="X">
+                        𝕏
+                    </a>
+                </div>
+                <a href="mailto:Nad1071996@outlook.com" class="get-in-touch-btn">
+                    Get in touch →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            Globis Edge 2.0 is a humanitarian intake prototype built for the
+            <a href="https://www.kaggle.com/competitions/gemma-4-good-hackathon" target="_blank">Gemma 4 Good Hackathon</a>.
+        </p>
+        <p style="margin-top: 24px; opacity: 0.6;">
+            Built with Gemma 4 · Designed for low-resource settings · PRIMES-aligned · Open source
+        </p>
+
+        <div class="footer-social">
+            <a href="https://github.com/Kukomoo" target="_blank">
+                <span>💻</span> GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/nadahkhas/" target="_blank">
+                <span>💼</span> LinkedIn
+            </a>
+            <a href="https://x.com/Nado_Kukomo" target="_blank">
+                <span>𝕏</span> X (Twitter)
+            </a>
+        </div>
+
+        <p style="margin-top: 24px; font-size: 12px;">
+            © 2026 Nada Khas. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        // Smooth scroll offset for fixed headers
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Optional: Subtle scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .link-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 600ms ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
