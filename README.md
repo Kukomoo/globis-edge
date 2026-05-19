@@ -1,6 +1,6 @@
 # Globis Edge - offline caseworker companion [Powered by Gemma 4]
 
-**Gemma 4 Good Hackathon Submission** | [Watch on YouTube](https://www.youtube.com/watch?v=VtwEi7SoPxA) | [Live Demo](https://youtube.com/shorts/pHhzpePO5_0?si=8FmIjY2sXJCkKtve) | [Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge) | [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461) | [Proof of Work](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md) | [Landing Page](https://globis-egde.netlify.app) | [GitHub Backup](github.com/Kukomoo/globis-edge)
+**Gemma 4 Good Hackathon Submission** | [Watch on YouTube](https://www.youtube.com/watch?v=VtwEi7SoPxA) | [Live Demo](https://youtube.com/shorts/pHhzpePO5_0?si=8FmIjY2sXJCkKtve) | [Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge) | [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461) | [Proof of Work](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md) | [Landing Page](https://globis-egde.netlify.app) | [Landing Page [Back-up]](https://globis-edge-powered-by-gemma4.vercel.app)
 
 ![Globis Edge: Offline Refugee Reception Intelligence](https://images.kaggle.com/competitions/images/5c8f3d4c-1234-5678-abcd-example.png)
 
