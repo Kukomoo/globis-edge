@@ -101,7 +101,21 @@ README_PRIORITY_1.md
 START_HERE.md
 SUBMISSION_READINESS.txt
 SUBMISSION_SUMMARY.md
+LANDING_PAGE_INTEGRATION_GUIDE.md
 cleanup.sh
+
+# ── Development notebook variants (keep only canonical .ipynb in repo) ────────
+globis-edge-FIXED*.ipynb
+*-v2.ipynb
+*-v3.ipynb
+*-draft.ipynb
+*-working.ipynb
+
+# ── Hidden guides and internal Claude notes (prefixed with dot) ────────────────
+.*.md
+.*GUIDE.md
+.*ANALYSIS.md
+.*NOTES.md
 
 # ── Sample dossier test fixtures ──────────────────────────────────────────────
 sample-dossier-*.json

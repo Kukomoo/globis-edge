@@ -1,16 +1,16 @@
-# Globis Edge 2.0: On-Device Refugee Reception Intelligence
+# Globis Edge - offline caseworker companion [Powered by Gemma 4]
 
-**Gemma 4 Good Hackathon Submission** | [Watch on YouTube](https://www.youtube.com/watch?v=VtwEi7SoPxA) | [Live Demo](https://youtube.com/shorts/pHhzpePO5_0?si=8FmIjY2sXJCkKtve) | [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461) | [Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)
+**Gemma 4 Good Hackathon Submission** | [Watch on YouTube](https://www.youtube.com/watch?v=VtwEi7SoPxA) | [Live Demo](https://youtube.com/shorts/pHhzpePO5_0?si=8FmIjY2sXJCkKtve) | [Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge) | [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461) | [Landing Page](https://globis-egde.netlify.app)
 
 ![Globis Edge: Offline Refugee Reception Intelligence](https://images.kaggle.com/competitions/images/5c8f3d4c-1234-5678-abcd-example.png)
 
-Globis Edge 2.0 is an offline, on-device caseworker companion for refugee reception centres operating in low-connectivity, high-pressure environments. The prototype scenario is **Adré, Chad**—a frontline reception setting where caseworkers may need to process fragmented identity documents, multilingual testimony, damaged paperwork, and urgent protection-sensitive information **without reliable internet access**.
+Globis Edge is an offline, on-device caseworker companion for refugee reception centres operating in low-connectivity, high-pressure environments. The prototype scenario is **Adré, Chad**—a frontline reception setting where caseworkers may need to process fragmented identity documents, multilingual testimony, damaged paperwork, and urgent protection-sensitive information **without reliable internet access**.
 
 The system is not designed to replace caseworkers, interpreters, legal officers, or protection staff. It is designed to **support the person already doing the work** by turning scattered audio, documents, notes, and explanations into a safer, more structured, more understandable intake workflow.
 
 ## Project Overview
 
-I built Globis Edge 2.0 as a complete end-to-end Gemma 4 integration:
+I built Globis Edge as a complete end-to-end Gemma 4 integration:
 
 - **Research phase**: Deep dive into humanitarian intake workflows, PRIMES-aligned data structures, and protection constraints
 - **Architecture & design**: Locked PRD with 5 hero capabilities, then sprint-by-sprint implementation roadmap
@@ -292,10 +292,32 @@ globis-edge/
 
 **Submission includes:**
 - ✅ [Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge) — Full implementation walkthrough
-- ✅ [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461) — Problem, approach, impact statement
-- ✅ [Demo Video (YouTube)](https://www.youtube.com/watch?v=VtwEi7SoPxA) — 3-minute walkthrough showing multimodal intake → auditor → dossier
+- ✅ [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461) — Problem, approach, impact statement (1,498 words)
+- ✅ [Demo Video (YouTube)](https://www.youtube.com/watch?v=VtwEi7SoPxA) — 2-minute narrative walkthrough showing multimodal intake → auditor → dossier
+- ✅ [Live Demo Short (YouTube)](https://youtube.com/shorts/pHhzpePO5_0) — 1-minute field demo showing FieldKitPi hotspot connection and real hardware
 - ✅ Public GitHub repo (this repository) — Reproducible code, all tests passing
 - ✅ Comprehensive documentation — PRD, architecture, ethics, verification trail
+
+---
+
+## Proof of Work / Project Report
+
+**Core Technical Report**: [📄 **KAGGLE_WRITEUP.md**](KAGGLE_WRITEUP.md) — The full 1,498-word submission document covering problem framing, architecture, five hero capabilities, challenges overcome, and Gemma 4 technical justification. Also available on [Kaggle](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461).
+
+**Extended Documentation**:
+- [`PRD.md`](PRD.md) — Product requirements and scope boundaries
+- [`INVARIANTS.md`](INVARIANTS.md) — Hardened security and governance rules
+- [`FINAL_AUDIT.md`](FINAL_AUDIT.md) — Sprint-by-sprint verification and closure trail
+- [`ETHICS.md`](ETHICS.md) — Data protection, informed consent, minimum-data principles
+- [`CONSTITUTION.md`](CONSTITUTION.md) — Auditor rule set (hardened field blocklist)
+
+---
+
+## Landing Page
+
+For a visual overview of Globis Edge, vision statement, team information, and to explore interactive demos, visit the [Globis Edge Landing Page](https://globis-egde.netlify.app).
+
+---
 
 ---
 
@@ -347,5 +369,5 @@ Apache 2.0 — See [LICENSE](LICENSE) for details.
 
 **Questions or feedback?** File an issue or reach out via the Kaggle platform.
 
-**Last updated**: May 18, 2026  
+**Last updated**: May 19, 2026  
 **Submission status**: Kaggle Gemma 4 Good Hackathon (Submitted ✅)
