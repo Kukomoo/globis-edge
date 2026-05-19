@@ -8,6 +8,27 @@ Globis Edge is an offline, on-device caseworker companion for refugee reception 
 
 The system is not designed to replace caseworkers, interpreters, legal officers, or protection staff. It is designed to **support the person already doing the work** by turning scattered audio, documents, notes, and explanations into a safer, more structured, more understandable intake workflow.
 
+---
+
+## 🎯 Quick Start for Judges
+
+**Recommended reading order** (5-15 minutes):
+
+1. **[📄 Proof of Work / Project Report](KAGGLE_WRITEUP.md)** — 1,498-word technical writeup
+   - Problem framing, architecture, five hero features, Gemma 4 integration
+
+2. **[💻 Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)** — Executable implementation
+   - Synthetic scenarios A (cross-modal conflict) & B (auditor block)
+
+3. **[🎬 Demo Videos](#demo-videos)** — Visual walkthrough
+   - Narrative demo (2 min): Problem framing, architecture, five hero features
+   - Live demo short (1 min): FieldKitPi hotspot, real Pi 5 hardware in action
+
+4. **[📚 Extended Docs](#documentation--architecture)** — Deep dive
+   - PRD, INVARIANTS, ETHICS, CONSTITUTION
+
+---
+
 ## Project Overview
 
 I built Globis Edge as a complete end-to-end Gemma 4 integration:
@@ -300,28 +321,16 @@ globis-edge/
 
 ---
 
-## 🎯 Quick Start for Judges
+## Demo Videos
 
-**Recommended reading order** (5-15 minutes):
-
-1. **[📄 Proof of Work / Project Report](KAGGLE_WRITEUP.md)** — 1,498-word technical writeup
-   - Problem framing, architecture, five hero features, Gemma 4 integration
-   - Also available on [Kaggle](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461)
-
-2. **[💻 Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)** — Executable implementation
-   - Synthetic scenarios A (cross-modal conflict) & B (auditor block)
-
-3. **[🎬 Demo Videos](https://www.youtube.com/watch?v=VtwEi7SoPxA)** — Visual walkthrough
-   - 2-min narrative + 1-min live hardware demo
-
-4. **[📚 Extended Docs](#documentation--architecture)** — Deep dive
-   - PRD, INVARIANTS, ETHICS, CONSTITUTION
+- **Narrative demo (2 min)**: [Watch on YouTube](https://www.youtube.com/watch?v=VtwEi7SoPxA) — Problem framing, architecture, five hero capabilities, how Globis Edge solves each
+- **Live demo short (1 min)**: [Watch on YouTube](https://youtube.com/shorts/pHhzpePO5_0) — FieldKitPi hotspot connection, intake wizard in action, real Pi 5 hardware in the field
 
 ---
 
 ## Proof of Work / Project Report
 
-**Core Technical Report**: [📄 **KAGGLE_WRITEUP.md**](KAGGLE_WRITEUP.md) — The full 1,498-word submission document covering problem framing, architecture, five hero capabilities, challenges overcome, and Gemma 4 technical justification. Also available on [Kaggle](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461).
+**Core Technical Report**: [📄 **KAGGLE_WRITEUP.md**](KAGGLE_WRITEUP.md) — The full 1,498-word submission document covering problem framing, architecture, five hero capabilities, challenges overcome, and Gemma 4 technical justification.
 
 **Extended Documentation**:
 - [`PRD.md`](PRD.md) — Product requirements and scope boundaries
@@ -388,5 +397,5 @@ Apache 2.0 — See [LICENSE](LICENSE) for details.
 
 **Questions or feedback?** File an issue or reach out via the Kaggle platform.
 
-**Last updated**: May 19, 2026  
+**Last updated**: May 18, 2026  
 **Submission status**: Kaggle Gemma 4 Good Hackathon (Submitted ✅)
