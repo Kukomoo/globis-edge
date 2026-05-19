@@ -1,6 +1,6 @@
 # UI/UX Specification — Globis Edge 2.0
 
-**Author**: Nadu
+**Author**: Nada Khas
 **Companion to**: `PRD_FINAL.md`, `TECHNICAL_SPECIFICATION.md`
 **Status**: v1.0 — locked for the fast-lane build
 **Last updated**: 2026-05-16

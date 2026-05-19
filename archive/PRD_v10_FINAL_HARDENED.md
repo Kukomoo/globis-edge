@@ -1,6 +1,6 @@
 # Globis Edge 2.0 — Final Hardened Architecture PRD
 
-**Author:** Nadu  
+**Author:** Nada Khas  
 **Version:** 10.0 — Logic Lock Resolved, Surgical Fixes Applied  
 **Date:** May 16, 2026  
 **Status:** Locked. All Logic Lock findings resolved. Ready to build and submit.  

@@ -1,6 +1,6 @@
 # Globis Edge 2.0 — Final Product Requirements Document
 
-**Author:** Nadu
+**Author:** Nada Khas
 **Version:** Final (1.0)
 **Date:** May 16, 2026
 **Status:** Locked. Ready to build.

@@ -1,6 +1,6 @@
 # Globis Edge 2.0 — Technical Specification
 
-**Author:** Nadu
+**Author:** Nada Khas
 **Version:** Final (1.0)
 **Date:** May 16, 2026
 **Companion to:** `PRD_FINAL.md`, `UIUX_SPECIFICATION.md`

@@ -1,7 +1,7 @@
 # Globis Edge 2.0 — Final Logic Lock Audit & Resolution
 
 **Document type:** Technical Appendix — Defensibility Layer  
-**Author:** Nadu  
+**Author:** Nada Khas  
 **Date:** May 16, 2026  
 **Status:** Closed. All critical items resolved.
 
