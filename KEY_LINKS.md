@@ -29,7 +29,6 @@
 | Resource | URL | Purpose |
 |----------|-----|---------|
 | **Landing Page** | https://globis-egde.netlify.app | Visual branding, feature overview, proof-of-work section |
-| **Landing Page - Proof of Work** | https://globis-egde.netlify.app/proof-of-work | Dedicated page for judges (optional, see integration guide) |
 
 ---
 
@@ -69,20 +68,12 @@
 
 ---
 
-## 📋 Project Management & Planning
-
-| Document | URL | Content |
-|----------|-----|---------|
-| **LANDING_PAGE_INTEGRATION_GUIDE.md** | https://github.com/Kukomoo/globis-edge/blob/main/LANDING_PAGE_INTEGRATION_GUIDE.md | How to link landing page to submission materials |
-| **FINAL_SUBMISSION_STATUS.md** | https://github.com/Kukomoo/globis-edge/blob/main/FINAL_SUBMISSION_STATUS.md | Submission checklist & verification summary |
-| **SUBMISSION_CHECKLIST.md** | https://github.com/Kukomoo/globis-edge/blob/main/SUBMISSION_CHECKLIST.md | Detailed verification log of all updates |
-
----
 
 ## 🎓 Kaggle Competition
 
 | Resource | URL |
 |----------|-----|
+| **Proof of Work / Project Report** | https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md |
 | **Kaggle Competition** | https://www.kaggle.com/competitions/gemma-4-good-hackathon |
 | **Kaggle Notebook** | https://www.kaggle.com/code/nadakhas/globis-edge |
 | **Kaggle Writeup** | https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461 |
@@ -93,26 +84,30 @@
 
 **For Kaggle judges**, recommended navigation order:
 
-1. **Start here**: [Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)
+1. **START HERE - Proof of Work**: [Proof of Work / Project Report](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)
+   - Core 1,498-word technical writeup (GitHub source)
+   - Also available on [Kaggle](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461)
+   
+2. **Then execute**: [Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)
    - Executable code with synthetic scenarios A & B
    
-2. **Then read**: [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461)
-   - 1,498-word technical brief
+3. **Then read**: [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461)
+   - Same 1,498-word brief on Kaggle platform
    
-3. **Deep dive**: [GitHub README](https://github.com/Kukomoo/globis-edge/blob/main/README.md)
+4. **Deep dive**: [GitHub README](https://github.com/Kukomoo/globis-edge/blob/main/README.md)
    - Architecture overview + "Proof of Work" section
    
-4. **Extended docs**: [PRD.md](https://github.com/Kukomoo/globis-edge/blob/main/PRD.md), [INVARIANTS.md](https://github.com/Kukomoo/globis-edge/blob/main/INVARIANTS.md), [ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md)
+5. **Extended docs**: [PRD.md](https://github.com/Kukomoo/globis-edge/blob/main/PRD.md), [INVARIANTS.md](https://github.com/Kukomoo/globis-edge/blob/main/INVARIANTS.md), [ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md)
    - Product requirements, security rules, data protection
    
-5. **Source code**: [src/globis_edge/](https://github.com/Kukomoo/globis-edge/tree/main/src/globis_edge)
+6. **Source code**: [src/globis_edge/](https://github.com/Kukomoo/globis-edge/tree/main/src/globis_edge)
    - Full implementation details
    
-6. **Watch videos**: [2-min demo](https://www.youtube.com/watch?v=VtwEi7SoPxA) + [1-min live demo](https://youtube.com/shorts/pHhzpePO5_0)
+7. **Watch videos**: [2-min demo](https://www.youtube.com/watch?v=VtwEi7SoPxA) + [1-min live demo](https://youtube.com/shorts/pHhzpePO5_0)
    - Problem framing + real hardware demo
    
-7. **Context**: [Landing Page](https://globis-egde.netlify.app)
-   - Visual branding, narrative, and Proof of Work section
+8. **Context**: [Landing Page](https://globis-egde.netlify.app)
+   - Visual branding, narrative, and feature overview
 
 ---
 

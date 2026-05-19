@@ -102,6 +102,8 @@ START_HERE.md
 SUBMISSION_READINESS.txt
 SUBMISSION_SUMMARY.md
 LANDING_PAGE_INTEGRATION_GUIDE.md
+FINAL_SUBMISSION_STATUS.md
+SUBMISSION_CHECKLIST.md
 cleanup.sh
 
 # ── Development notebook variants (keep only canonical .ipynb in repo) ────────

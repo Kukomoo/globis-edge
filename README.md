@@ -300,6 +300,25 @@ globis-edge/
 
 ---
 
+## 🎯 Quick Start for Judges
+
+**Recommended reading order** (5-15 minutes):
+
+1. **[📄 Proof of Work / Project Report](KAGGLE_WRITEUP.md)** — 1,498-word technical writeup
+   - Problem framing, architecture, five hero features, Gemma 4 integration
+   - Also available on [Kaggle](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461)
+
+2. **[💻 Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)** — Executable implementation
+   - Synthetic scenarios A (cross-modal conflict) & B (auditor block)
+
+3. **[🎬 Demo Videos](https://www.youtube.com/watch?v=VtwEi7SoPxA)** — Visual walkthrough
+   - 2-min narrative + 1-min live hardware demo
+
+4. **[📚 Extended Docs](#documentation--architecture)** — Deep dive
+   - PRD, INVARIANTS, ETHICS, CONSTITUTION
+
+---
+
 ## Proof of Work / Project Report
 
 **Core Technical Report**: [📄 **KAGGLE_WRITEUP.md**](KAGGLE_WRITEUP.md) — The full 1,498-word submission document covering problem framing, architecture, five hero capabilities, challenges overcome, and Gemma 4 technical justification. Also available on [Kaggle](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461).
