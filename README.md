@@ -1,6 +1,6 @@
 # Globis Edge 2.0: On-Device Refugee Reception Intelligence
 
-**Gemma 4 Good Hackathon Submission** | [Watch on YouTube](https://www.youtube.com/watch?v=VtwEi7SoPxA) | [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461)
+**Gemma 4 Good Hackathon Submission** | [Watch on YouTube](https://www.youtube.com/watch?v=VtwEi7SoPxA) | [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461) | [Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)
 
 ![Globis Edge: Offline Refugee Reception Intelligence](https://images.kaggle.com/competitions/images/5c8f3d4c-1234-5678-abcd-example.png)
 
@@ -291,6 +291,7 @@ globis-edge/
 **Status**: ✅ Submitted to [Gemma 4 Good Hackathon](https://www.kaggle.com/competitions/gemma-4-good-hackathon)
 
 **Submission includes:**
+- ✅ [Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge) — Full implementation walkthrough
 - ✅ [Kaggle Writeup](https://www.kaggle.com/competitions/gemma-4-good-hackathon/writeups/new-writeup-1778786419461) — Problem, approach, impact statement
 - ✅ [Demo Video (YouTube)](https://www.youtube.com/watch?v=VtwEi7SoPxA) — 3-minute walkthrough showing multimodal intake → auditor → dossier
 - ✅ Public GitHub repo (this repository) — Reproducible code, all tests passing
