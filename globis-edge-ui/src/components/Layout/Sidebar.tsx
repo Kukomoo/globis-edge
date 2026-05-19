@@ -1,13 +1,5 @@
 import { useSession } from "../../store/SessionContext";
-
-const screens = [
-  { id: 1 as const, label: "New Intake",   step: "01" },
-  { id: 2 as const, label: "Documents",    step: "02" },
-  { id: 3 as const, label: "Case Summary", step: "03" },
-  { id: 4 as const, label: "Explanation",  step: "04" },
-  { id: 5 as const, label: "Confirm",      step: "05" },
-  { id: 6 as const, label: "Save Record",  step: "06" },
-];
+import { t } from "../../data/translations";
 
 interface SidebarProps {
   onClose?: () => void;
@@ -15,6 +7,16 @@ interface SidebarProps {
 
 export function Sidebar({ onClose }: SidebarProps) {
   const { state, dispatch } = useSession();
+  const lang = state.ui_language ?? "en";
+
+  const screens = [
+    { id: 1 as const, label: t(lang, "newIntake"),        step: "01" },
+    { id: 2 as const, label: t(lang, "addDocuments"),     step: "02" },
+    { id: 3 as const, label: t(lang, "caseSummary"),      step: "03" },
+    { id: 4 as const, label: t(lang, "explanation"),      step: "04" },
+    { id: 5 as const, label: t(lang, "confirmWithPerson"), step: "05" },
+    { id: 6 as const, label: t(lang, "saveRecordTitle"),  step: "06" },
+  ];
 
   const handleNav = (id: typeof screens[0]["id"], accessible: boolean) => {
     if (!accessible) return;
@@ -148,7 +150,7 @@ export function Sidebar({ onClose }: SidebarProps) {
               {state.site}
             </p>
           ) : (
-            <p className="text-xs italic" style={{ color: "rgba(255,255,255,0.20)" }}>No site selected</p>
+            <p className="text-xs italic" style={{ color: "rgba(255,255,255,0.20)" }}>{t(lang, "noSite")}</p>
           )}
           {state.id && (
             <p className="text-xs font-mono mt-0.5" style={{ color: "rgba(255,255,255,0.20)" }}>

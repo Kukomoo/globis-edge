@@ -174,6 +174,7 @@ export function Screen4_FastpathExplainer() {
                 artifactType={trace.artifact_type}
                 sourceTimestamp={trace.source_timestamp}
                 supportingSources={trace.supporting_sources}
+                language={language}
               />
             ))}
           </div>

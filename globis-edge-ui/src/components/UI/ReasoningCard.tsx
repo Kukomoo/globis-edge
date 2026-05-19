@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { GlossaryTooltip } from "./GlossaryTooltip";
+import { t } from "../../data/translations";
 
 interface ReasoningCardProps {
   field: string;
@@ -11,6 +12,7 @@ interface ReasoningCardProps {
   artifactType?: "image" | "audio" | "text";
   sourceTimestamp?: string;
   supportingSources?: string[];
+  language?: string;
 }
 
 export function ReasoningCard({
@@ -23,6 +25,7 @@ export function ReasoningCard({
   artifactType,
   sourceTimestamp,
   supportingSources,
+  language = "en",
 }: ReasoningCardProps) {
   const [showEvidence, setShowEvidence] = useState(false);
 
@@ -54,7 +57,7 @@ export function ReasoningCard({
           <span className="text-xl">{isPass ? "✅" : "⚠️"}</span>
           <div>
             <p className="font-semibold text-[#1a2028] text-sm">
-              {isPass ? "Passed" : "Needs review"}
+              {isPass ? t(language, "passed") : t(language, "needsReview")}
             </p>
             <p className="text-xs text-[#6b7f8c] mt-0.5">
               <code className="bg-[#f0f5f8] text-[#3d4d58] px-1.5 py-0.5 rounded font-mono text-[10px]">
@@ -83,7 +86,7 @@ export function ReasoningCard({
         {/* Reasoning */}
         <div className="border-l-2 border-[rgba(147,177,194,0.35)] pl-3">
           <p className="text-sm text-[#3d4d58]">
-            <strong className="text-[#1a2028]">Why: </strong>{reasoning}
+            <strong className="text-[#1a2028]">{t(language, "why")} </strong>{reasoning}
           </p>
         </div>
 
@@ -93,7 +96,7 @@ export function ReasoningCard({
             onClick={() => setShowEvidence(!showEvidence)}
             className="text-xs font-medium text-blue-600 hover:text-blue-700 underline"
           >
-            {showEvidence ? "Hide Evidence" : "View Evidence"}
+            {showEvidence ? t(language, "hideEvidence") : t(language, "viewEvidence")}
           </button>
 
           {showEvidence && (
