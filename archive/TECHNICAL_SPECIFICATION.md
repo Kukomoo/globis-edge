@@ -1,4 +1,4 @@
-# Globis Edge 2.0 — Technical Specification
+# Globis Edge 2.0 — Technical Specification {Archived}
 
 **Author:** Nada Khas
 **Version:** Final (1.0)
