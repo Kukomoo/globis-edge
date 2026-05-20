@@ -10,3 +10,44 @@
 
 # Archives and old versions
 archive/
+
+# Helper scripts and docs (Claude cleanup, not for public repo)
+RUN_THIS_FINAL_CLEANUP.sh
+REPO_CLEANUP_GUIDE.md
+REPO_AUDIT_RESULTS.md
+QUICK_START_CLEANUP.txt
+NOTEBOOK_IMPROVEMENTS.md
+NOTEBOOK_FINAL_NOTES.md
+FILES_CREATED_TODAY.md
+FINAL_INSTRUCTIONS.md
+FINAL_PUSH_STRATEGY.md
+GIT_COMMIT_READY.md
+IMMEDIATE_ACTION_PLAN.md
+LANDING_PAGE_DESIGN_SUMMARY.md
+WORK_COMPLETED_TODAY.md
+CLEANUP_STATUS.md
+CLEANUP_COMPLETE_SUMMARY.txt
+TERMINAL_INSTRUCTIONS.txt
+COPY_AND_PASTE.txt
+YOUR_NEXT_STEPS.md
+EXECUTION_SUMMARY.md
+READ_ME_FIRST.md
+commit-and-push.sh
+cleanup.sh
+
+# Notebook variants (keep only canonical globis-edge-notebook-final.ipynb)
+globis-edge-IMPROVED.ipynb
+globis-edge-2-IMPROVED.ipynb
+*-v2.ipynb
+*-v3.ipynb
+*-draft.ipynb
+*-working.ipynb
+globis-edge-FIXED*.ipynb
+
+# Internal docs
+CLAUDE.md
+INVARIANTS.md
+FINAL_AUDIT.md
+PRD_FINAL.md
+PRD_v9.0_Globis_Edge.md
+PRD_v8.0_Globis_Edge.md
