@@ -1,12 +1,12 @@
 # Data Ethics & Responsible AI Statement
 
-**Globis Edge 2.0 — Gemma 4 Good Hackathon Submission**
+**Globis Edge — Gemma 4 Good Hackathon Submission**
 
 ---
 
 ## Executive Summary
 
-Globis Edge 2.0 is a **proof-of-concept prototype** that demonstrates responsible agentic reasoning for humanitarian intake scenarios. It is built entirely on **synthetic data**, uses **explicit protection mechanisms** (Constitutional Auditor dual-pass review, field-level blocking, value masking), and requires **human oversight** for all consequential decisions. This document outlines our data ethics, responsible AI practices, and explicit constraints.
+Globis Edge is a **proof-of-concept prototype** that demonstrates responsible agentic reasoning for humanitarian intake scenarios. It is built entirely on **synthetic data**, uses **explicit protection mechanisms** (Constitutional Auditor dual-pass review, field-level blocking, value masking), and requires **human oversight** for all consequential decisions. This document outlines our data ethics, responsible AI practices, and explicit constraints.
 
 ---
 
@@ -83,7 +83,7 @@ Protected fields are identified before model inference:
 
 ## 3. UNHCR Alignment (Prototype)
 
-Globis Edge 2.0 is designed to align with UNHCR principles and data protection guidance:
+Globis Edge is designed to align with UNHCR principles and data protection guidance:
 
 ### 3.1 UNHCR Data Protection Principles
 
@@ -233,9 +233,9 @@ For questions about data ethics, responsible AI practices, or field deployment c
 
 ## 10. License & Attribution
 
-**Globis Edge 2.0** is licensed under the Apache License 2.0.
+**Globis Edge** is licensed under the Apache License 2.0.
 
-**Copyright © 2026 Nadu Khasawneh**
+**Copyright © 2026 Nada Khas**
 
 Built with Gemma 4 E2B for the Gemma 4 Good Hackathon.  
 Synthetic data only. No real refugee data is used.

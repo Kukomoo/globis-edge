@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Offline, on-device caseworker companion for refugee reception (Gemma 4 Good Hackathon submission)."
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
-authors = [{ name = "Nadu" }]
+authors = [{ name = "Nada" }]
 dependencies = [
     "pydantic>=2.5",
     "pydantic-settings>=2.0",

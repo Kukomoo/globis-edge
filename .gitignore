@@ -118,9 +118,25 @@ globis-edge-FIXED*.ipynb
 .*GUIDE.md
 .*ANALYSIS.md
 .*NOTES.md
+CLAUDE.md
+INVARIANTS.md
+FINAL_AUDIT.md
+PRD_FINAL.md
+PRD_v9.0_Globis_Edge.md
+PRD_v8.0_Globis_Edge.md
+FINAL_CLEANUP.sh
+COPY_AND_PASTE.txt
+YOUR_NEXT_STEPS.md
+EXECUTION_SUMMARY.md
+READ_ME_FIRST.md
+CLEANUP_STATUS.md
+TERMINAL_INSTRUCTIONS.txt
 
 # ── Sample dossier test fixtures ──────────────────────────────────────────────
 sample-dossier-*.json
+
+# ── Archive (old PRD versions, deprecated docs) ──────────────────────────────
+archive/
 
 # ── Vite / React dev artifacts ────────────────────────────────────────────────
 globis-edge-ui/node_modules/

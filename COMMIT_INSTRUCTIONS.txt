@@ -1,0 +1,85 @@
+================================================================================
+                      GIT COMMIT INSTRUCTIONS
+================================================================================
+
+Your files are ready to commit. The workspace environment has a git lock issue,
+but your actual repository on your Mac should be fine.
+
+RUN THESE COMMANDS IN YOUR TERMINAL:
+================================================================================
+
+cd "/Users/kukomo/Documents/Claude/Projects/Globis Edge"
+
+# Clear any stale lock files (safe to run even if none exist)
+rm -f .git/index.lock
+
+# Stage the files
+git add README.md .gitignore KAGGLE_WRITEUP.md KEY_LINKS.md SUBMISSION_CHECKLIST.md FINAL_SUBMISSION_STATUS.md
+
+# Verify staging
+git status
+
+# Commit with the message below
+git commit -m "chore: finalize Kaggle submission with proof-of-work links and landing page integration
+
+- Restore and prominently feature Kaggle Writeup link in README header
+- Add Proof of Work / Project Report section linking to KAGGLE_WRITEUP.md
+- Add Landing Page URL (https://globis-egde.netlify.app)
+- Create comprehensive KEY_LINKS.md with full link reference table
+- Create FINAL_SUBMISSION_STATUS.md with verification checklist
+- Create SUBMISSION_CHECKLIST.md with detailed audit trail
+- Update .gitignore to exclude LANDING_PAGE_INTEGRATION_GUIDE.md (internal guide)
+- Exclude development notebook variants from git tracking
+- Standardize all document dates to May 18, 2026
+- Lock KAGGLE_WRITEUP.md (1,498 words, no further changes)
+
+All submission materials are now complete, verified, and ready for Kaggle judging.
+
+Judge entry point: GitHub README.md → Proof of Work section → Extended documentation"
+
+# Push to GitHub
+git push origin main
+
+================================================================================
+
+FILES BEING COMMITTED:
+  M  README.md                      (Updated with Proof of Work section)
+  M  .gitignore                     (Exclude LANDING_PAGE_INTEGRATION_GUIDE.md)
+  A  KAGGLE_WRITEUP.md              (1,498-word submission document)
+  A  KEY_LINKS.md                   (Comprehensive link reference)
+  A  SUBMISSION_CHECKLIST.md        (Detailed verification checklist)
+  A  FINAL_SUBMISSION_STATUS.md     (Submission verification summary)
+
+================================================================================
+
+EXPECTED OUTPUT:
+
+git status should show:
+  [main a1b2c3d] chore: finalize Kaggle submission...
+  6 files changed, XXX insertions(+), XX deletions(-)
+  create mode 100644 FINAL_SUBMISSION_STATUS.md
+  create mode 100644 KAGGLE_WRITEUP.md
+  create mode 100644 KEY_LINKS.md
+  create mode 100644 SUBMISSION_CHECKLIST.md
+
+Then git push should show:
+  Enumerating objects: X, done.
+  Counting objects: 100% (X/X), done.
+  Delta compression using up to X threads
+  Compressing objects: 100% (X/X), done.
+  Writing objects: 100% (X/X), XXX bytes | XXX bytes/s, done.
+  Total X (delta X), reused 0 (delta 0), pack-reused 0
+  To https://github.com/Kukomoo/globis-edge.git
+    abc1234..def5678  main -> main
+
+================================================================================
+
+ALL MATERIALS ARE READY FOR SUBMISSION ✅
+
+Once you run these commands, your Globis Edge repository will be updated with:
+  - Complete Proof of Work documentation
+  - Comprehensive linking to all submission materials
+  - Ready for Kaggle judging
+  - Clean .gitignore (no development files)
+
+================================================================================
