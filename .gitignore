@@ -1,20 +1,14 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# Globis Edge — .gitignore
-# Belt-and-braces: explicit excludes for everything that could leak secrets,
-# bloat history, or pollute diffs. If you add a new secret-bearing file
-# pattern, list it here BEFORE the file is created.
+# Globis Edge — .gitignore (project-specific rules only)
+# Machine-specific rules live in ~/.gitignore_global
 # ─────────────────────────────────────────────────────────────────────────────
 
-# ── Secrets ──────────────────────────────────────────────────────────────────
-# .env carries CASEWORKER_PIN, SALT_HEX, DEVICE_ID and (in deployment) any
-# API keys. It must never enter version control.
+# Secrets
 .env
 .env.*
 !.env.example
 
-# ── Encrypted databases ──────────────────────────────────────────────────────
-# .db files are SQLCipher-encrypted, but committing them would still leak the
-# schema's row counts, timing, and structural metadata across history.
+# Encrypted databases
 *.db
 *.db-journal
 *.db-wal
@@ -22,52 +16,7 @@
 *.sqlite
 *.sqlite3
 
-# ── Python build / cache ─────────────────────────────────────────────────────
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-.coverage.*
-htmlcov/
-.tox/
-*.egg-info/
-build/
-dist/
-wheels/
-
-# ── Virtual environments ─────────────────────────────────────────────────────
-.venv/
-venv/
-env/
-ENV/
-
-# ── OS turds ─────────────────────────────────────────────────────────────────
-.DS_Store
-.AppleDouble
-.LSOverride
-Thumbs.db
-Desktop.ini
-
-# ── Editor / IDE ─────────────────────────────────────────────────────────────
-.vscode/
-.idea/
-.codex/
-.continue/
-*.swp
-*.swo
-*~
-
-# ── Gemma4 Cloud local settings (per-machine) ───────────────────────────────
-# Gemma4 Cloud local-only settings are never tracked.
-.claude/settings.local.json
-
-# ── Generated artefacts ──────────────────────────────────────────────────────
-# Model weights, audio fixtures, eval outputs that get regenerated from code.
-# Do NOT commit GGUF files — they belong on the Pi, not in history.
+# Generated artefacts
 *.gguf
 *.onnx
 *.pt
@@ -81,13 +30,7 @@ synthetic_cases/**/*.png
 !synthetic_cases/**/*.transcript.txt
 !synthetic_cases/**/caseworker_note.txt
 
-# ── Logs ─────────────────────────────────────────────────────────────────────
-*.log
-logs/
-.claude/
-Gemma4 ai model/
-
-# ── Process / working docs (internal sprint notes, not for judges) ────────────
+# Process / working docs (internal)
 PRIORITY_*.md
 UI_*.md
 UI_*.txt
@@ -106,14 +49,14 @@ FINAL_SUBMISSION_STATUS.md
 SUBMISSION_CHECKLIST.md
 cleanup.sh
 
-# ── Development notebook variants (keep only canonical .ipynb in repo) ────────
+# Development notebook variants
 globis-edge-FIXED*.ipynb
 *-v2.ipynb
 *-v3.ipynb
 *-draft.ipynb
 *-working.ipynb
 
-# ── Hidden guides and internal Claude notes (prefixed with dot) ────────────────
+# Internal docs and guides
 .*.md
 .*GUIDE.md
 .*ANALYSIS.md
@@ -132,19 +75,18 @@ READ_ME_FIRST.md
 CLEANUP_STATUS.md
 TERMINAL_INSTRUCTIONS.txt
 
-# ── Sample dossier test fixtures ──────────────────────────────────────────────
+# Sample fixtures
 sample-dossier-*.json
 
-# ── Archive (old PRD versions, deprecated docs) ──────────────────────────────
+# Archive
 archive/
 
-# ── Vite / React dev artifacts ────────────────────────────────────────────────
+# UI artifacts
 globis-edge-ui/node_modules/
 globis-edge-ui/dist/
 globis-edge-ui/src/App.css
 globis-edge-ui/src/assets/react.svg
 globis-edge-ui/src/assets/vite.svg
-# Dead/superseded component files (kept locally, not for judges)
 globis-edge-ui/src/components/Layout/MainLayout.tsx
 globis-edge-ui/src/components/Layout/Topbar.tsx
 globis-edge-ui/src/components/Screens/Screen1_NewIntake.tsx
