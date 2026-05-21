@@ -160,8 +160,6 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 ✅ **Value-masked logs** — Field names logged, never values  
 ✅ **Fail-closed design** — Prompt Pass always blocks if inference fails  
 
-See [ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md) & [INVARIANTS.md](https://github.com/Kukomoo/globis-edge/blob/main/INVARIANTS.md) for full details.
-
 ---
 
 ## 🎥 Video References
@@ -180,7 +178,6 @@ See [ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md) & [I
 - **[PRD.md](https://github.com/Kukomoo/globis-edge/blob/main/PRD.md)** — Product requirements & scope boundaries  
 - **[ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md)** — Data protection & minimum-data principles  
 - **[CONSTITUTION.md](https://github.com/Kukomoo/globis-edge/blob/main/CONSTITUTION.md)** — Auditor rule set  
-- **[INVARIANTS.md](https://github.com/Kukomoo/globis-edge/blob/main/INVARIANTS.md)** — Security & governance rules  
 
 ---
 
