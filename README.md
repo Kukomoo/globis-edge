@@ -222,7 +222,7 @@ Apache 2.0 — See [LICENSE](https://github.com/Kukomoo/globis-edge/blob/main/LI
 
 ## 💬 Questions?
 
-Have questions? [Email me](mailto:Nad1071996@outlook.com) or connect on [LinkedIn](https://www.linkedin.com/in/your-linkedin-username). For technical deep-dives, file an issue on [GitHub](https://github.com/Kukomoo/globis-edge/issues).
+Have questions? [Email me](mailto:Nada_Khas@outlook.com) or connect on [LinkedIn](https://www.linkedin.com/in/your-linkedin-username). For technical deep-dives, file an issue on [GitHub](https://github.com/Kukomoo/globis-edge/issues).
 
 **Let's build frontier intelligence that serves the people who need it most.**
 
