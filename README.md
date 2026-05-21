@@ -1,6 +1,6 @@
 # **Globis Edge: Offline Caseworker Companion**
 
-> *117 million people are forcibly displaced. Globis Edge catches what caseworkers miss - on a less than $320 Raspberry Pi. [8GB RAM + 500 GB external SSD]*
+> *117 million people are forcibly displaced. Globis Edge catches what caseworkers miss - on a less than USD $315 Raspberry Pi. [8GB RAM + 500 GB external SSD]*
 
 [![Watch the Story](https://img.shields.io/badge/▶️%20Watch-Story%20Demo-red?style=for-the-badge)](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo)
 [![Read the Writeup](https://img.shields.io/badge/📄%20Read-Full%20Submission-blue?style=for-the-badge)](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)
@@ -152,7 +152,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 - **40+ cases/day** per caseworker (current bottleneck)
 - **94%** conflict detection rate (verified on synthetic data)
 - **3 min compute** to process all daily intakes on one Pi 5
-- **Less than $320 USD** total hardware cost (Raspberry Pi 5 + 500 GB external SSD, no GPU)
+- **Less than $315 USD** total hardware cost (Raspberry Pi 5 + 500 GB external SSD, no GPU)
 - **100%** offline operation (no cloud dependency)
 
 ---
