@@ -68,7 +68,14 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 ## 🚀 Quick Start
 
 ### Watch First (3 min)
-👉 **[Watch the Story](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo)**
+
+**Story Demo: Problem + Refugee Camp Scenario + Hero Features**
+
+[![Watch the Story](https://img.youtube.com/vi/VtwEi7SoPxA/hqdefault.jpg)](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo)
+
+[▶️ **Watch the 3-minute story demo** →](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo)
+
+---
 
 ### Then Explore (Pick Your Path)
 
@@ -88,8 +95,12 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 - **[ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md)** — Data protection & informed consent
 
 **For Demo (1 min):**
-- **[Live Demo: Phone Connection to Pi5](https://youtube.com/shorts/pHhzpePO5_0)**  
-  Real hardware in action—intake wizard running on Raspberry Pi 5
+
+**Live Demo: Phone Connection to Real Pi5**
+
+[![Watch the Live Demo](https://img.youtube.com/vi/pHhzpePO5_0/hqdefault.jpg)](https://youtube.com/shorts/pHhzpePO5_0)
+
+[▶️ **Real hardware in action** →](https://youtube.com/shorts/pHhzpePO5_0)
 
 ---
 
@@ -155,10 +166,10 @@ See [ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md) & [I
 
 ## 🎥 Video References
 
-| Duration | Content | Link |
-|----------|---------|------|
-| **3 min** | Story demo: Problem + Refugee Camp Scenario + Hero features | [Watch](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo) |
-| **1 min** | Live demo: Phone connecting to real Pi 5 | [Watch](https://youtube.com/shorts/pHhzpePO5_0) |
+| Duration | Content | Watch |
+|----------|---------|-------|
+| **3 min** | Story demo: Problem + Refugee Camp Scenario + Hero features | [![Thumbnail](https://img.youtube.com/vi/VtwEi7SoPxA/hqdefault.jpg)](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo) |
+| **1 min** | Live demo: Phone connecting to real Pi 5 | [![Thumbnail](https://img.youtube.com/vi/pHhzpePO5_0/hqdefault.jpg)](https://youtube.com/shorts/pHhzpePO5_0) |
 | **5+ min** | Technical walkthrough (coming soon) | — |
 
 ---
