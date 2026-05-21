@@ -5,6 +5,13 @@
 [![Watch the Story](https://img.shields.io/badge/▶️%20Watch-Story%20Demo-red?style=for-the-badge)](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo)
 [![Read the Writeup](https://img.shields.io/badge/📄%20Read-Full%20Submission-blue?style=for-the-badge)](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)
 [![See the Code](https://img.shields.io/badge/💻%20Code-Kaggle%20Notebook-informational?style=for-the-badge)](https://www.kaggle.com/code/nadakhas/globis-edge)
+[![Visit Landing Page](https://img.shields.io/badge/🌐%20Visit-Landing%20Page-brightgreen?style=for-the-badge)](https://globis-egde.netlify.app)
+
+---
+
+## 📺 Story Demo
+
+[![Watch the Story](https://img.youtube.com/vi/VtwEi7SoPxA/hqdefault.jpg)](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo)
 
 ---
 
@@ -167,9 +174,8 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 | Duration | Content | Watch |
 |----------|---------|-------|
 | **3 min** | Story demo: Problem + Refugee Camp Scenario + Hero features | [![Thumbnail](https://img.youtube.com/vi/VtwEi7SoPxA/hqdefault.jpg)](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo) |
+| **3 min** | Story demo backed by data: Problem + Data + Solution | [![Thumbnail](https://img.youtube.com/vi/pFx8Ka6nHPo/hqdefault.jpg)](https://youtu.be/pFx8Ka6nHPo) |
 | **1 min** | Live demo: Phone connecting to real Pi 5 | [![Thumbnail](https://img.youtube.com/vi/pHhzpePO5_0/hqdefault.jpg)](https://youtube.com/shorts/pHhzpePO5_0) |
-| **5+ min** | Technical walkthrough (coming soon) | — |
-
 ---
 
 ## 📚 Documentation
