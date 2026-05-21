@@ -1,6 +1,6 @@
 # **Globis Edge: Offline Caseworker Companion**
 
-> *117 million people are forcibly displaced. Globis-Edge catches what caseworkers miss—on a less than $320 Raspberry Pi. [8GB RAM + 500 GB external SSD]*
+> *117 million people are forcibly displaced. Globis Edge catches what caseworkers miss - on a less than $320 Raspberry Pi. [8GB RAM + 500 GB external SSD]*
 
 [![Watch the Story](https://img.shields.io/badge/▶️%20Watch-Story%20Demo-red?style=for-the-badge)](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo)
 [![Read the Writeup](https://img.shields.io/badge/📄%20Read-Full%20Submission-blue?style=for-the-badge)](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)
