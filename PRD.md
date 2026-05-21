@@ -1,6 +1,6 @@
-# Globis Edge 2.0 — Product Requirements Document
+# Globis Edge — Product Requirements Document
 
-**Author:** Nadu  
+**Author:** Nada Khas 
 **Version:** 10.0 — Final, Hardened, Logic Lock Resolved  
 **Date:** May 16, 2026  
 **Status:** Locked. All architectural findings resolved. Ready to build and submit.
