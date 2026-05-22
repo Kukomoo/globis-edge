@@ -114,7 +114,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 #### ✅ Verified Prices (All USD) — Real Components, Real Costs
 
-**![Hardware components laid out]**(./assets/images/hardware-components.jpg)
+**Hardware components laid out**![Hardware components laid out](./assets/images/hardware-components.jpg)
 
 > **One complete intake station. Offline. Zero cloud fees. Ready to deploy.**
 
