@@ -151,7 +151,7 @@ Here's what the data actually says:
 
 #### ✅ Verified Prices (All USD) — Real Components, Real Costs
 
-**![Hardware components laid out]**(./assets/images/hardware-components.jpg)
+**![Hardware components laid out]**(/assets/images/hardware-components.jpg)
 
 > **One complete intake station. Offline. Zero cloud fees. Ready to deploy.**
 
