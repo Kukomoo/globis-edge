@@ -78,7 +78,7 @@ Throughput:       40 cases/day = ~8 minutes total compute (11–12 sec per intak
 
 ✅ **All verified in Jupyter notebook with synthetic scenarios**
 
-*See [Accurate Error Metrics](./ACCURATE_ERROR_METRICS.md) for detailed performance breakdowns and methodology*
+*See [Accurate Error Metrics](/ACCURATE_ERROR_METRICS.md) for detailed performance breakdowns and methodology*
 
 ---
 
@@ -124,7 +124,7 @@ Here's what the data actually says:
 1. **[Full Submission Writeup](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)** (1,498 words)  
    Problem framing, architecture, Gemma 4 justification, test scenarios
 
-2. **[Verified Impact Metrics](./ACCURATE_ERROR_METRICS.md)** (Quick reference)  
+2. **[Verified Impact Metrics](/ACCURATE_ERROR_METRICS.md)** (Quick reference)  
    How error reduction was calculated from UNHCR audit data (OIOS 2024/056)
 
 3. **[Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)** (Executable)  
@@ -173,7 +173,7 @@ Here's what the data actually says:
 
 ### 🏆 Proven Hardware: $313 USD (My Actual Purchase)
 
-**![Verified iRasptek and Netac SSD setup]**(assets/images/verified-setup-313.jpg)
+**![Verified iRasptek and Netac SSD setup]**(/assets/images/verified-setup-313.jpg)
 
 **This is the exact setup running all our benchmarks. Verified. Tested. Working.**
 
@@ -193,7 +193,7 @@ Here's what the data actually says:
 
 ### 🛒 Retail Quick-Buy Paths (USD)
 
-**![Three setup paths: Budget, Premium, Recommended]**(assets/images/setup-comparison.png)
+**![Three setup paths: Budget, Premium, Recommended]**(/assets/images/setup-comparison.png)
 
 #### 🔵 **Option A: Budget Path ($~303 USD)**
 ```
@@ -232,7 +232,7 @@ Here's what the data actually says:
 
 ### 📈 Scaling: One Station to 100+ Units
 
-**📊 ![Cost per unit decreases at scale]**(assets/images/cost-scaling-chart.png)
+**📊 ![Cost per unit decreases at scale]**(/assets/images/cost-scaling-chart.png)
 
 
 | 📍 Deployment Scale | 💵 Per-Unit USD | 💰 Total USD | ⏱️ Setup Time |
@@ -247,7 +247,7 @@ Here's what the data actually says:
 
 ### ✅ Why These Prices Are Accurate
 
-**![CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026]**(assets/images/retailer-verification.png)
+**![CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026]**(/assets/images/retailer-verification.png)
 
 
 | 🔍 Source | 📋 Details | 🎯 Price Range |
@@ -314,7 +314,7 @@ Here's what the data actually says:
 ✅ **Responsible** — Native function calling for structured output + constitutional auditing  
 ✅ **Edge-ready** — Gemma 4 E2B/E4B designed for low-resource settings
 
-*[Verified latency & detection accuracy benchmarks](ACCURATE_ERROR_METRICS.md) — Learn exactly how Gemma 4 performs on real hardware*  
+*[Verified latency & detection accuracy benchmarks](/ACCURATE_ERROR_METRICS.md) — Learn exactly how Gemma 4 performs on real hardware*  
 
 ---
 
@@ -353,7 +353,7 @@ Here's what the data actually says:
 - **Less than $315 USD** total hardware cost (Raspberry Pi 5 + 500 GB external SSD, no GPU)
 - **100%** offline operation (no cloud dependency)
 
-**→ [Detailed impact analysis](ACCURATE_ERROR_METRICS.md)** — How these numbers were derived from UNHCR audit data
+**→ [Detailed impact analysis](/ACCURATE_ERROR_METRICS.md)** — How these numbers were derived from UNHCR audit data
 
 ---
 
@@ -367,7 +367,7 @@ Here's what the data actually says:
 ✅ **Value-masked logs** — Field names logged, never values  
 ✅ **Fail-closed design** — Prompt Pass always blocks if inference fails
 
-*[See ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md) for full data protection framework and [Accurate Error Metrics](ACCURATE_ERROR_METRICS.md) for testing methodology*  
+*[See ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md) for full data protection framework and [Accurate Error Metrics](/ACCURATE_ERROR_METRICS.md) for testing methodology*  
 
 ---
 
@@ -384,7 +384,7 @@ Here's what the data actually says:
 
 **Core submission:**
 - **[KAGGLE_WRITEUP.md](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)** (1,498 words) — Full technical submission  
-- **[ACCURATE_ERROR_METRICS.md](ACCURATE_ERROR_METRICS.md)** — Verified error reduction metrics & UNHCR audit sources  
+- **[/ACCURATE_ERROR_METRICS.md](ACCURATE_ERROR_METRICS.md)** — Verified error reduction metrics & UNHCR audit sources  
 
 **Detailed references:**
 - **[PRD.md](https://github.com/Kukomoo/globis-edge/blob/main/PRD.md)** — Product requirements & scope boundaries  
