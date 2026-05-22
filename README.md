@@ -232,7 +232,7 @@ Here's what the data actually says:
 
 ### 📈 Scaling: One Station to 100+ Units
 
-📊![Cost per unit decreases at scale](/assets/images/cost-scaling-chart.png)
+![Cost per unit decreases at scale](/assets/images/cost-scaling-chart.png)
 
 
 | 📍 Deployment Scale | 💵 Per-Unit USD | 💰 Total USD | ⏱️ Setup Time |
