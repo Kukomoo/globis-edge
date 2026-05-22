@@ -21,8 +21,6 @@
 
 ## 🎯 The Problem
 
-![Globis Edge Visual Workflow 1](https://i.imgur.com/Pv4Bpgf.jpeg)
-
 **1 in 70 people on Earth is forcibly displaced.**
 
 At intake points like **Adré, Chad**, caseworkers process **40+ refugee cases daily** with:
@@ -64,6 +62,8 @@ At intake points like **Adré, Chad**, caseworkers process **40+ refugee cases d
 ---
 
 ## 📊 Proof of Concept
+
+![Globis Edge Visual Workflow 1](https://i.imgur.com/Pv4Bpgf.jpeg)
 
 **Real hardware. Real latency. Real safety.**
 
