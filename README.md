@@ -102,7 +102,7 @@ Here's what the data actually says:
 
 **What does that mean in practice?** UNHCR audits show critical registration errors take 8+ months to discover and correct during verification. Globis Edge catches these during intake—preventing compounding harm.
 
-→ **[Full analysis with sources](./ACCURATE_ERROR_METRICS.md)** — How we derived these numbers from UNHCR audit data
+→ **[Full analysis with sources](ACCURATE_ERROR_METRICS.md)** — How we derived these numbers from UNHCR audit data
 
 ---
 
@@ -151,7 +151,7 @@ Here's what the data actually says:
 
 #### ✅ Verified Prices (All USD) — Real Components, Real Costs
 
-![Hardware components laid out](assets/images/hardware-components.jpg)
+![Hardware components laid out](/assets/images/hardware-components.jpg)
 
 > **One complete intake station. Offline. Zero cloud fees. Ready to deploy.**
 
