@@ -195,7 +195,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 ### 📈 Scaling: One Station to 100+ Units
 
-**📊 ![Cost per unit decreases at scale]**(./assets/images/cost-scaling-chart.png)
+**📊 Cost per unit decreases at scale:** 
 
 
 | 📍 Deployment Scale | 💵 Per-Unit USD | 💰 Total USD | ⏱️ Setup Time |
