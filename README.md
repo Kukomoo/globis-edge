@@ -1,6 +1,10 @@
-# **Globis Edge: Offline Caseworker Companion**
+# One critical error in a refugee record can take 8 months to fix.
 
-> *117 million people are forcibly displaced. Globis Edge catches what caseworkers miss - on a less than USD $315 Raspberry Pi. [8GB RAM + 500 GB external SSD]*
+ ### Globis Edge catches these in 11 seconds, during intake. Before they become 8-month problems. All for USD $315 - Meet Globis Edge [Powered by Gemma 4] 🧑‍💻
+
+> **Offline. Multimodal. Constitutional. Built for caseworkers at the edge.**
+>
+> 117 million people are forcibly displaced. When errors slip through intake, they compound for months. Globis Edge catches them in real time—on hardware that costs less than a smartphone.
 
 [![Watch the Story](https://img.shields.io/badge/▶️%20Watch-Story%20Demo-red?style=for-the-badge)](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo)
 [![Read the Writeup](https://img.shields.io/badge/📄%20Read-Full%20Submission-blue?style=for-the-badge)](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)
@@ -16,6 +20,8 @@
 ---
 
 ## 🎯 The Problem
+
+![Globis Edge Visual Workflow 1](https://i.imgur.com/Pv4Bpgf.jpeg)
 
 **1 in 70 people on Earth is forcibly displaced.**
 
@@ -45,11 +51,13 @@ At intake points like **Adré, Chad**, caseworkers process **40+ refugee cases d
 
 **Five hero capabilities:**
 
+![Globis Edge Visual Workflow 2](https://i.imgur.com/tuWB6m2.jpeg)
+
 | Feature | What It Does | Speed |
 |---------|-------------|-------|
 | **🎤 Multimodal Intake** | Captures audio, photos, text in one session | Real-time |
-| **⚡ Tiered Intelligence** | E2B (2B) for fast tasks, E4B (4B) for synthesis | 800ms–2.3s |
-| **🔄 Conflict Detection** | Flags name/age/origin mismatches across documents | ~1.2s |
+| **⚡ Tiered Intelligence** | E2B (2B) for fast tasks, E4B (4B) for synthesis | 800ms–2.3s (inference only) |
+| **🔄 Conflict Detection** | Flags name/age/origin mismatches across documents | 11–12s end-to-end |
 | **✅ Constitutional Auditor** | Dual-pass safety check (rule-based + AI reasoning) | Fail-closed |
 | **🤝 Dignity Loop** | Reads summary back to refugee in their language | Empathetic |
 
@@ -60,15 +68,41 @@ At intake points like **Adré, Chad**, caseworkers process **40+ refugee cases d
 **Real hardware. Real latency. Real safety.**
 
 ```
-Hardware:         Raspberry Pi 5 (8GB RAM, $500, no GPU)
+Hardware:         Raspberry Pi 5 (8GB RAM, $500 MSRP, CPU-only, no GPU)
 E2B Latency:      ~800ms (translation + OCR)
 E4B Latency:      ~2.3s (multimodal synthesis)
-Conflict Rate:    94% detection on intentional mismatches
+Conflict Rate:    94% detection on synthetic scenarios*
 Safety:           100% violations logged & redacted
-Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
+Throughput:       40 cases/day = ~8 minutes total compute (11–12 sec per intake)
 ```
 
 ✅ **All verified in Jupyter notebook with synthetic scenarios**
+
+*See [Accurate Error Metrics](./ACCURATE_ERROR_METRICS.md) for detailed performance breakdowns and methodology*
+
+---
+
+## 📊 The Impact, By the Numbers
+
+![Globis Edge Visual Workflow 3](https://i.imgur.com/gEYjsWd.jpeg)
+
+Here's what the data actually says:
+
+📊 **UNHCR audit baseline (verified):** 1 error per 30–40 intakes (3–5% error rate)  
+  *Source: OIOS 2024/056 Audit Report; 700,000 refugee records with errors identified in ProGres 2022–2023*
+
+✅ **Globis Edge detection:** 70–80% accuracy on name mismatches, birth dates, family composition, origin discrepancies  
+  *Tested on synthetic scenarios (Scenario A & B); field deployment validation pending*
+
+🚀 **Detection speed:** 11–12 seconds end-to-end on real hardware (Raspberry Pi 5, CPU-only)
+
+💰 **Hardware cost:** $315 USD 
+
+📍 **Typical camp impact:** 3–4 errors prevented per month (150-intake camp); 20–30 errors per month (1,000-intake camp)
+
+**What does that mean in practice?** UNHCR audits show critical registration errors take 8+ months to discover and correct during verification. Globis Edge catches these during intake—preventing compounding harm.
+
+→ **[Full analysis with sources](./ACCURATE_ERROR_METRICS.md)** — How we derived these numbers from UNHCR audit data
 
 ---
 
@@ -90,10 +124,13 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 1. **[Full Submission Writeup](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)** (1,498 words)  
    Problem framing, architecture, Gemma 4 justification, test scenarios
 
-2. **[Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)** (Executable)  
+2. **[Verified Impact Metrics](./ACCURATE_ERROR_METRICS.md)** (Quick reference)  
+   How error reduction was calculated from UNHCR audit data (OIOS 2024/056)
+
+3. **[Kaggle Notebook](https://www.kaggle.com/code/nadakhas/globis-edge)** (Executable)  
    Run the synthetic intake scenarios yourself, see latency benchmarks
 
-3. **[Landing Page](https://globis-egde.netlify.app)** (Visual overview)  
+4. **[Landing Page](https://globis-egde.netlify.app)** (Visual overview)  
    Interactive walkthrough + My story + vision statement
 
 **For Developers (Deep dive):**
@@ -114,7 +151,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 #### ✅ Verified Prices (All USD) — Real Components, Real Costs
 
-**Hardware components laid out**![Hardware components laid out](./assets/images/hardware-components.jpg)
+**![Hardware components laid out]**(./assets/images/hardware-components.jpg)
 
 > **One complete intake station. Offline. Zero cloud fees. Ready to deploy.**
 
@@ -136,7 +173,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 ### 🏆 Proven Hardware: $313 USD (My Actual Purchase)
 
-**Verified iRasptek and Netac SSD setup**![Verified iRasptek and Netac SSD setup](./assets/images/verified-setup-313.jpg)
+**![Verified iRasptek and Netac SSD setup]**(./assets/images/verified-setup-313.jpg)
 
 **This is the exact setup running all our benchmarks. Verified. Tested. Working.**
 
@@ -148,15 +185,15 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 | **🎉 TOTAL** | — | — | **~$313 USD** |
 
 #### ✅ Performance Verified on This Hardware:
-- ⚡ **11–12 sec** end-to-end latency
-- 🎯 **94%** conflict detection rate
-- ❄️ **Zero** thermal throttling
+- ⚡ **11–12 sec** end-to-end latency (measured on Scenario A & B)
+- 🎯 **94%** conflict detection rate (synthetic scenarios; field validation pending)
+- ❄️ **Zero** thermal throttling under sustained 40-intake/day load
 
 ---
 
 ### 🛒 Retail Quick-Buy Paths (USD)
 
-**Three setup paths: Budget, Premium, Recommended**![Three setup paths: Budget, Premium, Recommended](./assets/images/setup-comparison.png)
+**![Three setup paths: Budget, Premium, Recommended]**(./assets/images/setup-comparison.png)
 
 #### 🔵 **Option A: Budget Path ($~303 USD)**
 ```
@@ -195,7 +232,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 ### 📈 Scaling: One Station to 100+ Units
 
-**📊 Cost per unit decreases at scale:** 
+**📊 ![Cost per unit decreases at scale]**(./assets/images/cost-scaling-chart.png)
 
 
 | 📍 Deployment Scale | 💵 Per-Unit USD | 💰 Total USD | ⏱️ Setup Time |
@@ -210,7 +247,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 ### ✅ Why These Prices Are Accurate
 
-**CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026**![CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026](./assets/images/retailer-verification.png)
+**![CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026]**(./assets/images/retailer-verification.png)
 
 
 | 🔍 Source | 📋 Details | 🎯 Price Range |
@@ -270,10 +307,14 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 ## 🎬 Why Gemma 4?
 
+![Globis Edge Visual Workflow 4](https://i.imgur.com/vUYTRMP.jpeg)
+
 ✅ **Multimodal** — Handles audio + photos + text together (not just text)  
 ✅ **Fast** — 11–12 seconds end-to-end, real hardware, offline  
 ✅ **Responsible** — Native function calling for structured output + constitutional auditing  
-✅ **Edge-ready** — Gemma 4 E2B/E4B designed for low-resource settings  
+✅ **Edge-ready** — Gemma 4 E2B/E4B designed for low-resource settings
+
+*[Verified latency & detection accuracy benchmarks](./ACCURATE_ERROR_METRICS.md) — Learn exactly how Gemma 4 performs on real hardware*  
 
 ---
 
@@ -312,6 +353,8 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 - **Less than $315 USD** total hardware cost (Raspberry Pi 5 + 500 GB external SSD, no GPU)
 - **100%** offline operation (no cloud dependency)
 
+**→ [Detailed impact analysis](./ACCURATE_ERROR_METRICS.md)** — How these numbers were derived from UNHCR audit data
+
 ---
 
 ## 🔒 Responsible AI & Ethics
@@ -322,7 +365,9 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 ✅ **Audit transparency** — All constitutional violations logged & visible  
 ✅ **Synthetic data only** — No real UNHCR/PRIMES data (prototype stage)  
 ✅ **Value-masked logs** — Field names logged, never values  
-✅ **Fail-closed design** — Prompt Pass always blocks if inference fails  
+✅ **Fail-closed design** — Prompt Pass always blocks if inference fails
+
+*[See ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md) for full data protection framework and [Accurate Error Metrics](./ACCURATE_ERROR_METRICS.md) for testing methodology*  
 
 ---
 
@@ -337,7 +382,11 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 ## 📚 Documentation
 
+**Core submission:**
 - **[KAGGLE_WRITEUP.md](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)** (1,498 words) — Full technical submission  
+- **[ACCURATE_ERROR_METRICS.md](./ACCURATE_ERROR_METRICS.md)** — Verified error reduction metrics & UNHCR audit sources  
+
+**Detailed references:**
 - **[PRD.md](https://github.com/Kukomoo/globis-edge/blob/main/PRD.md)** — Product requirements & scope boundaries  
 - **[ETHICS.md](https://github.com/Kukomoo/globis-edge/blob/main/ETHICS.md)** — Data protection & minimum-data principles  
 - **[CONSTITUTION.md](https://github.com/Kukomoo/globis-edge/blob/main/CONSTITUTION.md)** — Auditor rule set  
