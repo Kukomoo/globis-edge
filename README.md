@@ -173,7 +173,7 @@ Here's what the data actually says:
 
 ### 🏆 Proven Hardware: $313 USD (My Actual Purchase)
 
-**![Verified iRasptek and Netac SSD setup]**(/assets/images/verified-setup-313.jpg)
+![Verified iRasptek and Netac SSD setup](/assets/images/verified-setup-313.jpg)
 
 **This is the exact setup running all our benchmarks. Verified. Tested. Working.**
 
@@ -193,7 +193,7 @@ Here's what the data actually says:
 
 ### 🛒 Retail Quick-Buy Paths (USD)
 
-**![Three setup paths: Budget, Premium, Recommended]**(/assets/images/setup-comparison.png)
+![Three setup paths: Budget, Premium, Recommended](/assets/images/setup-comparison.png)
 
 #### 🔵 **Option A: Budget Path ($~303 USD)**
 ```
@@ -232,7 +232,7 @@ Here's what the data actually says:
 
 ### 📈 Scaling: One Station to 100+ Units
 
-**📊 ![Cost per unit decreases at scale]**(/assets/images/cost-scaling-chart.png)
+📊![Cost per unit decreases at scale](/assets/images/cost-scaling-chart.png)
 
 
 | 📍 Deployment Scale | 💵 Per-Unit USD | 💰 Total USD | ⏱️ Setup Time |
@@ -247,7 +247,7 @@ Here's what the data actually says:
 
 ### ✅ Why These Prices Are Accurate
 
-**![CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026]**(/assets/images/retailer-verification.png)
+![CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026](/assets/images/retailer-verification.png)
 
 
 | 🔍 Source | 📋 Details | 🎯 Price Range |
