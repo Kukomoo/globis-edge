@@ -136,7 +136,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 ### 🏆 Proven Hardware: $313 USD (My Actual Purchase)
 
-**![Verified iRasptek and Netac SSD setup]**(./assets/images/verified-setup-313.jpg)
+**Verified iRasptek and Netac SSD setup**![Verified iRasptek and Netac SSD setup](./assets/images/verified-setup-313.jpg)
 
 **This is the exact setup running all our benchmarks. Verified. Tested. Working.**
 
@@ -156,7 +156,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 ### 🛒 Retail Quick-Buy Paths (USD)
 
-**![Three setup paths: Budget, Premium, Recommended]**(./assets/images/setup-comparison.png)
+**Three setup paths: Budget, Premium, Recommended**![Three setup paths: Budget, Premium, Recommended](./assets/images/setup-comparison.png)
 
 #### 🔵 **Option A: Budget Path ($~303 USD)**
 ```
@@ -210,7 +210,7 @@ Throughput:       1 intake per 4 seconds (40 cases/day in 3 min compute)
 
 ### ✅ Why These Prices Are Accurate
 
-**![CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026]**(./assets/images/retailer-verification.png)
+**CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026**![CanaKit, Best Buy, Amazon, Newark, Amazon.ca verified May 2026](./assets/images/retailer-verification.png)
 
 
 | 🔍 Source | 📋 Details | 🎯 Price Range |
