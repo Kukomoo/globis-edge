@@ -100,9 +100,9 @@ Here's what the data actually says:
 
 📍 **Typical camp impact:** 3–4 errors prevented per month (150-intake camp); 20–30 errors per month (1,000-intake camp)
 
-**What does that mean in practice?** UNHCR audits show critical registration errors take 8+ months to discover and correct during verification. Globis Edge catches these during intake—preventing compounding harm.
+**What does that mean in practice?** UNHCR audits show critical registration errors take 8+ months to discover and correct during verification. Globis Edge catches these during intake, preventing compounding harm.
 
-→ **[Full analysis with sources](ACCURATE_ERROR_METRICS.md)** — How we derived these numbers from UNHCR audit data
+→ **[Full analysis with sources](ACCURATE_ERROR_METRICS.md)** - How we derived these numbers from UNHCR audit data
 
 ---
 
@@ -122,7 +122,7 @@ Here's what the data actually says:
 
 **For Judges (15 min path):**
 1. **[Full Submission Writeup](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)** (1,498 words)  
-   Problem framing, architecture, Gemma 4 justification, test scenarios
+   Problem framing, architecture, Gemma 4, test scenarios
 
 2. **[Verified Impact Metrics](/ACCURATE_ERROR_METRICS.md)** (Quick reference)  
    How error reduction was calculated from UNHCR audit data (OIOS 2024/056)
@@ -166,7 +166,7 @@ Here's what the data actually says:
 | **📦 Aluminum Case** | Protective Housing | Amazon | $12–$18 USD | [amazon.com](https://www.amazon.com/s?k=raspberry+pi+5+metal+case) | ✅ May 2026 |
 | **🔌 USB-C Cable (Optional)** | High-speed | Amazon | $5–$13 USD | [amazon.com](https://www.amazon.com/s?k=usb-c+cable) | ✅ May 2026 |
 
-#### 📊 **Total MVP Cost: $300–$315 USD** ✅
+#### 📊 **Total MVP Cost: $300-$315 USD** ✅
 
 
 ---
@@ -199,7 +199,7 @@ Here's what the data actually says:
 ```
 🖥️  Pi 5 (CanaKit)               $175 USD
 ⚡ Power Supply (CanaKit)         $15 USD
-💾 Netac SSD 500GB (Amazon)      $72–$75 USD
+💾 Netac SSD 500GB (Amazon)      $72-$75 USD
 ❄️  Cooling Fan (Newark)          $8 USD
 📦 Case (Amazon)                 $15 USD
 🔌 USB-C Cable (included)         $0 USD
@@ -239,7 +239,7 @@ Here's what the data actually says:
 |-------|--------------|-----------|-----------|
 | **1️⃣ Single Station** | $315 USD | $315 USD | 1 hour |
 | **3️⃣ Small Camp (3 units)** | $310 USD | $930 USD | 3 hours |
-| **📦 Bulk (10+ units)** | $210–$230 USD | $2,100–$2,300 USD | 1 day |
+| **📦 Bulk (10+ units)** | $210-$230 USD | $2,100–$2,300 USD | 1 day |
 | **🏢 Regional (50+ units)** | $180–$200 USD | $9,000–$10,000 USD | 2 weeks |
 | **🌍 Large Rollout (100+)** | $160–$180 USD | $16,000–$18,000 USD | 3 weeks |
 
@@ -271,7 +271,7 @@ Here's what the data actually says:
 
 #### **Step 2: Order Components**
 - All retail options ship **5–7 days**
-- Bulk orders ship **2–3 weeks** (contact distributors for quotes)
+- Bulk orders ship **2-3 weeks** (contact distributors for quotes)
 
 #### **Step 3: Deploy to Camps**
 - Setup time: **3 hours** for 3 stations
@@ -284,10 +284,8 @@ Here's what the data actually says:
 
 ✅ **All prices include USD currency explicitly**  
 ✅ **Verified against official retailer websites (May 2026)**  
-✅ **Your actual hardware ($313 USD) documented and tested**  
 ✅ **MVP estimate ($315 USD) realistic and achievable**  
-✅ **Scaling costs reflect actual bulk distributor pricing**  
-✅ **All links active and current**  
+✅ **Scaling costs reflect actual bulk distributor pricing**
 
 ---
 
@@ -309,12 +307,12 @@ Here's what the data actually says:
 
 ![Globis Edge Visual Workflow 4](https://i.imgur.com/vUYTRMP.jpeg)
 
-✅ **Multimodal** — Handles audio + photos + text together (not just text)  
-✅ **Fast** — 11–12 seconds end-to-end, real hardware, offline  
+✅ **Multimodal** - Handles audio + photos + text together (not just text)  
+✅ **Fast** — 11-12 seconds end-to-end, real hardware, offline  
 ✅ **Responsible** — Native function calling for structured output + constitutional auditing  
 ✅ **Edge-ready** — Gemma 4 E2B/E4B designed for low-resource settings
 
-*[Verified latency & detection accuracy benchmarks](/ACCURATE_ERROR_METRICS.md) — Learn exactly how Gemma 4 performs on real hardware*  
+*[Verified latency & detection accuracy benchmarks](/ACCURATE_ERROR_METRICS.md) - Learn exactly how Gemma 4 performs on real hardware*  
 
 ---
 
