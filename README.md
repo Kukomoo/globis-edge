@@ -4,7 +4,7 @@
 
 > **Offline. Multimodal. Constitutional. Built for caseworkers at the edge.**
 >
-> 117 million people are forcibly displaced. When errors slip through intake, they compound for months. Globis Edge catches them in real time—on hardware that costs less than a smartphone.
+> 117 million people are forcibly displaced. When errors slip through intake, they compound for months. Globis Edge catches them in real time - on hardware that costs less than a smartphone.
 
 [![Watch the Story](https://img.shields.io/badge/▶️%20Watch-Story%20Demo-red?style=for-the-badge)](https://youtu.be/VtwEi7SoPxA?si=OP2ZIyxGgeaKFgUo)
 [![Read the Writeup](https://img.shields.io/badge/📄%20Read-Full%20Submission-blue?style=for-the-badge)](https://github.com/Kukomoo/globis-edge/blob/main/KAGGLE_WRITEUP.md)
